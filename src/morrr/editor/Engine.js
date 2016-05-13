@@ -14,7 +14,7 @@ class SaneEditor {
       this.toolbarWrapper.appendTo(this.element);
       this.toolbar = $('<div class="toolbar"></div>');
       this.toolbar.appendTo(this.toolbarWrapper);
-      this.modalWrapper = $('<div class="sane-modal-wrapper"></div>');
+      this.modalWrapper = $('<div class="sane-editor-modal-wrapper"></div>');
       this.modalWrapper.appendTo(this.element);
       this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
       this.contentWrapper.appendTo(this.element);

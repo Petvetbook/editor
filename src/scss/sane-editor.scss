@@ -23,12 +23,13 @@ textarea#supereditor2 {
 }
 .sane-editor-toolbar-wrapper {
   flex: 0 0 40px;
+  z-index: 50;
+  box-shadow: 0 0 3px rgba(black, 0.8);
   .toolbar {
     display: block;
     width: 100%;
     height: 40px;
     background-color: $grey;
-    border-bottom: 1px solid $dkgrey;
     .button {
       position: relative;
       display: inline-block;
@@ -41,7 +42,7 @@ textarea#supereditor2 {
         top: 5px;
         bottom: 5px;
         right: 0;
-        width: 1px;
+        width: 0;
       }
     }
   }
@@ -51,6 +52,12 @@ textarea#supereditor2 {
   overflow-x: hidden;
   overflow-y: auto;
   transition: height 0.3s ease-out;
+  div[class*='modal'] {
+    display: block;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 0 0 5000px rgba(black, 0.6);
+  }
 }
 .sane-editor-content-wrapper {
   flex: 1 0 auto;
