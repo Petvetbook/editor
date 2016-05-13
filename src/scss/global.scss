@@ -1,0 +1,114 @@
+/* COMMON */
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 100;
+  line-height: 1.4em;
+  font-variant-ligatures: common-ligatures;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1.25em;
+}
+h2,
+h3,
+h4 {
+  margin: 10px 0;
+  font-size: 13px;
+  overflow: hidden;
+}
+a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  &:hover {
+    color: $blue;
+  }
+  &:focus {
+    outline: none;
+  }
+}
+p {
+  position: relative;
+  font-size: 16px;
+  line-height: 1.25em;
+  margin-bottom: 1em;
+  &.alert {
+    @include alert;
+  }
+  &.alert-success {
+    @include success;
+  }
+  em {
+    font-weight: bold;
+  }
+  a {
+    border-bottom: 1px solid $grey;
+    &:hover {
+      border-bottom: 1px solid $blue;
+    }
+  }
+}
+em {
+  font-style: normal;
+}
+
+img {
+  -ms-interpolation-mode: bicubic;
+
+  &.upload-preview {
+    width: 100%;
+    max-height: 200px;
+  }
+}
+
+ol {
+  list-style-type: decimal;
+  margin-left: 25px;
+  li {
+    padding-left: 2px;
+    margin-bottom: 5px;
+  }
+}
+ol ol {
+  list-style: upper-alpha;
+}
+ol ol ol {
+  list-style: lower-roman;
+}
+ol ol ol ol {
+  list-style: lower-alpha;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  li {
+    list-style-type: disc;
+  }
+}
+img {
+  -ms-interpolation-mode: bicubic;
+
+  &.upload-preview {
+    width: 100%;
+    max-height: 200px;
+  }
+}
+
+/* SPINNER */
+.spinner {
+  display: block;
+  margin: 20px 0;
+  width: auto;
+  height: 60px;
+  background: url($imgpath + 'svg/spinner.svg') no-repeat 50% 50%;
+  background-size: contain;
+}

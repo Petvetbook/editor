@@ -1,0 +1,115 @@
+/* UTILITY & VARIABLES */
+$blue:      rgb(0, 100, 255);
+$grey:      rgb(212, 212, 212);
+$dkgrey:    rgb(136, 136, 136);
+$dkdkgrey:  rgb(40,40,40);
+
+$red:       rgb(214, 62, 73);
+$violet:    rgb(138, 0, 150);
+$orange:    rgb(252, 176, 0);
+$green:     rgb(53, 177, 3);
+$yellow:    rgb(244, 229, 88);
+
+$imgpath:  '../img/';
+$fontpath: '../fonts/';
+
+$font-family-base: 'FoundersGroteskText', Helvetica, Arial, sans-serif;
+$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
+$fa-font-path: "../bower_components/font-awesome-sass/assets/fonts/font-awesome/";
+
+@mixin noselect {
+  user-select: none;
+}
+@mixin ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@mixin error {
+  background-color: lighten($red, 40%);
+  color: $red;
+  padding: 10px;
+
+  a {
+    color: $red;
+    font-weight: bold;
+    &:hover {
+      border-bottom: 1px solid $red;
+    }
+  }
+}
+@mixin danger {
+  background-color: lighten($red, 40%);
+  color: $red;
+  padding: 10px;
+
+  a {
+    color: $red;
+    font-weight: bold;
+    &:hover {
+      border-bottom: 1px solid $red;
+    }
+  }
+}
+@mixin alert {
+  background-color: lighten($red, 40%);
+  color: $red;
+  padding: 10px;
+
+  a {
+    color: $red;
+    font-weight: bold;
+    &:hover {
+      border-bottom: 1px solid $red;
+    }
+  }
+}
+@mixin info {
+  background-color: lighten($blue, 40%);
+  color: $blue;
+  padding: 10px;
+
+  a {
+    color: $blue;
+    font-weight: bold;
+    &:hover {
+      border-bottom: 1px solid $blue;
+    }
+  }
+}
+@mixin warning {
+  background-color: lighten($orange, 40%);
+  color: $orange;
+  padding: 10px;
+
+  a {
+    color: $orange;
+    font-weight: bold;
+    &:hover {
+      border-bottom: 1px solid $orange;
+    }
+  }
+}
+@mixin success {
+  background-color: lighten($green, 55%);
+  color: $green;
+  padding: 10px;
+
+  a {
+    color: $green;
+    font-weight: bold;
+    &:hover {
+      border-bottom: 1px solid $green;
+    }
+  }
+}
+@mixin clearfix {
+  &:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+.hidden {
+  display: none !important;
+}
