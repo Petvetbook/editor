@@ -48,7 +48,6 @@ class Modal {
          style: ("z-index:" + modalIndex++),
       }, [this.header, this.content, this.footer]);
 
-      //this.createOverlay();
       $(target).prepend(this.modal);
       instances++;
    }
@@ -61,7 +60,8 @@ class Modal {
       }
    }
 
-   setContents(element) {
+   append(element) {
+      console.log("appending", element[0])
       $(this.content).append(element)
    }
 

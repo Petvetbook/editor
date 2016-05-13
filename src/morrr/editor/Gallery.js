@@ -3,24 +3,22 @@ import lodash as _, sharedImagePath, from morrr.editor.utils;
 import frzr
 
 const Gallery = function(editor, parentId, done) {
-
-   var modal = editor.createModal('Insert image');
-   return;
+   parentId = parentId || '';
    var modal = editor.createModal('Insert image');
    var images = $('<div class="images"></div>');
-   var modalContent = modal.element.find('.modal-content');
    var multiupLoadElement = $('<div class="multiupload"></div>');
    var buttonElements = $(
       '<div class="actions"><div class="ui button cancel">Cancel</div><div class="ui button primary okay">Insert</div></div>')
-   multiupLoadElement.appendTo(modalContent)
-   images.appendTo(modalContent);
-   buttonElements.appendTo(modal.element);
+   modal.append(multiupLoadElement)
+   modal.append(images);
+   modal.append(buttonElements);
+
    var selected = [];
    var loader = $('<div class="image"><div class="ui active large inline loader image-loader"></div></div>');
    // fetching existing images ******
    var updateImageList = function() {
       images.empty();
-      $.get('/sys/user_images?parent=' + editor.parentId, function(data) {
+      $.get('/api/editor/images?parent=' + parentId, function(data) {
          var initialImage;
          _.each(data, function(item) {
             var image = $('<div class="image"><img src="' + sharedImagePath(item.image, 70) + '"/></div>');
@@ -63,7 +61,7 @@ const Gallery = function(editor, parentId, done) {
 
    // Bind multi upload thingy *********************
    multiupLoadElement.uploadFile({
-      url: "/api/editor/upload?parentId=" + editor.parentId,
+      url: "/api/editor/upload?parentId=" + parentId,
       multiple: true,
       fileName: "myfile",
       showProgress: true,

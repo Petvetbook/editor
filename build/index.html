@@ -15,28 +15,31 @@
       </div>
       <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
       <script>
-      realm.require("morrr.editor.Engine", function(Editor){
-         var editor = new Editor();
-         var element = $("#editor");
-         var values = ['[intro]This is blog intro[/intro]'];
-         values.push('[h3]Some h3 header[/h3]');
-         values.push('[row][/row]');
-         values.push('[row]Some text [strong]bold[/strong] [italic]italic[/italic][/row]');
-         values.push('[row][/row]');
-         values.push('[blockquote]Quote is here[/blockquote]');
+      $(function(){
+         realm.require("morrr.editor.Engine", function(Editor){
+            var editor = new Editor();
+            var element = $("#editor");
+            var values = ['[intro]This is blog intro[/intro]'];
+            values.push('[h3]Some h3 header[/h3]');
+            values.push('[row][/row]');
+            values.push('[row]Some text [strong]bold[/strong] [italic]italic[/italic][/row]');
+            values.push('[row][/row]');
+            values.push('[blockquote]Quote is here[/blockquote]');
 
-         values.push('[row]text with [url=google.com]link[/url][/row]');
+            values.push('[row]text with [url=google.com]link[/url][/row]');
 
 
-         editor.initialize(element, {
-            toolbar: ['h3', 'intro', 'blockquote', 'strong', 'i', 'ol', 'ul', 'url', 'unlink', 'gallery']
-         });
-         editor.onActivity(function(){
+            editor.initialize(element, {
+               toolbar: ['h3', 'intro', 'blockquote', 'strong', 'i', 'ol', 'ul', 'url', 'unlink', 'gallery']
+            });
+            editor.onActivity(function(){
+               $("#debug").val(editor.getValue());
+            });
+            editor.setValue(values.join(''));
             $("#debug").val(editor.getValue());
-         });
-         editor.setValue(values.join(''));
-         $("#debug").val(editor.getValue());
+         })
+
       })
-      </script>
+   </script>
    </body>
 </html>
