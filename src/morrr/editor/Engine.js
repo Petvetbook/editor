@@ -96,9 +96,10 @@ class SaneEditor {
 
    createModal(header) {
       var modal = Modal.create({
+         title: "Insert image",
          target: this.modalWrapper
       });
-
+      return modal;
    }
 
    smartRangeDetect(callback) {
