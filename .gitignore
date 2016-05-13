@@ -34,3 +34,8 @@ node_modules
 
 # SASS cache
 .sass-cache
+
+# Build files
+/build/build.*
+/build/editor.*
+/build/bower_components

@@ -5,6 +5,8 @@ import frzr
 const Gallery = function(editor, parentId, done) {
 
    var modal = editor.createModal('Insert image');
+   return;
+   var modal = editor.createModal('Insert image');
    var images = $('<div class="images"></div>');
    var modalContent = modal.element.find('.modal-content');
    var multiupLoadElement = $('<div class="multiupload"></div>');

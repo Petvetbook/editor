@@ -2,7 +2,7 @@
 
 import BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers from morrr.editor.bbcode;
 import lodash as _ from morrr.editor.utils;
-import utils from morrr.editor;
+import utils, Modal from morrr.editor;
 
 class SaneEditor {
 
@@ -12,7 +12,7 @@ class SaneEditor {
       this.element = $('<div class="sane-editor"></div>');
       this.toolbar = $('<div class="sane-editor-toolbar-wrapper"><div class="toolbar"></div></div>');
       this.toolbar.appendTo(this.element);
-      this.modalWrapper = $('<div class="sane-modal-wrapper"><div class="modal"></div></div>');
+      this.modalWrapper = $('<div class="sane-modal-wrapper"></div>');
       this.modalWrapper.appendTo(this.element);
       this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
       this.contentWrapper.appendTo(this.element);
@@ -95,15 +95,10 @@ class SaneEditor {
    }
 
    createModal(header) {
-      this.element.find(".sane-modal").remove();
-      var modal = $('<div class="sane-modal"><div class="header">' + header + '</div><div class="modal-content"></div></div>');
-      modal.insertBefore(this.content);
-      return {
-         element: modal,
-         close: function() {
-            modal.remove();
-         }
-      }
+      var modal = Modal.create({
+         target: this.modalWrapper
+      });
+
    }
 
    smartRangeDetect(callback) {
