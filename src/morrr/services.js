@@ -16,6 +16,9 @@ RegExp.prototype.execAll = function(string) {
 realm.module("morrr.editor.utils.lodash", function() {
    return $isBackend ? require("lodash") : window._;
 });
+if ($isBackend) {
+   require("image-server-client")
+}
 
 realm.module("frzr", function() {
    return $isBackend ? {} : window.frzr;
