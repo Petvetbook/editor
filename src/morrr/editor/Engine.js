@@ -2,10 +2,11 @@
 
 import BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers from morrr.editor.bbcode;
 import lodash as _ from morrr.editor.utils;
+import utils from morrr.editor;
 
-const SaneEditor = function() {}
-SaneEditor.prototype = {
-   initialize: function(target, opts) {
+class SaneEditor {
+
+   initialize(target, opts) {
       this.opts = opts || {};
       this.toolbarConfig = opts.toolbar || [];
       this.element = $('<div class="sane-editor"></div>');
@@ -20,38 +21,32 @@ SaneEditor.prototype = {
       this.setValue('')
       $(this.content).bind("paste", function(e) {
          var el = $(e.currentTarget);
-
          var text = e.originalEvent.clipboardData.getData('Text');
-         var cleanText = self.trimText(text);
-
+         var cleanText = utils.trimText(text);
          e.originalEvent.preventDefault();
-
          self.execCommand("insertHTML", false, '<x></x><div>' + cleanText + '</div>');
       });
-   },
-   onActivity: function(cb) {
+   }
+
+   onActivity(cb) {
       this.activity_cb = cb;
-   },
-   triggerActivity: function() {
+   }
+
+   triggerActivity() {
       if (this.activity_cb) {
          this.activity_cb();
       }
-   },
-   trimText: function(text, trimEnds) {
-      text = text.replace(new RegExp(String.fromCharCode(160), 'g'), ' ')
-      text = text.replace(/\s+/g, " ");
-      if (trimEnds) {
-         text = text.trim();
-      }
-      return text;
-   },
-   getValue: function() {
+   }
+
+   getValue() {
       return this.generate();
-   },
-   generate: function() {
+   }
+
+   generate() {
       return Generator(this)
-   },
-   toolbarIconClick: function(cmd) {
+   }
+
+   toolbarIconClick(cmd) {
       var self = this;
       self.triggerActivity();
       if (_.isFunction(cmd)) {
@@ -63,6 +58,7 @@ SaneEditor.prototype = {
             var withinEditor = $(selectedText).parents(".sane-editor-content");
             var text;
             if (withinEditor[0]) {
+
                if (parent.hasClass("content")) {
                   text = selectedText;
                }
@@ -72,8 +68,8 @@ SaneEditor.prototype = {
             }
          }
       };
-   },
-   showError: function(message) {
+   }
+   showError(message) {
       this.element.find(".notification").remove();
       var notification = $('<div class="notification"><div class="text"><i class="ui icon warning sign"></i>' + message + '</div></div>');
       notification.hide();
@@ -92,8 +88,9 @@ SaneEditor.prototype = {
             });
          }, 2000);
       });
-   },
-   createModal: function(header) {
+   }
+
+   createModal(header) {
       this.element.find(".sane-modal").remove();
       var modal = $('<div class="sane-modal"><div class="header">' + header + '</div><div class="modal-content"></div></div>');
       modal.insertBefore(this.content);
@@ -103,8 +100,9 @@ SaneEditor.prototype = {
             modal.remove();
          }
       }
-   },
-   smartRangeDetect: function(callback) {
+   }
+
+   smartRangeDetect(callback) {
 
       var self = this;
       return new Promise(function(resolve, reject) {
@@ -216,7 +214,6 @@ SaneEditor.prototype = {
                inject: function(el) {
                   self.triggerActivity();
                   var endContainer = $(range.endContainer);
-
                   if (!endContainer.parent('.content')[0] && !$(range.endContainer).hasClass("content")) {
                      var found = false;
                      var parent = endContainer.parent();
@@ -232,15 +229,11 @@ SaneEditor.prototype = {
                         iterations++;
                      }
                      if (found && target[0]) {
-
                         $(el).insertBefore(target)
                      }
-                     //console.log(target[0])
-
                   } else {
                      range.insertNode(el);
                   }
-
                }
             }]);
          } else {
@@ -248,8 +241,9 @@ SaneEditor.prototype = {
          }
       })
 
-   },
-   inializeToolbar: function() {
+   }
+
+   inializeToolbar() {
       var self = this;
       var currentHint;
       var bindHint = function(icon, text) {
@@ -280,7 +274,10 @@ SaneEditor.prototype = {
                bindHint(icon, handler.hint)
             }
             $(self.toolbar).find('.toolbar').append(icon);
-            icon.click(function() {
+            icon.mousedown(function(e) {
+               e.preventDefault();
+            })
+            icon.click(function(e) {
                handler.cmd ? self.toolbarIconClick(handler.cmd) : '';
                if (handler.cmdSmart) {
                   self.smartRangeDetect(handler.cmdSmart).then(function() {
@@ -299,8 +296,9 @@ SaneEditor.prototype = {
       });
       bindHint(fScreen, "Full screen")
       this.bindFullScreenButtons();
-   },
-   basicStringWrapper: function(element, opts) {
+   }
+
+   basicStringWrapper(element, opts) {
       if ($(element).parents('.wrapper')[0])
          return;
       opts = opts || {};
@@ -333,8 +331,9 @@ SaneEditor.prototype = {
       return {
          element: dom
       }
-   },
-   basicModuleWrapper: function(element, opts) {
+   }
+
+   basicModuleWrapper(element, opts) {
       if ($(element).parents('.wrapper')[0])
          return;
 
@@ -368,22 +367,24 @@ SaneEditor.prototype = {
       return {
          element: dom
       }
-   },
-   setValue: function(data) {
+   }
+
+   setValue(data) {
       this.content.empty();
 
       BBCodeEngine.toEditor("<x></x>" + data + "<x></x>", this);
-   },
-   getSelection: function(opts) {
+   }
+
+   getSelection(opts) {
       opts = opts || {};
       if (opts.focus !== false) {
          this.content[0].focus();
       }
       return document.getSelection();
-   },
-   getRange: function(opts) {
-      var s = this.getSelection(opts);
+   }
 
+   getRange(opts) {
+      var s = this.getSelection(opts);
       if (!s) {
          return null;
       }
@@ -394,18 +395,20 @@ SaneEditor.prototype = {
          }
       }
       if (s.createRange) {
-
          var createdRange = s.createRange()
          return createdRange;
       }
       return null;
-   },
-   execCommand: function(a, b, c) {
+   }
+
+   execCommand(a, b, c) {
       this.triggerActivity();
       this.content.focus();
+      console.log(this.content[0]);
       document.execCommand(a, b || false, c || null);
-   },
-   setCaretPosition: function(elem, caretPos) {
+   }
+
+   setCaretPosition(elem, caretPos) {
       if (elem !== null) {
          var range = this.getRange();
          var sel = this.getSelection();
@@ -415,10 +418,10 @@ SaneEditor.prototype = {
             sel.removeAllRanges();
             sel.addRange(range);
          }
-
       }
-   },
-   bindFullScreenButtons: function() {
+   }
+
+   bindFullScreenButtons() {
       var self = this;
       this.floatingSave = $('<div class="circular ui icon button primary small floating-save"><i class="icon save"></i></div>');
       this.floatingPreview = $('<div class="circular ui icon button small floating-preview"><i class="icon zoom"></i></div>');
@@ -461,8 +464,9 @@ SaneEditor.prototype = {
       this.element.append(this.floatingSave);
       this.element.append(this.floatingPreview);
       this.element.append(self.exitFullScreenModeButton)
-   },
-   toggleFullScreenMode: function() {
+   }
+
+   toggleFullScreenMode() {
       if ($(this.element).hasClass("full-screen-mode")) {
          $(this.element).removeClass("full-screen-mode");
          $('body').css('overflow', 'auto');
@@ -476,8 +480,9 @@ SaneEditor.prototype = {
          this.floatingPreview.show();
          this.exitFullScreenModeButton.show();
       }
-   },
-   fixCloningFeature: function() {
+   }
+
+   fixCloningFeature() {
       var updateTimeout;
       var self = this;
       $(this.content).bind("keydown", function(e) {
@@ -543,7 +548,6 @@ SaneEditor.prototype = {
                      }
                   }
                   _.each(toRemove, function(item) {
-
                      $(item).remove();
                   });
                   var newline = $('<div></br></div>');
@@ -552,7 +556,6 @@ SaneEditor.prototype = {
                }
             }
          }
-
       });
    }
 }

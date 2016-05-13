@@ -1,5 +1,5 @@
 "use realm";
-
+import utils from morrr.editor;
 const BlockQuote = {
    index: 1,
    tag: 'blockquote',
@@ -18,7 +18,7 @@ const BlockQuote = {
       var self = this;
       root.find('*[data-service="blockquote"]').each(function(index, element) {
          var text = $(element).find('.wrapper-editable-area').text();
-         $(element).replaceWith('[blockquote]' + self.trimText(text) + '[/blockquote]');
+         $(element).replaceWith('[blockquote]' + utils.trimText(text) + '[/blockquote]');
       })
    },
    cmdSmart: function(range) {

@@ -1,5 +1,5 @@
 "use realm";
-
+import utils from morrr.editor;
 const Heading3 = {
    tag: 'h3',
    icon: 'header',
@@ -16,7 +16,7 @@ const Heading3 = {
       var self = this;
       root.find('*[data-service="h3"]').each(function(index, element) {
          var text = $(element).find('.wrapper-editable-area').text();
-         $(element).replaceWith('[h3]' + self.trimText(text) + '[/h3]');
+         $(element).replaceWith('[h3]' + utils.trimText(text) + '[/h3]');
       })
    },
    cmdSmart: function(range) {

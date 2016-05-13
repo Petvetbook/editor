@@ -16,6 +16,10 @@ RegExp.prototype.execAll = function(string) {
 realm.module("morrr.editor.utils.lodash", function() {
    return $isBackend ? require("lodash") : window._;
 });
+
+realm.module("frzr", function() {
+   return $isBackend ? {} : window.frzr;
+});
 realm.module("morrr.editor.utils.Promise", function() {
    return $isBackend ? require("promise") : window.Promise;
 });

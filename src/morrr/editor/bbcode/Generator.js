@@ -33,9 +33,9 @@ const Generator = function(editor) {
 
             if (!node.nodeValue.match(/\[\S+\]/)) {
 
-               BBCODE.push('[row]' + editor.trimText(node.nodeValue, true) + '[/row]');
+               BBCODE.push('[row]' + utils.trimText(node.nodeValue, true) + '[/row]');
             } else {
-               var text = editor.trimText(node.nodeValue);
+               var text = utils.trimText(node.nodeValue);
                var isBlockModule = text.match(/^\[(blockquote|gallery|intro|h3)/);
                BBCODE.push(text);
                if (isBlockModule) {
@@ -51,7 +51,7 @@ const Generator = function(editor) {
             }
          }
          if (node.nodeType === 1) {
-            var text = editor.trimText($(node).text(), true);
+            var text = utils.trimText($(node).text(), true);
             var isEmpty = text.replace(/\[\/?[^\]]+(\]|$)/g, "") === "";
             if (isEmpty) {
                text = "";

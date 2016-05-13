@@ -50,7 +50,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('start', ['server'], function() {
-   gulp.watch(['src/**/*.js','src/scss/*'], function() {
+   gulp.watch(['src/**/*.js', 'src/scss/*'], function() {
       runSequence('build', 'sass', 'server')
    });
 });
@@ -80,7 +80,7 @@ gulp.task("build", function() {
       .pipe(realm.transpiler({
          wrap: true
       }))
-      .pipe(addsrc('src/jquery-upload.js'))
+      .pipe(addsrc('src/lib/**/*.js'))
       .pipe(concat('build.js'))
       .pipe(gulp.dest("./build"));
 });;

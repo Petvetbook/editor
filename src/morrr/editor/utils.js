@@ -5,6 +5,16 @@ class Utils {
    static stringInject(str, idx, rem, inputString) {
       return str.slice(0, idx) + inputString + str.slice(idx + Math.abs(rem));
    }
+
+   static trimText(text, trimEnds) {
+      text = text.replace(new RegExp(String.fromCharCode(160), 'g'), ' ')
+      text = text.replace(/\s+/g, " ");
+      if (trimEnds) {
+         text = text.trim();
+      }
+      return text;
+   }
+
    static replaceEmptyLines(text) {
       var lines = text.split(/\n/);
       var newLines = [];

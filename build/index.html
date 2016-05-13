@@ -10,17 +10,59 @@
       <link rel="stylesheet" type="text/css" href="editor.min.css">
    </head>
    <body>
+      <style>
+      .morrr-modal {
+         width: 200px; height:200px;
+
+      }
+      .morrr-modal .footer {
+         height: 100px;
+         background-color: gray;
+      }
+      .morrr-modal .footer .success {
+         background-color: green;
+         width:100px;
+         color:white;
+      }
+      .morrr-modal .footer .close {
+         background-color: black;
+         width:100px;
+         color:white;
+      }
+      </style>
       <div id="editor">
 
       </div>
+      <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
       <script>
-      realm.require("morrr.editor.Engine", function(Editor){
-         var editor = new Editor();
-         var element = $("#editor");
-         editor.initialize(element, {
-            toolbar: ['h3', 'intro', 'blockquote', 'strong', 'i', 'ol', 'ul', 'url', 'unlink', 'gallery']
-         });
-      })
+      realm.require("morrr.editor.Modal", function(Modal){
+         var modal = Modal.create({title : "Hello modal window"});
+         modal.disableSuccess();
+
+      });
+
+      // realm.require("morrr.editor.Engine", function(Editor){
+      //    var editor = new Editor();
+      //    var element = $("#editor");
+      //    var values = ['[intro]This is blog intro[/intro]'];
+      //    values.push('[h3]Some h3 header[/h3]');
+      //    values.push('[row][/row]');
+      //    values.push('[row]Some text [strong]bold[/strong] [italic]italic[/italic][/row]');
+      //    values.push('[row][/row]');
+      //    values.push('[blockquote]Quote is here[/blockquote]');
+      //
+      //    values.push('[row]text with [url=google.com]link[/url][/row]');
+      //
+      //
+      //    editor.initialize(element, {
+      //       toolbar: ['h3', 'intro', 'blockquote', 'strong', 'i', 'ol', 'ul', 'url', 'unlink', 'gallery']
+      //    });
+      //    editor.onActivity(function(){
+      //       $("#debug").val(editor.getValue());
+      //    });
+      //    editor.setValue(values.join(''));
+      //    $("#debug").val(editor.getValue());
+      // })
       </script>
    </body>
 </html>

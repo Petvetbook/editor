@@ -1,5 +1,6 @@
 "use realm";
 import lodash as _, sharedImagePath, from morrr.editor.utils;
+import frzr
 
 const Gallery = function(editor, parentId, done) {
 

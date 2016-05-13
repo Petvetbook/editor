@@ -1,5 +1,5 @@
 "use realm";
-
+import utils from morrr.editor;
 const Intro = {
    tag: 'div',
    menu: true,
@@ -18,7 +18,7 @@ const Intro = {
       var self = this;
       root.find('*[data-service="intro"]').each(function(index, element) {
          var text = $(element).find('.wrapper-editable-area').text();
-         $(element).replaceWith('[intro]' + self.trimText(text) + '[/intro]');
+         $(element).replaceWith('[intro]' + utils.trimText(text) + '[/intro]');
       })
    },
    cmdSmart: function(range) {

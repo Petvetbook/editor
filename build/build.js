@@ -1,4 +1,338 @@
 if (typeof exports === 'undefined') {
+
+   (function(global, factory) {
+      typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+         typeof define === 'function' && define.amd ? define(['exports'], factory) :
+         (factory((global.frzr = global.frzr || {})));
+   }(this, function(exports) {
+      'use strict';
+
+      function text(str) {
+         return document.createTextNode(str);
+      }
+
+      var customElements;
+      var customAttributes;
+
+      function el(tagName) {
+         if (customElements) {
+            var customElement = customElements[tagName];
+
+            if (customElement) {
+               return customElement.apply(this, arguments);
+            }
+         }
+
+         var element = document.createElement(tagName);
+
+         for (var i = 1; i < arguments.length; i++) {
+            var arg = arguments[i];
+
+            if (arg == null) {
+               continue;
+            } else if (mount(element, arg)) {
+               continue;
+            } else if (typeof arg === 'object') {
+               for (var attr in arg) {
+                  if (customAttributes) {
+                     var customAttribute = customAttributes[attr];
+                     if (customAttribute) {
+                        customAttribute(element, arg[attr]);
+                        continue;
+                     }
+                  }
+                  var value = arg[attr];
+                  if (attr === 'style' || (element[attr] == null && typeof value != 'function')) {
+                     element.setAttribute(attr, value);
+                  } else {
+                     element[attr] = value;
+                  }
+               }
+            }
+         }
+
+         return element;
+      }
+
+      function registerElement(tagName, handler) {
+         customElements || (customElements = {});
+         customElements[tagName] = handler;
+      }
+
+      function registerAttribute(attr, handler) {
+         customAttributes || (customAttributes = {});
+         customAttributes[attr] = handler;
+      }
+
+      function unregisterElement(tagName) {
+         if (customElements && customElements[tagName]) {
+            delete customElements[tagName];
+         }
+      }
+
+      function unregisterAttribute(attr) {
+         if (customAttributes && customAttributes[attr]) {
+            delete customAttributes[attr];
+         }
+      }
+
+      function svg(tagName) {
+         var element = document.createElementNS('http://www.w3.org/2000/svg', tagName);
+
+         for (var i = 1; i < arguments.length; i++) {
+            var arg = arguments[i];
+
+            if (arg == null) {
+               continue;
+            } else if (mount(element, arg)) {
+               continue;
+            } else if (typeof arg === 'object') {
+               for (var attr in arg) {
+                  element.setAttribute(attr, arg[attr]);
+               }
+            }
+         }
+
+         return element;
+      }
+
+      function list(View, key, initData, skipRender) {
+         return new List(View, key, initData, skipRender);
+      }
+
+      function List(View, key, initData, skipRender) {
+         this.View = View;
+         this.views = [];
+         this.initData = initData;
+         this.skipRender = skipRender;
+
+         if (key) {
+            this.key = key;
+            this.lookup = {};
+         }
+      }
+
+      List.prototype.update = function(data, cb) {
+         var View = this.View;
+         var views = this.views;
+         var parent = this.parent;
+         var key = this.key;
+         var initData = this.initData;
+         var skipRender = this.skipRender;
+
+         if (cb) {
+            var added = [];
+            var updated = [];
+            var removed = [];
+         }
+
+         if (key) {
+            var lookup = this.lookup;
+            var newLookup = {};
+
+            views.length = data.length;
+
+            for (var i = 0; i < data.length; i++) {
+               var item = data[i];
+               var id = item[key];
+               var view = lookup[id];
+
+               if (!view) {
+                  view = new View(initData, item, i);
+                  cb && added.push(view);
+               } else {
+                  cb && updated.push(view);
+               }
+
+               views[i] = newLookup[id] = view;
+
+               view.update && view.update(item, i);
+            }
+
+            if (cb) {
+               for (var id in lookup) {
+                  if (!newLookup[id]) {
+                     removed.push(lookup[id]);
+                     !skipRender && parent && unmount(parent, lookup[id]);
+                  }
+               }
+            }
+
+            this.lookup = newLookup;
+         } else {
+            if (cb) {
+               for (var i = data.length; i < views.length; i++) {
+                  var view = views[i];
+
+                  !skipRender && parent && unmount(parent, view);
+                  removed.push(view);
+               }
+            }
+
+            views.length = data.length;
+
+            for (var i = 0; i < data.length; i++) {
+               var item = data[i];
+               var view = views[i];
+
+               if (!view) {
+                  view = new View(initData, item, i);
+                  cb && added.push(view);
+               } else {
+                  cb && updated.push(view);
+               }
+
+               view.update && view.update(item, i);
+               views[i] = view;
+            }
+         }
+
+         !skipRender && parent && setChildren(parent, views);
+         cb && cb(added, updated, removed);
+      }
+
+      function mount(parent, child, before) {
+         var parentEl = parent.el || parent;
+         var childEl = child.el || child;
+         var childWasMounted = childEl.parentNode != null;
+
+         if (childWasMounted) {
+            child.remounting && child.remounting();
+         } else {
+            child.mounting && child.mounting();
+         }
+
+         if (childEl instanceof Node) {
+            if (before) {
+               var beforeEl = before;
+               parentEl.insertBefore(childEl, beforeEl);
+            } else {
+               parentEl.appendChild(childEl);
+            }
+
+            if (childWasMounted) {
+               child.remounted && child.remounted();
+            } else {
+               child.mounted && child.mounted();
+            }
+            if (childEl !== child) {
+               childEl.view = child;
+               child.parent = parent;
+            }
+
+         } else if (typeof childEl === 'string' || typeof childEl === 'number') {
+            mount(parentEl, document.createTextNode(childEl), before);
+
+         } else if (childEl instanceof Array) {
+            for (var i = 0; i < childEl.length; i++) {
+               mount(parentEl, childEl[i], before);
+            }
+
+         } else if (child instanceof List) {
+            child.parent = parent;
+            setChildren(parentEl, child.views);
+
+         } else {
+            return false;
+         }
+         return true;
+      }
+
+      var mountBefore = mount;
+
+      function replace(parent, child, replace) {
+         var parentEl = parent.el || parent;
+         var childEl = child.el || child;
+         var replaceEl = replace.el || replace;
+         var childWasMounted = childEl.parentNode != null;
+
+         replace.unmounting && replace.unmounting();
+
+         if (childWasMounted) {
+            child.remounting && child.remounting();
+         } else {
+            child.mounting && child.mounting();
+         }
+
+         parentEl.replaceChild(childEl, replaceEl);
+
+         replace.unmounted && replace.unmounted();
+
+         if (replaceEl !== replace) {
+            replace.parent = null;
+         }
+
+         if (childWasMounted) {
+            child.remounted && child.remounted();
+         } else {
+            child.mounted && child.mounted();
+         }
+         if (childEl !== child) {
+            childEl.view = child;
+            child.parent = parent;
+         }
+      }
+
+      function unmount(parent, child) {
+         var parentEl = parent.el || parent;
+         var childEl = child.el || child;
+
+         child.unmounting && child.unmounting();
+
+         parentEl.removeChild(childEl);
+
+         child.unmounted && child.unmounted();
+
+         if (childEl !== child) {
+            child.parent = null;
+         }
+      }
+
+      function setChildren(parent, children) {
+         var parentEl = parent.el || parent;
+         var traverse = parentEl.firstChild;
+
+         for (var i = 0; i < children.length; i++) {
+            var child = children[i];
+            var childEl = child.el || child;
+
+            if (traverse === childEl) {
+               traverse = traverse.nextSibling;
+               continue;
+            }
+
+            mount(parent, child, traverse);
+         }
+
+         while (traverse) {
+            var next = traverse.nextSibling;
+
+            unmount(parent, traverse.view || traverse);
+
+            traverse = next;
+         }
+      }
+
+      exports.text = text;
+      exports.el = el;
+      exports.registerElement = registerElement;
+      exports.registerAttribute = registerAttribute;
+      exports.unregisterElement = unregisterElement;
+      exports.unregisterAttribute = unregisterAttribute;
+      exports.svg = svg;
+      exports.list = list;
+      exports.List = List;
+      exports.mount = mount;
+      exports.mountBefore = mountBefore;
+      exports.replace = replace;
+      exports.unmount = unmount;
+      exports.setChildren = setChildren;
+
+   }));
+
+}
+
+if (typeof exports === 'undefined') {
    /*! jQuery UI - v1.11.4+CommonJS - 2015-08-28
     * http://jqueryui.com
     * Includes: widget.js
@@ -2106,6 +2440,10 @@ RegExp.prototype.execAll = function (string) {
 realm.module("morrr.editor.utils.lodash", function () {
    return $isBackend ? require("lodash") : window._;
 });
+
+realm.module("frzr", function () {
+   return $isBackend ? {} : window.frzr;
+});
 realm.module("morrr.editor.utils.Promise", function () {
    return $isBackend ? require("promise") : window.Promise;
 });
@@ -2116,558 +2454,592 @@ realm.module("morrr.editor.utils.sharedImagePath", function () {
    };
 });
 
-realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.editor.bbcode.Generator", "morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash"], function (BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers, _) {
+realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.editor.bbcode.Generator", "morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash", "morrr.editor.utils"], function (BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers, _, utils) {
    var $_exports;
 
-   var SaneEditor = function SaneEditor() {};
-   SaneEditor.prototype = {
-      initialize: function initialize(target, opts) {
-         this.opts = opts || {};
-         this.toolbarConfig = opts.toolbar || [];
-         this.element = $('<div class="sane-editor"></div>');
-         this.toolbar = $('<div class="sane-editor-toolbar-wrapper"><div class="toolbar"></div></div>');
-         this.toolbar.appendTo(this.element);
-         this.content = $('<div class="sane-editor-content" contenteditable="true"></div>').appendTo(this.toolbar);
-         this.content.appendTo(this.element);
-         target.replaceWith(this.element);
-         this.inializeToolbar();
-         this.fixCloningFeature();
-         var self = this;
-         this.setValue('');
-         $(this.content).bind("paste", function (e) {
-            var el = $(e.currentTarget);
+   var SaneEditor = function () {
+      function SaneEditor() {
+         _classCallCheck(this, SaneEditor);
+      }
 
-            var text = e.originalEvent.clipboardData.getData('Text');
-            var cleanText = self.trimText(text);
-
-            e.originalEvent.preventDefault();
-
-            self.execCommand("insertHTML", false, '<x></x><div>' + cleanText + '</div>');
-         });
-      },
-      onActivity: function onActivity(cb) {
-         this.activity_cb = cb;
-      },
-      triggerActivity: function triggerActivity() {
-         if (this.activity_cb) {
-            this.activity_cb();
+      _createClass(SaneEditor, [{
+         key: "initialize",
+         value: function initialize(target, opts) {
+            this.opts = opts || {};
+            this.toolbarConfig = opts.toolbar || [];
+            this.element = $('<div class="sane-editor"></div>');
+            this.toolbar = $('<div class="sane-editor-toolbar-wrapper"><div class="toolbar"></div></div>');
+            this.toolbar.appendTo(this.element);
+            this.content = $('<div class="sane-editor-content" contenteditable="true"></div>').appendTo(this.toolbar);
+            this.content.appendTo(this.element);
+            target.replaceWith(this.element);
+            this.inializeToolbar();
+            this.fixCloningFeature();
+            var self = this;
+            this.setValue('');
+            $(this.content).bind("paste", function (e) {
+               var el = $(e.currentTarget);
+               var text = e.originalEvent.clipboardData.getData('Text');
+               var cleanText = utils.trimText(text);
+               e.originalEvent.preventDefault();
+               self.execCommand("insertHTML", false, '<x></x><div>' + cleanText + '</div>');
+            });
          }
-      },
-      trimText: function trimText(text, trimEnds) {
-         text = text.replace(new RegExp(String.fromCharCode(160), 'g'), ' ');
-         text = text.replace(/\s+/g, " ");
-         if (trimEnds) {
-            text = text.trim();
+      }, {
+         key: "onActivity",
+         value: function onActivity(cb) {
+            this.activity_cb = cb;
          }
-         return text;
-      },
-      getValue: function getValue() {
-         return this.generate();
-      },
-      generate: function generate() {
-         return Generator(this);
-      },
-      toolbarIconClick: function toolbarIconClick(cmd) {
-         var self = this;
-         self.triggerActivity();
-         if (_.isFunction(cmd)) {
-            // Custom handler
-            var range = self.getRange();
-            if (range) {
-               var selectedText = range.commonAncestorContainer;
-               var parent = $(selectedText).parent();
-               var withinEditor = $(selectedText).parents(".sane-editor-content");
-               var text;
-               if (withinEditor[0]) {
-                  if (parent.hasClass("content")) {
-                     text = selectedText;
+      }, {
+         key: "triggerActivity",
+         value: function triggerActivity() {
+            if (this.activity_cb) {
+               this.activity_cb();
+            }
+         }
+      }, {
+         key: "getValue",
+         value: function getValue() {
+            return this.generate();
+         }
+      }, {
+         key: "generate",
+         value: function generate() {
+            return Generator(this);
+         }
+      }, {
+         key: "toolbarIconClick",
+         value: function toolbarIconClick(cmd) {
+            var self = this;
+            self.triggerActivity();
+            if (_.isFunction(cmd)) {
+               // Custom handler
+               var range = self.getRange();
+               if (range) {
+                  var selectedText = range.commonAncestorContainer;
+                  var parent = $(selectedText).parent();
+                  var withinEditor = $(selectedText).parents(".sane-editor-content");
+                  var text;
+                  if (withinEditor[0]) {
+
+                     if (parent.hasClass("content")) {
+                        text = selectedText;
+                     }
+                     cmd.apply(self, [text, parent, range]);
+                  } else {
+                     cmd.apply(self, [null, null, range]);
                   }
-                  cmd.apply(self, [text, parent, range]);
-               } else {
-                  cmd.apply(self, [null, null, range]);
                }
-            }
-         };
-      },
-      showError: function showError(message) {
-         this.element.find(".notification").remove();
-         var notification = $('<div class="notification"><div class="text"><i class="ui icon warning sign"></i>' + message + '</div></div>');
-         notification.hide();
-         notification.insertBefore(this.content);
-         notification.fadeIn({
-            duration: 200,
-            queue: false
-         }).css('display', 'none').slideDown(200, function () {
-            setTimeout(function () {
-               notification.show();
-               notification.fadeOut({
-                  duration: 200,
-                  queue: false
-               }).css('display', 'block').slideIn(200, function () {
-                  notification.remove();
-               });
-            }, 2000);
-         });
-      },
-      createModal: function createModal(header) {
-         this.element.find(".sane-modal").remove();
-         var modal = $('<div class="sane-modal"><div class="header">' + header + '</div><div class="modal-content"></div></div>');
-         modal.insertBefore(this.content);
-         return {
-            element: modal,
-            close: function close() {
-               modal.remove();
-            }
-         };
-      },
-      smartRangeDetect: function smartRangeDetect(callback) {
+            };
+         }
+      }, {
+         key: "showError",
+         value: function showError(message) {
+            this.element.find(".notification").remove();
+            var notification = $('<div class="notification"><div class="text"><i class="ui icon warning sign"></i>' + message + '</div></div>');
+            notification.hide();
+            notification.insertBefore(this.content);
+            notification.fadeIn({
+               duration: 200,
+               queue: false
+            }).css('display', 'none').slideDown(200, function () {
+               setTimeout(function () {
+                  notification.show();
+                  notification.fadeOut({
+                     duration: 200,
+                     queue: false
+                  }).css('display', 'block').slideIn(200, function () {
+                     notification.remove();
+                  });
+               }, 2000);
+            });
+         }
+      }, {
+         key: "createModal",
+         value: function createModal(header) {
+            this.element.find(".sane-modal").remove();
+            var modal = $('<div class="sane-modal"><div class="header">' + header + '</div><div class="modal-content"></div></div>');
+            modal.insertBefore(this.content);
+            return {
+               element: modal,
+               close: function close() {
+                  modal.remove();
+               }
+            };
+         }
+      }, {
+         key: "smartRangeDetect",
+         value: function smartRangeDetect(callback) {
 
-         var self = this;
-         return new Promise(function (resolve, reject) {
-            var range = self.getRange();
+            var self = this;
+            return new Promise(function (resolve, reject) {
+               var range = self.getRange();
 
-            //9
-            if (range) {
+               //9
+               if (range) {
 
-               var elements = [];
-               var interations = 0;
+                  var elements = [];
+                  var interations = 0;
 
-               var targetValue = range.endContainer.innerHTML || range.endContainer.nodeValue;
+                  var targetValue = range.endContainer.innerHTML || range.endContainer.nodeValue;
 
-               var elementFound = false;
-               var isDestination = function isDestination(element) {
-                  // check for boundaries
-                  if (element) {
-                     var parent = $(element).parents('.sane-editor-content')[0];
-                     var wrappableArea = $(element).parents('.wrapper-editable-area')[0];
-                     if (!parent) {
-                        throw {
-                           message: "Your selection should be within editor area!"
-                        };
-                     }
-                     if ($(element).parents('.wrapper')[0] || wrappableArea) {
-                        throw {
-                           message: "You can't use text within formatted blocks"
-                        };
-                     }
-                  }
-
-                  if (element == undefined) {
-                     return false;
-                  }
-                  var destination = false;
-                  var currentValue = element.nodeValue || element.innerHTML;
-                  if (currentValue !== undefined) {
-                     destination = currentValue === targetValue;
-                     if (!elementFound) {
-
-                        elements.push(element);
-                     }
-                     if (!elementFound && destination) {
-                        elementFound = true;
-                     }
-                  }
-                  return destination;
-               };
-               var deepIteration = function deepIteration(element) {
-
-                  if (isDestination(element)) {
-                     return elements;
-                  }
-                  while (element) {
-                     var element = element.nextSibling;
-                     if (isDestination(element)) {
-                        element = null;
-                        return elements;
-                     } else {
-                        if (!elementFound && element && element.childNodes.length) {
-                           deepIteration(element.childNodes[0]);
+                  var elementFound = false;
+                  var isDestination = function isDestination(element) {
+                     // check for boundaries
+                     if (element) {
+                        var parent = $(element).parents('.sane-editor-content')[0];
+                        var wrappableArea = $(element).parents('.wrapper-editable-area')[0];
+                        if (!parent) {
+                           throw {
+                              message: "Your selection should be within editor area!"
+                           };
+                        }
+                        if ($(element).parents('.wrapper')[0] || wrappableArea) {
+                           throw {
+                              message: "You can't use text within formatted blocks"
+                           };
                         }
                      }
-                     interations++;
-                     if (interations > 100) {
+
+                     if (element == undefined) {
+                        return false;
+                     }
+                     var destination = false;
+                     var currentValue = element.nodeValue || element.innerHTML;
+                     if (currentValue !== undefined) {
+                        destination = currentValue === targetValue;
+                        if (!elementFound) {
+
+                           elements.push(element);
+                        }
+                        if (!elementFound && destination) {
+                           elementFound = true;
+                        }
+                     }
+                     return destination;
+                  };
+                  var deepIteration = function deepIteration(element) {
+
+                     if (isDestination(element)) {
                         return elements;
                      }
-                  }
-                  return element;
-               };
-               var startContainer = range.startContainer;
-               if (range.startContainer.nodeType === 3) {
-                  // if is text
-                  // check for amount of parent child nodes
-                  if (range.startContainer.parentNode.childNodes.length === 1) {
-                     startContainer = range.startContainer.parentNode;
-                     var endContainerText = range.endContainer.nodeValue || range.endContainer.innerHTML;
-                     var startContainerText = range.startContainer.nodeValue || range.startContainer.innerHTML;
-                     if (endContainerText === startContainerText) {
-                        elements = [range.endContainer.nodeValue ? range.endContainer.parentNode : range.endContainer];
+                     while (element) {
+                        var element = element.nextSibling;
+                        if (isDestination(element)) {
+                           element = null;
+                           return elements;
+                        } else {
+                           if (!elementFound && element && element.childNodes.length) {
+                              deepIteration(element.childNodes[0]);
+                           }
+                        }
+                        interations++;
+                        if (interations > 100) {
+                           return elements;
+                        }
+                     }
+                     return element;
+                  };
+                  var startContainer = range.startContainer;
+                  if (range.startContainer.nodeType === 3) {
+                     // if is text
+                     // check for amount of parent child nodes
+                     if (range.startContainer.parentNode.childNodes.length === 1) {
+                        startContainer = range.startContainer.parentNode;
+                        var endContainerText = range.endContainer.nodeValue || range.endContainer.innerHTML;
+                        var startContainerText = range.startContainer.nodeValue || range.startContainer.innerHTML;
+                        if (endContainerText === startContainerText) {
+                           elements = [range.endContainer.nodeValue ? range.endContainer.parentNode : range.endContainer];
+                        }
                      }
                   }
-               }
-               var text = [];
-               var finalElements = [];
-               if (elements.length === 0) {
-                  deepIteration(startContainer);
-                  _.each(elements, function (element) {
+                  var text = [];
+                  var finalElements = [];
+                  if (elements.length === 0) {
+                     deepIteration(startContainer);
+                     _.each(elements, function (element) {
 
-                     if (!element.childNodes || element.childNodes.length === 0) {
-                        finalElements.push(element);
-                        text.push($(element).text());
-                     } else {
-                        if (element.childNodes && element.childNodes.length === 1) {
+                        if (!element.childNodes || element.childNodes.length === 0) {
                            finalElements.push(element);
                            text.push($(element).text());
-                        }
-                     }
-                  });
-               } else {
-                  _.each(elements, function (item) {
-                     finalElements.push(item);
-                     text.push($(item).text());
-                  });
-               }
-               return callback.apply(self, [{
-                  range: range,
-                  text: text,
-                  elements: finalElements,
-                  inject: function inject(el) {
-                     self.triggerActivity();
-                     var endContainer = $(range.endContainer);
-
-                     if (!endContainer.parent('.content')[0] && !$(range.endContainer).hasClass("content")) {
-                        var found = false;
-                        var parent = endContainer.parent();
-                        var target;
-                        var iterations = 0;
-                        while (!found && iterations < 50) {
-                           if (parent.hasClass('content')) {
-                              found = true;
-                           } else {
-                              target = parent;
-                              parent = parent.parent();
+                        } else {
+                           if (element.childNodes && element.childNodes.length === 1) {
+                              finalElements.push(element);
+                              text.push($(element).text());
                            }
-                           iterations++;
                         }
-                        if (found && target[0]) {
-
-                           $(el).insertBefore(target);
-                        }
-                        //console.log(target[0])
-                     } else {
+                     });
+                  } else {
+                     _.each(elements, function (item) {
+                        finalElements.push(item);
+                        text.push($(item).text());
+                     });
+                  }
+                  return callback.apply(self, [{
+                     range: range,
+                     text: text,
+                     elements: finalElements,
+                     inject: function inject(el) {
+                        self.triggerActivity();
+                        var endContainer = $(range.endContainer);
+                        if (!endContainer.parent('.content')[0] && !$(range.endContainer).hasClass("content")) {
+                           var found = false;
+                           var parent = endContainer.parent();
+                           var target;
+                           var iterations = 0;
+                           while (!found && iterations < 50) {
+                              if (parent.hasClass('content')) {
+                                 found = true;
+                              } else {
+                                 target = parent;
+                                 parent = parent.parent();
+                              }
+                              iterations++;
+                           }
+                           if (found && target[0]) {
+                              $(el).insertBefore(target);
+                           }
+                        } else {
                            range.insertNode(el);
                         }
-                  }
-               }]);
-            } else {
-               self.showError("You need to select something");
-            }
-         });
-      },
-      inializeToolbar: function inializeToolbar() {
-         var self = this;
-         var currentHint;
-         var bindHint = function bindHint(icon, text) {
-            icon.mouseover(function (e) {
-               var offset = icon.position();
-               currentHint = $('<div class="toolbar-hint">' + text + '</div>');
-               currentHint.appendTo(self.toolbar);
-               currentHint.css({
-                  top: offset.top + 35 + "px",
-                  left: offset.left + "px",
-                  position: "absolute"
-               });
-            });
-            icon.mouseout(function () {
-               if (currentHint) {
-                  currentHint.remove();
+                     }
+                  }]);
+               } else {
+                  self.showError("You need to select something");
                }
             });
-         };
-         _.each(this.toolbarConfig, function (str) {
-            var handler = BBCodeHandlers[str];
-            if (handler) {
-               var icon = $('<div class="ui button"><i class="icon"></i></div>');
-               icon.find('i').addClass(handler.icon);
-
-               if (handler.hint) {
-                  bindHint(icon, handler.hint);
-               }
-               $(self.toolbar).find('.toolbar').append(icon);
-               icon.click(function () {
-                  handler.cmd ? self.toolbarIconClick(handler.cmd) : '';
-                  if (handler.cmdSmart) {
-                     self.smartRangeDetect(handler.cmdSmart).then(function () {}).catch(function (data) {
-                        self.showError(data.message);
-                     });
-                  }
+         }
+      }, {
+         key: "inializeToolbar",
+         value: function inializeToolbar() {
+            var self = this;
+            var currentHint;
+            var bindHint = function bindHint(icon, text) {
+               icon.mouseover(function (e) {
+                  var offset = icon.position();
+                  currentHint = $('<div class="toolbar-hint">' + text + '</div>');
+                  currentHint.appendTo(self.toolbar);
+                  currentHint.css({
+                     top: offset.top + 35 + "px",
+                     left: offset.left + "px",
+                     position: "absolute"
+                  });
                });
-            }
-         });
-         var fScreen = $('<div class="ui button"><i class="icon maximize"></i></div>');
-         fScreen.appendTo($(self.toolbar).find('.buttons'));
-         fScreen.click(function () {
-            self.toggleFullScreenMode();
-         });
-         bindHint(fScreen, "Full screen");
-         this.bindFullScreenButtons();
-      },
-      basicStringWrapper: function basicStringWrapper(element, opts) {
-         if ($(element).parents('.wrapper')[0]) return;
-         opts = opts || {};
-         var cls = "wrapper";
-         var serviceAttr = '';
-         if (opts.service) {
-            cls += " sane-editor-service";
-            serviceAttr = ' data-service="' + opts.service + '" ';
-         }
-
-         var html = ['<div class="' + cls + '" ' + serviceAttr + ' contenteditable="false">'];
-         html.push('<div class="user-controls">');
-         html.push('<i class="ui icon remove"></i>');
-         html.push('</div>');
-         html.push('<div class="user-content">');
-         html.push('</div>');
-         html.push('</div>');
-         var dom = $(html.join(''));
-         var el = $(element).clone();
-         dom.find('.user-content').append(el);
-         var innerContents = el.html();
-         el.empty();
-         el.append("<div class='wrapper-editable-area' contenteditable='true'>" + innerContents + "</div>");
-         $(element).replaceWith(dom);
-         dom.find('.remove').click(function () {
-            if (_.isFunction(opts.onRemove)) {
-               opts.onRemove(dom);
-            }
-         });
-         return {
-            element: dom
-         };
-      },
-      basicModuleWrapper: function basicModuleWrapper(element, opts) {
-         if ($(element).parents('.wrapper')[0]) return;
-
-         opts = opts || {};
-         var cls = "wrapper";
-         var serviceAttr = '';
-         if (opts.service) {
-            cls += " sane-editor-service";
-            serviceAttr = ' data-service="' + opts.service + '" ';
-         }
-
-         var html = ['<div class="' + cls + '" ' + serviceAttr + ' contenteditable="false">'];
-         html.push('<div class="user-controls">');
-         html.push('<i class="ui icon remove"></i>');
-         html.push('</div>');
-         html.push('<div class="user-content">');
-         html.push('</div>');
-         html.push('</div>');
-         var dom = $(html.join(''));
-         var el = $(element).clone();
-         dom.find('.user-content').append(el);
-         $(element).replaceWith(dom);
-         dom.find('.remove').click(function () {
-            if (_.isFunction(opts.onRemove)) {
-               opts.onRemove(dom);
-            }
-         });
-         if (opts.onReady) {
-            opts.onReady(dom[0]);
-         }
-         return {
-            element: dom
-         };
-      },
-      setValue: function setValue(data) {
-         this.content.empty();
-
-         BBCodeEngine.toEditor("<x></x>" + data + "<x></x>", this);
-      },
-      getSelection: function getSelection(opts) {
-         opts = opts || {};
-         if (opts.focus !== false) {
-            this.content[0].focus();
-         }
-         return document.getSelection();
-      },
-      getRange: function getRange(opts) {
-         var s = this.getSelection(opts);
-
-         if (!s) {
-            return null;
-         }
-         if (s.getRangeAt) {
-            if (s.rangeCount > 0) {
-               var gotRange = s.getRangeAt(0);
-               return gotRange;
-            }
-         }
-         if (s.createRange) {
-
-            var createdRange = s.createRange();
-            return createdRange;
-         }
-         return null;
-      },
-      execCommand: function execCommand(a, b, c) {
-         this.triggerActivity();
-         this.content.focus();
-         document.execCommand(a, b || false, c || null);
-      },
-      setCaretPosition: function setCaretPosition(elem, caretPos) {
-         if (elem !== null) {
-            var range = this.getRange();
-            var sel = this.getSelection();
-            if (range) {
-               range.setStart(elem, 1);
-               range.collapse(true);
-               sel.removeAllRanges();
-               sel.addRange(range);
-            }
-         }
-      },
-      bindFullScreenButtons: function bindFullScreenButtons() {
-         var self = this;
-         this.floatingSave = $('<div class="circular ui icon button primary small floating-save"><i class="icon save"></i></div>');
-         this.floatingPreview = $('<div class="circular ui icon button small floating-preview"><i class="icon zoom"></i></div>');
-         this.floatingPreview.click(function () {
-            if (self.onFloatingPreview) {
-               self.onFloatingPreview();
-            }
-         });
-
-         self.exitFullScreenModeButton = $('<div class="circular ui icon button small floating-exit"><i class="icon angle double down"></i></div>');
-         self.exitFullScreenModeButton.click(function () {
-            self.toggleFullScreenMode();
-         });
-         this.floatingSave.click(function () {
-            if (self.onFloatingSave) {
-               self.onFloatingSave();
-               self.floatingSave.removeClass("primary").addClass("green");
-               self.floatingSave.find("i").removeClass('save').addClass('checkmark');
-               self.floatingSave.animate({
-                  zoom: 1.2
-               }, {
-                  duration: 100,
-                  complete: function complete() {
-                     self.floatingSave.animate({
-                        zoom: 1
-                     }, {
-                        duration: 100,
-                        complete: function complete() {
-                           setTimeout(function () {
-                              self.floatingSave.removeClass("green").addClass("primary");
-                              self.floatingSave.find("i").removeClass('checkmark').addClass('save');
-                           }, 500);
-                        }
-                     });
+               icon.mouseout(function () {
+                  if (currentHint) {
+                     currentHint.remove();
                   }
                });
             };
-         });
-         this.element.append(this.floatingSave);
-         this.element.append(this.floatingPreview);
-         this.element.append(self.exitFullScreenModeButton);
-      },
-      toggleFullScreenMode: function toggleFullScreenMode() {
-         if ($(this.element).hasClass("full-screen-mode")) {
-            $(this.element).removeClass("full-screen-mode");
-            $('body').css('overflow', 'auto');
-            this.floatingSave.hide();
-            this.floatingPreview.hide();
-            this.exitFullScreenModeButton.hide();
-         } else {
-            $('body').css('overflow', 'hidden');
-            $(this.element).addClass("full-screen-mode");
-            this.floatingSave.show();
-            this.floatingPreview.show();
-            this.exitFullScreenModeButton.show();
-         }
-      },
-      fixCloningFeature: function fixCloningFeature() {
-         var updateTimeout;
-         var self = this;
-         $(this.content).bind("keydown", function (e) {
-            self.triggerActivity();
-            tabPressed = false;
-            var range = self.getRange({
-               focus: false
+            _.each(this.toolbarConfig, function (str) {
+               var handler = BBCodeHandlers[str];
+               if (handler) {
+                  var icon = $('<div class="ui button"><i class="icon"></i></div>');
+                  icon.find('i').addClass(handler.icon);
+
+                  if (handler.hint) {
+                     bindHint(icon, handler.hint);
+                  }
+                  $(self.toolbar).find('.toolbar').append(icon);
+                  icon.mousedown(function (e) {
+                     e.preventDefault();
+                  });
+                  icon.click(function (e) {
+                     handler.cmd ? self.toolbarIconClick(handler.cmd) : '';
+                     if (handler.cmdSmart) {
+                        self.smartRangeDetect(handler.cmdSmart).then(function () {}).catch(function (data) {
+                           self.showError(data.message);
+                        });
+                     }
+                  });
+               }
             });
-            if (!range) {
-               return;
+            var fScreen = $('<div class="ui button"><i class="icon maximize"></i></div>');
+            fScreen.appendTo($(self.toolbar).find('.buttons'));
+            fScreen.click(function () {
+               self.toggleFullScreenMode();
+            });
+            bindHint(fScreen, "Full screen");
+            this.bindFullScreenButtons();
+         }
+      }, {
+         key: "basicStringWrapper",
+         value: function basicStringWrapper(element, opts) {
+            if ($(element).parents('.wrapper')[0]) return;
+            opts = opts || {};
+            var cls = "wrapper";
+            var serviceAttr = '';
+            if (opts.service) {
+               cls += " sane-editor-service";
+               serviceAttr = ' data-service="' + opts.service + '" ';
             }
-            // Check for no-keyboard-interaction
-            // IF class is there, we should jump from the wrapper
-            var currentPosition = $(range.commonAncestorContainer);
-            var parentWrapper = currentPosition.parents('.wrapper');
-            if (parentWrapper.hasClass("capture-keyboard-interaction")) {
-               var newline = $('<div></br></div>');
-               newline.insertAfter(parentWrapper);
 
-               self.setCaretPosition(newline[0], 1);
-               return;
+            var html = ['<div class="' + cls + '" ' + serviceAttr + ' contenteditable="false">'];
+            html.push('<div class="user-controls">');
+            html.push('<i class="ui icon remove"></i>');
+            html.push('</div>');
+            html.push('<div class="user-content">');
+            html.push('</div>');
+            html.push('</div>');
+            var dom = $(html.join(''));
+            var el = $(element).clone();
+            dom.find('.user-content').append(el);
+            var innerContents = el.html();
+            el.empty();
+            el.append("<div class='wrapper-editable-area' contenteditable='true'>" + innerContents + "</div>");
+            $(element).replaceWith(dom);
+            dom.find('.remove').click(function () {
+               if (_.isFunction(opts.onRemove)) {
+                  opts.onRemove(dom);
+               }
+            });
+            return {
+               element: dom
+            };
+         }
+      }, {
+         key: "basicModuleWrapper",
+         value: function basicModuleWrapper(element, opts) {
+            if ($(element).parents('.wrapper')[0]) return;
+
+            opts = opts || {};
+            var cls = "wrapper";
+            var serviceAttr = '';
+            if (opts.service) {
+               cls += " sane-editor-service";
+               serviceAttr = ' data-service="' + opts.service + '" ';
             }
 
-            // ENTER TRICK
-            if (e.keyCode === 13) {
-               // If we are in a wrapper
-               if (parentWrapper[0]) {
-                  if (currentPosition[0].nodeType === 3) {
-                     currentPosition = currentPosition.parent();
-                  }
-                  var currentIsEmpty = $(currentPosition).text() === '';
-                  var nextEmptySiblings = 0;
-                  // Checking how many previous items are empty
-                  var prevItems = [];
-                  currentPosition.prevAll().each(function () {
-                     prevItems.push(this);
-                  });
-                  prevItems.reverse();
-                  var toRemove = [];
-                  _.each(prevItems, function (item) {
-                     if ($(item).text() === '') {
-                        nextEmptySiblings++;
-                        toRemove.push(item);
-                     } else {
-                        toRemove = [];
-                        nextEmptySiblings = 0;
-                     }
-                  });
+            var html = ['<div class="' + cls + '" ' + serviceAttr + ' contenteditable="false">'];
+            html.push('<div class="user-controls">');
+            html.push('<i class="ui icon remove"></i>');
+            html.push('</div>');
+            html.push('<div class="user-content">');
+            html.push('</div>');
+            html.push('</div>');
+            var dom = $(html.join(''));
+            var el = $(element).clone();
+            dom.find('.user-content').append(el);
+            $(element).replaceWith(dom);
+            dom.find('.remove').click(function () {
+               if (_.isFunction(opts.onRemove)) {
+                  opts.onRemove(dom);
+               }
+            });
+            if (opts.onReady) {
+               opts.onReady(dom[0]);
+            }
+            return {
+               element: dom
+            };
+         }
+      }, {
+         key: "setValue",
+         value: function setValue(data) {
+            this.content.empty();
 
-                  // Current one has to be removed as well
-                  // If it's empty
-                  if (currentIsEmpty) {
-                     toRemove.push(currentPosition);
-                     nextEmptySiblings++;
-                  }
-                  // Jumping out of the box
-                  if (nextEmptySiblings === 2) {
-                     if (toRemove.length > 0) {
-                        // Get the rest guys with us
-                        var thelast = toRemove[toRemove.length - 1];
-                        if (thelast) {
-                           $(thelast).nextAll().insertAfter(parentWrapper);
-                        }
-                     }
-                     _.each(toRemove, function (item) {
-
-                        $(item).remove();
-                     });
-                     var newline = $('<div></br></div>');
-                     newline.insertAfter(parentWrapper);
-                     self.setCaretPosition(newline[0], 1);
-                  }
+            BBCodeEngine.toEditor("<x></x>" + data + "<x></x>", this);
+         }
+      }, {
+         key: "getSelection",
+         value: function getSelection(opts) {
+            opts = opts || {};
+            if (opts.focus !== false) {
+               this.content[0].focus();
+            }
+            return document.getSelection();
+         }
+      }, {
+         key: "getRange",
+         value: function getRange(opts) {
+            var s = this.getSelection(opts);
+            if (!s) {
+               return null;
+            }
+            if (s.getRangeAt) {
+               if (s.rangeCount > 0) {
+                  var gotRange = s.getRangeAt(0);
+                  return gotRange;
                }
             }
-         });
-      }
-   };
+            if (s.createRange) {
+               var createdRange = s.createRange();
+               return createdRange;
+            }
+            return null;
+         }
+      }, {
+         key: "execCommand",
+         value: function execCommand(a, b, c) {
+            this.triggerActivity();
+            this.content.focus();
+            console.log(this.content[0]);
+            document.execCommand(a, b || false, c || null);
+         }
+      }, {
+         key: "setCaretPosition",
+         value: function setCaretPosition(elem, caretPos) {
+            if (elem !== null) {
+               var range = this.getRange();
+               var sel = this.getSelection();
+               if (range) {
+                  range.setStart(elem, 1);
+                  range.collapse(true);
+                  sel.removeAllRanges();
+                  sel.addRange(range);
+               }
+            }
+         }
+      }, {
+         key: "bindFullScreenButtons",
+         value: function bindFullScreenButtons() {
+            var self = this;
+            this.floatingSave = $('<div class="circular ui icon button primary small floating-save"><i class="icon save"></i></div>');
+            this.floatingPreview = $('<div class="circular ui icon button small floating-preview"><i class="icon zoom"></i></div>');
+            this.floatingPreview.click(function () {
+               if (self.onFloatingPreview) {
+                  self.onFloatingPreview();
+               }
+            });
+
+            self.exitFullScreenModeButton = $('<div class="circular ui icon button small floating-exit"><i class="icon angle double down"></i></div>');
+            self.exitFullScreenModeButton.click(function () {
+               self.toggleFullScreenMode();
+            });
+            this.floatingSave.click(function () {
+               if (self.onFloatingSave) {
+                  self.onFloatingSave();
+                  self.floatingSave.removeClass("primary").addClass("green");
+                  self.floatingSave.find("i").removeClass('save').addClass('checkmark');
+                  self.floatingSave.animate({
+                     zoom: 1.2
+                  }, {
+                     duration: 100,
+                     complete: function complete() {
+                        self.floatingSave.animate({
+                           zoom: 1
+                        }, {
+                           duration: 100,
+                           complete: function complete() {
+                              setTimeout(function () {
+                                 self.floatingSave.removeClass("green").addClass("primary");
+                                 self.floatingSave.find("i").removeClass('checkmark').addClass('save');
+                              }, 500);
+                           }
+                        });
+                     }
+                  });
+               };
+            });
+            this.element.append(this.floatingSave);
+            this.element.append(this.floatingPreview);
+            this.element.append(self.exitFullScreenModeButton);
+         }
+      }, {
+         key: "toggleFullScreenMode",
+         value: function toggleFullScreenMode() {
+            if ($(this.element).hasClass("full-screen-mode")) {
+               $(this.element).removeClass("full-screen-mode");
+               $('body').css('overflow', 'auto');
+               this.floatingSave.hide();
+               this.floatingPreview.hide();
+               this.exitFullScreenModeButton.hide();
+            } else {
+               $('body').css('overflow', 'hidden');
+               $(this.element).addClass("full-screen-mode");
+               this.floatingSave.show();
+               this.floatingPreview.show();
+               this.exitFullScreenModeButton.show();
+            }
+         }
+      }, {
+         key: "fixCloningFeature",
+         value: function fixCloningFeature() {
+            var updateTimeout;
+            var self = this;
+            $(this.content).bind("keydown", function (e) {
+               self.triggerActivity();
+               tabPressed = false;
+               var range = self.getRange({
+                  focus: false
+               });
+               if (!range) {
+                  return;
+               }
+               // Check for no-keyboard-interaction
+               // IF class is there, we should jump from the wrapper
+               var currentPosition = $(range.commonAncestorContainer);
+               var parentWrapper = currentPosition.parents('.wrapper');
+               if (parentWrapper.hasClass("capture-keyboard-interaction")) {
+                  var newline = $('<div></br></div>');
+                  newline.insertAfter(parentWrapper);
+
+                  self.setCaretPosition(newline[0], 1);
+                  return;
+               }
+
+               // ENTER TRICK
+               if (e.keyCode === 13) {
+                  // If we are in a wrapper
+                  if (parentWrapper[0]) {
+                     if (currentPosition[0].nodeType === 3) {
+                        currentPosition = currentPosition.parent();
+                     }
+                     var currentIsEmpty = $(currentPosition).text() === '';
+                     var nextEmptySiblings = 0;
+                     // Checking how many previous items are empty
+                     var prevItems = [];
+                     currentPosition.prevAll().each(function () {
+                        prevItems.push(this);
+                     });
+                     prevItems.reverse();
+                     var toRemove = [];
+                     _.each(prevItems, function (item) {
+                        if ($(item).text() === '') {
+                           nextEmptySiblings++;
+                           toRemove.push(item);
+                        } else {
+                           toRemove = [];
+                           nextEmptySiblings = 0;
+                        }
+                     });
+
+                     // Current one has to be removed as well
+                     // If it's empty
+                     if (currentIsEmpty) {
+                        toRemove.push(currentPosition);
+                        nextEmptySiblings++;
+                     }
+                     // Jumping out of the box
+                     if (nextEmptySiblings === 2) {
+                        if (toRemove.length > 0) {
+                           // Get the rest guys with us
+                           var thelast = toRemove[toRemove.length - 1];
+                           if (thelast) {
+                              $(thelast).nextAll().insertAfter(parentWrapper);
+                           }
+                        }
+                        _.each(toRemove, function (item) {
+                           $(item).remove();
+                        });
+                        var newline = $('<div></br></div>');
+                        newline.insertAfter(parentWrapper);
+                        self.setCaretPosition(newline[0], 1);
+                     }
+                  }
+               }
+            });
+         }
+      }]);
+
+      return SaneEditor;
+   }();
 
    $_exports = SaneEditor;
 
    return $_exports;
 });
-realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath"], function (_, sharedImagePath) {
+realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr"], function (_, sharedImagePath, frzr) {
    var $_exports;
 
    var Gallery = function Gallery(editor, parentId, done) {
@@ -2751,6 +3123,131 @@ realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor
 
    return $_exports;
 });
+realm.module("morrr.editor.Modal", ["frzr"], function (frzr) {
+   var $_exports;
+
+   var modalIndex = 1000;
+   var instances = 0;
+   var el = frzr.el;
+   var overlay = false;
+
+   var Modal = function () {
+
+      /**
+       * constructor - description
+       *
+       * @param  {type} opts description
+       * @return {type}      description
+       */
+
+      function Modal(opts) {
+         _classCallCheck(this, Modal);
+
+         var self = this;
+         opts = opts || {};
+         this.header = el('div', {
+            class: "header",
+            textContent: opts.title || "opts.title"
+         });
+
+         this.successButton = el('div', {
+            class: 'button success',
+            textContent: opts.successButton || "Done"
+         });
+         this.closeButton = el('div', {
+            class: 'button close',
+            textContent: opts.successButton || "Close"
+         });
+         $(this.closeButton).click(function () {
+            self.close();
+         });
+         this.footer = el('div', {
+            class: 'footer'
+         }, [this.closeButton, this.successButton]);
+
+         this.content = el('div', {
+            class: 'content'
+         });
+         this.modal = el('div', {
+            class: "morrr-modal",
+            style: "z-index:" + modalIndex++
+         }, [this.header, this.content, this.footer]);
+
+         this.createOverlay();
+         $(document.body).prepend(this.modal);
+         instances++;
+      }
+
+      _createClass(Modal, [{
+         key: "close",
+         value: function close() {
+            instances--;
+            $(this.modal).remove();
+            if (instances === 0) {
+               $(this.overlay).remove();
+            }
+         }
+      }, {
+         key: "createOverlay",
+         value: function createOverlay() {
+            if (overlay === false) {
+               this.overlay = el('div', {
+                  class: "morrr-overlay"
+               });
+               $(document.body).prepend(this.overlay);
+            }
+         }
+
+         /**
+          * disableSuccess - description
+          *
+          * @return {type}  description
+          */
+
+      }, {
+         key: "disableSuccess",
+         value: function disableSuccess() {
+            if (!$(this.successButton).hasClass('disabled')) {
+               $(this.successButton).addClass('disabled');
+            }
+            this.saveLock = true;
+         }
+
+         /**
+          * enableSuccess - description
+          *
+          * @return {type}  description
+          */
+
+      }, {
+         key: "enableSuccess",
+         value: function enableSuccess() {
+            $(this.successButton).removeClass('disabled');
+            this.saveLock = false;
+         }
+
+         /**
+          * static - description
+          *
+          * @param  {type} opts description
+          * @return {type}      description
+          */
+
+      }], [{
+         key: "create",
+         value: function create(opts) {
+            var modal = new Modal(opts);
+            return modal;
+         }
+      }]);
+
+      return Modal;
+   }();
+
+   $_exports = Modal;
+
+   return $_exports;
+});
 realm.module("morrr.editor.utils", ["morrr.editor.utils.lodash"], function (_) {
    var $_exports;
 
@@ -2763,6 +3260,16 @@ realm.module("morrr.editor.utils", ["morrr.editor.utils.lodash"], function (_) {
          key: "stringInject",
          value: function stringInject(str, idx, rem, inputString) {
             return str.slice(0, idx) + inputString + str.slice(idx + Math.abs(rem));
+         }
+      }, {
+         key: "trimText",
+         value: function trimText(text, trimEnds) {
+            text = text.replace(new RegExp(String.fromCharCode(160), 'g'), ' ');
+            text = text.replace(/\s+/g, " ");
+            if (trimEnds) {
+               text = text.trim();
+            }
+            return text;
          }
       }, {
          key: "replaceEmptyLines",
@@ -3109,9 +3616,9 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
                if (!node.nodeValue.match(/\[\S+\]/)) {
 
-                  BBCODE.push('[row]' + editor.trimText(node.nodeValue, true) + '[/row]');
+                  BBCODE.push('[row]' + utils.trimText(node.nodeValue, true) + '[/row]');
                } else {
-                  var text = editor.trimText(node.nodeValue);
+                  var text = utils.trimText(node.nodeValue);
                   var isBlockModule = text.match(/^\[(blockquote|gallery|intro|h3)/);
                   BBCODE.push(text);
                   if (isBlockModule) {
@@ -3127,7 +3634,7 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
                }
             }
             if (node.nodeType === 1) {
-               var text = editor.trimText($(node).text(), true);
+               var text = utils.trimText($(node).text(), true);
                var isEmpty = text.replace(/\[\/?[^\]]+(\]|$)/g, "") === "";
                if (isEmpty) {
                   text = "";
@@ -3156,9 +3663,8 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
-realm.module("morrr.editor.elements.blockquote", [], function () {
+realm.module("morrr.editor.elements.blockquote", ["morrr.editor.utils"], function (utils) {
    var $_exports;
-
    var BlockQuote = {
       index: 1,
       tag: 'blockquote',
@@ -3177,7 +3683,7 @@ realm.module("morrr.editor.elements.blockquote", [], function () {
          var self = this;
          root.find('*[data-service="blockquote"]').each(function (index, element) {
             var text = $(element).find('.wrapper-editable-area').text();
-            $(element).replaceWith('[blockquote]' + self.trimText(text) + '[/blockquote]');
+            $(element).replaceWith('[blockquote]' + utils.trimText(text) + '[/blockquote]');
          });
       },
       cmdSmart: function cmdSmart(range) {
@@ -3288,9 +3794,8 @@ realm.module("morrr.editor.elements.gallery", ["morrr.editor.Gallery", "morrr.ed
 
    return $_exports;
 });
-realm.module("morrr.editor.elements.h3", [], function () {
+realm.module("morrr.editor.elements.h3", ["morrr.editor.utils"], function (utils) {
    var $_exports;
-
    var Heading3 = {
       tag: 'h3',
       icon: 'header',
@@ -3307,7 +3812,7 @@ realm.module("morrr.editor.elements.h3", [], function () {
          var self = this;
          root.find('*[data-service="h3"]').each(function (index, element) {
             var text = $(element).find('.wrapper-editable-area').text();
-            $(element).replaceWith('[h3]' + self.trimText(text) + '[/h3]');
+            $(element).replaceWith('[h3]' + utils.trimText(text) + '[/h3]');
          });
       },
       cmdSmart: function cmdSmart(range) {
@@ -3375,9 +3880,8 @@ realm.module("morrr.editor.elements.innerad", [], function () {
 
    return $_exports;
 });
-realm.module("morrr.editor.elements.intro", [], function () {
+realm.module("morrr.editor.elements.intro", ["morrr.editor.utils"], function (utils) {
    var $_exports;
-
    var Intro = {
       tag: 'div',
       menu: true,
@@ -3396,7 +3900,7 @@ realm.module("morrr.editor.elements.intro", [], function () {
          var self = this;
          root.find('*[data-service="intro"]').each(function (index, element) {
             var text = $(element).find('.wrapper-editable-area').text();
-            $(element).replaceWith('[intro]' + self.trimText(text) + '[/intro]');
+            $(element).replaceWith('[intro]' + utils.trimText(text) + '[/intro]');
          });
       },
       cmdSmart: function cmdSmart(range) {
@@ -3438,41 +3942,6 @@ realm.module("morrr.editor.elements.italic", [], function () {
    };
 
    $_exports = Italic;
-
-   return $_exports;
-});
-realm.module("morrr.editor.elements.link", [], function () {
-   var $_exports;
-
-   var Link = {
-      tag: 'a',
-      menu: true,
-      inline: true,
-      icon: 'linkify',
-      hint: 'Insert a link',
-      toBBCode: function toBBCode(root) {
-         root.find('a').each(function (index, element) {
-            $(element).replaceWith('[url=' + $(element).attr("href") + ']' + $(element).text() + '[/url]');
-         });
-      },
-      cmd: function cmd() {
-         var link = prompt('Please specify the link.');
-         if (link) {
-
-            this.execCommand('createLink', false, link);
-         }
-      },
-      toProduction: function toProduction(item) {
-         var link = item.attrs.self;
-         link = link.replace(/\sp=.*/, '');
-         if (link.indexOf("http") === -1) {
-            link = "http://" + link;
-         }
-         return '<a target="_blank" href="' + link + '">';
-      }
-   };
-
-   $_exports = Link;
 
    return $_exports;
 });
@@ -3536,7 +4005,7 @@ realm.module("morrr.editor.elements.panorama", [], function () {
 
    return $_exports;
 });
-realm.module("morrr.editor.elements.strong", [], function () {
+realm.module("morrr.editor.elements.strong", ["morrr.editor.utils"], function (utils) {
    var $_exports;
 
    var Strong = {
@@ -3548,10 +4017,11 @@ realm.module("morrr.editor.elements.strong", [], function () {
       toBBCode: function toBBCode(root) {
          var self = this;
          root.find('b').each(function (index, element) {
-            $(element).replaceWith('[strong]' + self.trimText($(element).text()) + '[/strong]');
+            $(element).replaceWith('[strong]' + utils.trimText($(element).text()) + '[/strong]');
          });
       },
       cmd: function cmd() {
+
          this.execCommand('bold');
       }
    };
@@ -3600,6 +4070,41 @@ realm.module("morrr.editor.elements.unlink", [], function () {
    };
 
    $_exports = Unlink;
+
+   return $_exports;
+});
+realm.module("morrr.editor.elements.url", [], function () {
+   var $_exports;
+
+   var Link = {
+      tag: 'a',
+      menu: true,
+      inline: true,
+      icon: 'linkify',
+      hint: 'Insert a link',
+      toBBCode: function toBBCode(root) {
+         root.find('a').each(function (index, element) {
+            $(element).replaceWith('[url=' + $(element).attr("href") + ']' + $(element).text() + '[/url]');
+         });
+      },
+      cmd: function cmd() {
+         var link = prompt('Please specify the link.');
+         if (link) {
+
+            this.execCommand('createLink', false, link);
+         }
+      },
+      toProduction: function toProduction(item) {
+         var link = item.attrs.self;
+         link = link.replace(/\sp=.*/, '');
+         if (link.indexOf("http") === -1) {
+            link = "http://" + link;
+         }
+         return '<a target="_blank" href="' + link + '">';
+      }
+   };
+
+   $_exports = Link;
 
    return $_exports;
 });
