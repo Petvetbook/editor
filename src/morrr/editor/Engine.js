@@ -10,8 +10,10 @@ class SaneEditor {
       this.opts = opts || {};
       this.toolbarConfig = opts.toolbar || [];
       this.element = $('<div class="sane-editor"></div>');
-      this.toolbar = $('<div class="sane-editor-toolbar-wrapper"><div class="toolbar"></div></div>');
-      this.toolbar.appendTo(this.element);
+      this.toolbarWrapper = $('<div class="sane-editor-toolbar-wrapper"></div>');
+      this.toolbarWrapper.appendTo(this.element);
+      this.toolbar = $('<div class="toolbar"></div>');
+      this.toolbar.appendTo(this.toolbarWrapper);
       this.modalWrapper = $('<div class="sane-modal-wrapper"></div>');
       this.modalWrapper.appendTo(this.element);
       this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
@@ -266,13 +268,13 @@ class SaneEditor {
       _.each(this.toolbarConfig, function(str) {
          var handler = BBCodeHandlers[str]
          if (handler) {
-            var icon = $('<div class="ui button"><i class="icon"></i></div>')
+            var icon = $('<div class="button"><i class="icon"></i></div>')
             icon.find('i').addClass(handler.icon);
 
             if (handler.hint) {
                bindHint(icon, handler.hint)
             }
-            $(self.toolbar).find('.toolbar').append(icon);
+            $(self.toolbar).append(icon);
             icon.mousedown(function(e) {
                e.preventDefault();
             })
@@ -288,8 +290,8 @@ class SaneEditor {
             });
          }
       });
-      var fScreen = $('<div class="ui button"><i class="icon maximize"></i></div>');
-      fScreen.appendTo($(self.toolbar).find('.buttons'));
+      var fScreen = $('<div class="button"><i class="icon maximize"></i></div>');
+      fScreen.appendTo($(self.toolbar));
       fScreen.click(function() {
          self.toggleFullScreenMode();
       });
