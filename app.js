@@ -2,11 +2,10 @@ var express = require('express');
 var app = express();
 var realm = require("realm-js");
 
-app.use('/re.js', realm.serve.express());
-app.use('/bower_components', express.static(__dirname + '/bower_components'));
+app.use('/realm.js', realm.serve.express());
 
-require('./build.js');
-app.use('/', express.static(__dirname));
+require('./build/build.js');
+app.use('/', express.static(__dirname + "/build"));
 
 var port = process.env.PORT || 3060;
 var server = app.listen(port, function() {

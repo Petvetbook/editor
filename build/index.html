@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <title></title>
+      <script type="text/javascript" src="/bower_components/lodash/dist/lodash.min.js"></script>
+      <script type="text/javascript" src="/realm.js"></script>
+      <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+      <script type="text/javascript" src="/build.js"></script>
+      <styl></style>
+
+   </head>
+   <body>
+      <div id="editor">
+
+      </div>
+      <script>
+      realm.require("morrr.editor.Engine", function(Editor){
+         var editor = new Editor();
+         var element = $("#editor");
+         editor.initialize(element, {
+            toolbar: ['h3', 'intro', 'blockquote', 'strong', 'i', 'ol', 'ul', 'url', 'unlink', 'gallery']
+         });
+      })
+      </script>
+   </body>
+</html>

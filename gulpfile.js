@@ -6,6 +6,7 @@ var rename = require("gulp-rename");
 var realm = require('realm-js');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
+var addsrc = require('gulp-add-src');
 
 var spawn = require('child_process').spawn;
 var node;
@@ -32,18 +33,32 @@ gulp.task('start', ['server'], function() {
    });
 });
 
+gulp.task('uglify', ['build'], function() {
+   return gulp.src("build/build.js")
+      .pipe(uglify())
+      .pipe(rename('build.min.js'))
+      .pipe(gulp.dest('build'));
+
+});
+
 gulp.task("build", function() {
-   return gulp.src("src/**/*.js").pipe(realm.transpiler({
+   return gulp.src("src/morrr/**/*.js").pipe(realm.transpiler({
          preffix: "morrr",
-         base: "src",
+         base: "src/morrr",
          target: "./build.js"
       }))
       .pipe(babel({
          presets: ["es2016"],
          plugins: ["transform-decorators-legacy"]
       }))
+      .on('error', function(e) {
+         console.log(e.stack);
+         this.emit('end');
+      })
       .pipe(realm.transpiler({
          wrap: true
       }))
-      .pipe(gulp.dest("./"));
-});
+      .pipe(addsrc('src/jquery-upload.js'))
+      .pipe(concat('build.js'))
+      .pipe(gulp.dest("./build"));
+});;
