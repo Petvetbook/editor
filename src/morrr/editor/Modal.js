@@ -59,6 +59,10 @@ class Modal {
       }
    }
 
+   setContents(element) {
+      $(this.content).append(element)
+   }
+
    createOverlay() {
       if (overlay === false) {
          this.overlay = el('div', {

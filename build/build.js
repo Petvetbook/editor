@@ -3039,11 +3039,12 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
 
    return $_exports;
 });
-realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr"], function (_, sharedImagePath, frzr) {
+realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr", "morrr.editor.Modal"], function (_, sharedImagePath, frzr, Modal) {
    var $_exports;
-
    var Gallery = function Gallery(editor, parentId, done) {
+      Modal.create();
 
+      return;
       var modal = editor.createModal('Insert image');
       var images = $('<div class="images"></div>');
       var modalContent = modal.element.find('.modal-content');
@@ -3186,6 +3187,11 @@ realm.module("morrr.editor.Modal", ["frzr"], function (frzr) {
             if (instances === 0) {
                $(this.overlay).remove();
             }
+         }
+      }, {
+         key: "setContents",
+         value: function setContents(element) {
+            $(this.content).append(element);
          }
       }, {
          key: "createOverlay",

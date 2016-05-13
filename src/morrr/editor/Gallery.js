@@ -1,9 +1,11 @@
 "use realm";
 import lodash as _, sharedImagePath, from morrr.editor.utils;
 import frzr
-
+import Modal from morrr.editor;
 const Gallery = function(editor, parentId, done) {
+   Modal.create();
 
+   return;
    var modal = editor.createModal('Insert image');
    var images = $('<div class="images"></div>');
    var modalContent = modal.element.find('.modal-content');
