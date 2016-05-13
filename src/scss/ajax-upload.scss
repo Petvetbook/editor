@@ -1,0 +1,100 @@
+.ajax-file-upload-statusbar {
+    border: 1px solid $blue;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin: 5px;
+}
+
+.ajax-file-upload-filename {
+    width: 100%;
+    height: auto;
+    margin: 0 5px 5px 10px;
+    color: $dkgrey;
+}
+
+.ajax-file-upload-progress {
+    margin: 0 10px 5px 10px;
+    position: relative;
+    width: 250px;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+
+.ajax-file-upload-bar {
+    background-color: $blue;
+    width: 0;
+    height: 20px;
+    color: white;
+}
+
+.ajax-file-upload-percent {
+    position: absolute;
+    display: inline-block;
+    top: 3px;
+    left: 48%
+}
+
+.ajax-file-upload-red {
+    background-color: $red;
+    display: inline-block;
+    color: white;
+    font-size: 13px;
+    padding: 4px 15px;
+    text-decoration: none;
+    cursor: pointer;
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+.ajax-file-upload-green {
+    background-color: $green;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    color: white;
+    font-size: 13px;
+    padding: 4px 15px;
+    text-decoration: none;
+    cursor: pointer;
+    vertical-align: top;
+    margin-right: 5px;
+}
+
+.ajax-file-upload {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 15px 20px;
+    cursor: pointer;
+    line-height: 25px;
+    height: 25px;
+    width: 25px;
+    margin: 0 10px 0 0;
+    display: inline-block;
+    text-decoration: none;
+    padding: 6px 10px 4px 10px;
+    color: white;
+    background: $blue url($imgpath + "svg/icons_add.svg") no-repeat 50% 50%;
+    border: none;
+    vertical-align: middle;
+
+    &:hover {
+      background-color: $green;
+    }
+}
+
+.ajax-upload-dragdrop {
+    width: 100% !important;
+    border: 1px dashed $grey;
+    color: $dkdkgrey;
+    text-align: left;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+.ajax-upload-dragdrop.state-hover {
+    border: 1px solid $blue;
+}
+
+.ajax-file-upload-error {
+    color: $red;
+}

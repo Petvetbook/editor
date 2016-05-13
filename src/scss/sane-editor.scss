@@ -49,8 +49,6 @@ textarea#supereditor2 {
 }
 .sane-editor-modal-wrapper {
   flex: 1 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
   transition: height 0.3s ease-out;
   div[class*='modal'] {
     display: block;
