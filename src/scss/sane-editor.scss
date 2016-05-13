@@ -11,15 +11,33 @@ textarea#supereditor2 {
     font-size: 18px;
 }
 
-.toolbar-wrapper {
+.sane-editor-toolbar-wrapper {
   position: fixed;
   position: sticky;
   top: 0;
   right: 0;
   left: 0;
-  background-color: $grey;
+  .sane-editor-toolbar {
+    position: relative;
+    height: 40px;
+    background-color: $dkdkgrey;
+    .buttons {
+      width: 40px;
+      height: 40px;
+      border-right: 1px solid white;
+    }
+  }
 }
-
+.sane-editor-content {
+  padding: 20px 10px;
+  border-bottom: 1px solid $grey;
+  overflow-y: auto;
+  font-size: 18px;
+  line-height: 1.4em;
+  min-height: 300px;
+  height: auto;
+  outline: none !important;
+}
 .sane-editor {
     position: relative;
     margin: 10px 0;

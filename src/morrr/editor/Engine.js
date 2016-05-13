@@ -9,9 +9,9 @@ SaneEditor.prototype = {
       this.opts = opts || {};
       this.toolbarConfig = opts.toolbar || [];
       this.element = $('<div class="sane-editor"></div>');
-      this.toolbar = $('<div class="toolbar-wrapper"><div class="ui icon buttons"></div></div>');
+      this.toolbar = $('<div class="sane-editor-toolbar-wrapper"><div class="toolbar"></div></div>');
       this.toolbar.appendTo(this.element);
-      this.content = $('<div class="content sane-editor-content-unique-div" contenteditable="true"></div>').appendTo(this.toolbar);
+      this.content = $('<div class="sane-editor-content" contenteditable="true"></div>').appendTo(this.toolbar);
       this.content.appendTo(this.element);
       target.replaceWith(this.element);
       this.inializeToolbar();
@@ -60,7 +60,7 @@ SaneEditor.prototype = {
          if (range) {
             var selectedText = range.commonAncestorContainer;
             var parent = $(selectedText).parent();
-            var withinEditor = $(selectedText).parents(".sane-editor .content");
+            var withinEditor = $(selectedText).parents(".sane-editor-content");
             var text;
             if (withinEditor[0]) {
                if (parent.hasClass("content")) {
@@ -122,7 +122,7 @@ SaneEditor.prototype = {
             var isDestination = function(element) {
                // check for boundaries
                if (element) {
-                  var parent = $(element).parents('.sane-editor-content-unique-div')[0];
+                  var parent = $(element).parents('.sane-editor-content')[0];
                   var wrappableArea = $(element).parents('.wrapper-editable-area')[0]
                   if (!parent) {
                      throw {
@@ -279,7 +279,7 @@ SaneEditor.prototype = {
             if (handler.hint) {
                bindHint(icon, handler.hint)
             }
-            $(self.toolbar).find('.buttons').append(icon);
+            $(self.toolbar).find('.toolbar').append(icon);
             icon.click(function() {
                handler.cmd ? self.toolbarIconClick(handler.cmd) : '';
                if (handler.cmdSmart) {
