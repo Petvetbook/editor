@@ -2454,7 +2454,7 @@ realm.module("morrr.editor.utils.sharedImagePath", function () {
    };
 });
 
-realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.editor.bbcode.Generator", "morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash", "morrr.editor.utils"], function (BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers, _, utils) {
+realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.editor.bbcode.Generator", "morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash", "morrr.editor.utils", "morrr.editor.Modal"], function (BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers, _, utils, Modal) {
    var $_exports;
 
    var SaneEditor = function () {
@@ -2470,7 +2470,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             this.element = $('<div class="sane-editor"></div>');
             this.toolbar = $('<div class="sane-editor-toolbar-wrapper"><div class="toolbar"></div></div>');
             this.toolbar.appendTo(this.element);
-            this.modalWrapper = $('<div class="sane-modal-wrapper"><div class="modal"></div></div>');
+            this.modalWrapper = $('<div class="sane-modal-wrapper"></div>');
             this.modalWrapper.appendTo(this.element);
             this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
             this.contentWrapper.appendTo(this.element);
@@ -2561,15 +2561,9 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
       }, {
          key: "createModal",
          value: function createModal(header) {
-            this.element.find(".sane-modal").remove();
-            var modal = $('<div class="sane-modal"><div class="header">' + header + '</div><div class="modal-content"></div></div>');
-            modal.insertBefore(this.content);
-            return {
-               element: modal,
-               close: function close() {
-                  modal.remove();
-               }
-            };
+            var modal = Modal.create({
+               target: this.modalWrapper
+            });
          }
       }, {
          key: "smartRangeDetect",
@@ -3043,11 +3037,12 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
 
    return $_exports;
 });
-realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr", "morrr.editor.Modal"], function (_, sharedImagePath, frzr, Modal) {
+realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr"], function (_, sharedImagePath, frzr) {
    var $_exports;
-   var Gallery = function Gallery(editor, parentId, done) {
-      Modal.create();
 
+   var Gallery = function Gallery(editor, parentId, done) {
+
+      var modal = editor.createModal('Insert image');
       return;
       var modal = editor.createModal('Insert image');
       var images = $('<div class="images"></div>');
@@ -3150,6 +3145,8 @@ realm.module("morrr.editor.Modal", ["frzr"], function (frzr) {
 
          var self = this;
          opts = opts || {};
+         var target = opts.target || document.body;
+
          this.header = el('div', {
             class: "header",
             textContent: opts.title || "opts.title"
@@ -3178,8 +3175,8 @@ realm.module("morrr.editor.Modal", ["frzr"], function (frzr) {
             style: "z-index:" + modalIndex++
          }, [this.header, this.content, this.footer]);
 
-         this.createOverlay();
-         $(document.body).prepend(this.modal);
+         //this.createOverlay();
+         $(target).prepend(this.modal);
          instances++;
       }
 
@@ -3368,308 +3365,6 @@ realm.module("morrr.editor.utils", ["morrr.editor.utils.lodash"], function (_) {
    }();
 
    $_exports = Utils;
-
-   return $_exports;
-});
-realm.module("morrr.editor.bbcode.AttributeParser", [], function () {
-   var $_exports;
-
-   var AttributeParser = function AttributeParser(input) {
-      if (!input) {
-         return {};
-      }
-      if (input[0] === "=") {
-
-         return {
-            self: input.slice(1, input.length)
-         };
-      }
-      var attrWating = true;
-      var valueWaiting = false;
-      var myAttrs = {};
-      var myAttr = '';
-      var value = '';
-      var openingValueString;
-      var escapeOccured = false;
-      for (var i in input) {
-         var letter = input[i];
-         if (letter === "=") {
-            attrWating = false;
-            myAttrs[myAttr] = '';
-            valueWaiting = true;
-         }
-         if (attrWating && letter.match(/[a-z0-9_]/i)) {
-            myAttr += letter;
-         }
-         if (valueWaiting) {
-            if (openingValueString) {
-               if (letter === openingValueString && !escapeOccured) {
-                  valueWaiting = false;
-                  attrWating = true;
-                  myAttrs[myAttr] = value;
-                  openingValueString = false;
-                  myAttr = '';
-                  value = '';
-               } else {
-                  if (letter === "\\" && !escapeOccured) {
-                     escapeOccured = true;
-                  } else {
-                     value += letter;
-                     escapeOccured = false;
-                  }
-               }
-            } else {
-               if (letter.match(/'|"/)) {
-                  openingValueString = letter;
-               }
-            }
-         }
-      }
-      return myAttrs;
-   };
-
-   $_exports = AttributeParser;
-
-   return $_exports;
-});
-realm.module("morrr.editor.bbcode.BBCodeEngine", ["morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.utils.lodash", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils"], function (BBCodeExtractor, _, BBCodeHandlers, utils) {
-   var $_exports;
-
-   var BBCodeEngine = {
-      replaceEndTags: function replaceEndTags(input) {
-         _.each(BBCodeHandlers, function (item, bbcodeName) {
-            if (item.tag) {
-               input = input.split("[/" + bbcodeName + "]").join('</' + item.tag + '>');
-            }
-         });
-         return input;
-      },
-      _injectSystemId: function _injectSystemId(tag, id) {
-         tag = utils.stringInject(tag, tag.length - 1, 0, ' id="' + id + '"');
-         return tag;
-      },
-      _prepareInput: function _prepareInput(input) {
-         input = input.replace(/\[row\]/g, '<div>');
-         input = input.replace(/\[\/row\]/g, '</div>');
-         input = input.replace(/\[\/br\]/g, '<div><br></div>');
-         input = this.replaceEndTags(input);
-         return input;
-      },
-      toProduction: function toProduction(input, opts) {
-         opts = opts || {};
-
-         input = this._prepareInput(input);
-         var data = BBCodeExtractor(input);
-         var self = this;
-         input = data.input;
-         var codes = data.codes;
-         var binders = {};
-         _.each(codes, function (item) {
-            var handler;
-            if (handler = $BBCodeHandlers[item.name]) {
-               if (_.isFunction(handler.toProduction)) {
-
-                  html = handler.toProduction(item, opts);
-               } else {
-                  html = '<' + handler.tag + '>';
-               };
-               input = input.replace(item.str, html);
-            }
-         });
-
-         _.each(codes, function (item) {
-            var handler;
-            if (handler = BBCodeHandlers[item.name]) {
-               if (_.isFunction(handler.processAfterRender)) {
-                  html = handler.processAfterRender(input, item, opts);
-               }
-            }
-         });
-         return input;
-      },
-      toEditor: function toEditor(input, editor) {
-         input = this._prepareInput(input);
-         var data = BBCodeExtractor(input);
-         var self = this;
-         input = data.input;
-         var codes = data.codes;
-         var binders = {};
-         _.each(codes, function (item) {
-            var handler;
-            if (handler = BBCodeHandlers[item.name]) {
-               if (_.isFunction(handler.toProduction)) {
-                  html = handler.toProduction(item);
-               } else {
-                  html = '<' + handler.tag + '>';
-               };
-
-               if (_.isFunction(handler.bindEditorEvents)) {
-                  var systemId = "sane-element-" + item.attrs.p;
-                  html = self._injectSystemId(html, systemId);
-                  binders[item.name] = binders[item.name] || [];
-                  binders[item.name].push(systemId);
-               }
-               input = input.replace(item.str, html);
-            }
-         });
-         var dom = $(input);
-
-         editor.content.append(dom);
-         _.each(binders, function (ids, handlerName) {
-            _.each(ids, function (id) {
-               var el = editor.content.find("#" + id)[0];
-               BBCodeHandlers[handlerName].bindEditorEvents.apply(editor, [el]);
-            });
-         });
-      }
-   };
-
-   $_exports = BBCodeEngine;
-
-   return $_exports;
-});
-realm.module("morrr.editor.bbcode.BBCodeExtractor", ["morrr.editor.bbcode.AttributeParser", "morrr.editor.utils"], function (AttributeParser, utils) {
-   var $_exports;
-
-   var BBCodeExtractor = function BBCodeExtractor(input) {
-      var positions = [];
-
-      var index = 1;
-      var expectingAttr = false;
-      var attrStarted = false;
-      for (var i = 0; i < input.length; i++) {
-         var letter = input[i];
-         if (letter === "/") {
-            expectingAttr = false;
-         }
-         if (expectingAttr) {
-            if (attrStarted && letter === ']') {
-               var attr = ' p="' + index++ + '"';
-               input = utils.stringInject(input, i, 0, attr);
-               i += attr.length - 1;
-               attrStarted = false;
-               expectingAttr = false;
-            }
-
-            if (letter.match(/[a-z0-9_]/i)) {
-               attrStarted = true;
-            }
-         }
-         if (letter === "[") {
-            expectingAttr = true;
-         }
-      }
-      var rx = /\[([a-z0-9]+)\s?([^\]]+)?]/igm;
-      var data = rx.execAll(input);
-      var output = [];
-      _.each(data, function (item) {
-         output.push({
-            str: item[0],
-            name: item[1],
-            attrs: AttributeParser(item[2])
-         });
-      });
-      return {
-         input: input,
-         codes: output
-      };
-   };
-
-   $_exports = BBCodeExtractor;
-
-   return $_exports;
-});
-realm.module("morrr.editor.bbcode.BBCodeHandlers", ["morrr.editor.utils.Promise", "morrr.editor.utils.lodash"], function (Promise, _) {
-   var $_exports;
-
-   var BBCodeHandlers = realm.requirePackage('morrr.editor.elements').then(function (packages) {
-      var packs = {};
-      _.each(packages, function (pack, name) {
-         packs[name.substring(22, name.length)] = pack;
-      });
-      return packs;
-   });
-
-   $_exports = BBCodeHandlers;
-
-   return $_exports;
-});
-realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash"], function (utils, BBCodeHandlers, _) {
-   var $_exports;
-
-   var Generator = function Generator(editor) {
-      var el = editor.content.clone();
-
-      // Process inline styles first
-      _.each(BBCodeHandlers, function (handler) {
-         if (handler.toBBCode && handler.inline) {
-            handler.toBBCode.bind(editor)(el);
-         }
-      });
-      //var root = el[0];
-      var root = utils.flattenNodes(editor, el[0].childNodes);
-      // // Process the rest wrappers
-      _.each(BBCodeHandlers, function (handler) {
-         if (handler.toBBCode && !handler.inline) {
-            handler.toBBCode.bind(editor)($(root));
-         }
-      });
-      var BBCODE = [];
-      var prevEmpty = false;
-      var lineInsertedAt;
-
-      for (var i = 0; i <= root.childNodes.length; i++) {
-         var node = root.childNodes[i];
-         if (node && node.nodeName !== 'X') {
-            if (node.nodeType === 3) {
-               //Text is here
-
-               if (!node.nodeValue.match(/\[\S+\]/)) {
-
-                  BBCODE.push('[row]' + utils.trimText(node.nodeValue, true) + '[/row]');
-               } else {
-                  var text = utils.trimText(node.nodeValue);
-                  var isBlockModule = text.match(/^\[(blockquote|gallery|intro|h3)/);
-                  BBCODE.push(text);
-                  if (isBlockModule) {
-                     prevEmpty = true;
-                     if (lineInsertedAt) {
-                        // Removing prev inserted break (we dont' need it)
-                        var supposedlyBr = BBCODE[lineInsertedAt];
-                        if (supposedlyBr === '[/br]') {
-                           BBCODE.splice(lineInsertedAt, 1);
-                        }
-                     }
-                  }
-               }
-            }
-            if (node.nodeType === 1) {
-               var text = utils.trimText($(node).text(), true);
-               var isEmpty = text.replace(/\[\/?[^\]]+(\]|$)/g, "") === "";
-               if (isEmpty) {
-                  text = "";
-               }
-               if (text.length > 0) {
-                  lineInsertedAt = null;
-                  prevEmpty = false;
-               }
-               if (!prevEmpty) {
-                  if (text.length === 0) {
-                     BBCODE.push('[/br]');
-                     lineInsertedAt = BBCODE.length - 1;
-                  } else {
-                     BBCODE.push('[row]' + text + '[/row]');
-                  }
-               }
-               prevEmpty = !text ? true : false;
-            }
-         };
-      }
-      var _bbcode = utils.cleanUpItems(BBCODE.join('\n'));
-      return _bbcode;
-   };
-
-   $_exports = Generator;
 
    return $_exports;
 });
@@ -4115,6 +3810,308 @@ realm.module("morrr.editor.elements.url", [], function () {
    };
 
    $_exports = Link;
+
+   return $_exports;
+});
+realm.module("morrr.editor.bbcode.AttributeParser", [], function () {
+   var $_exports;
+
+   var AttributeParser = function AttributeParser(input) {
+      if (!input) {
+         return {};
+      }
+      if (input[0] === "=") {
+
+         return {
+            self: input.slice(1, input.length)
+         };
+      }
+      var attrWating = true;
+      var valueWaiting = false;
+      var myAttrs = {};
+      var myAttr = '';
+      var value = '';
+      var openingValueString;
+      var escapeOccured = false;
+      for (var i in input) {
+         var letter = input[i];
+         if (letter === "=") {
+            attrWating = false;
+            myAttrs[myAttr] = '';
+            valueWaiting = true;
+         }
+         if (attrWating && letter.match(/[a-z0-9_]/i)) {
+            myAttr += letter;
+         }
+         if (valueWaiting) {
+            if (openingValueString) {
+               if (letter === openingValueString && !escapeOccured) {
+                  valueWaiting = false;
+                  attrWating = true;
+                  myAttrs[myAttr] = value;
+                  openingValueString = false;
+                  myAttr = '';
+                  value = '';
+               } else {
+                  if (letter === "\\" && !escapeOccured) {
+                     escapeOccured = true;
+                  } else {
+                     value += letter;
+                     escapeOccured = false;
+                  }
+               }
+            } else {
+               if (letter.match(/'|"/)) {
+                  openingValueString = letter;
+               }
+            }
+         }
+      }
+      return myAttrs;
+   };
+
+   $_exports = AttributeParser;
+
+   return $_exports;
+});
+realm.module("morrr.editor.bbcode.BBCodeEngine", ["morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.utils.lodash", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils"], function (BBCodeExtractor, _, BBCodeHandlers, utils) {
+   var $_exports;
+
+   var BBCodeEngine = {
+      replaceEndTags: function replaceEndTags(input) {
+         _.each(BBCodeHandlers, function (item, bbcodeName) {
+            if (item.tag) {
+               input = input.split("[/" + bbcodeName + "]").join('</' + item.tag + '>');
+            }
+         });
+         return input;
+      },
+      _injectSystemId: function _injectSystemId(tag, id) {
+         tag = utils.stringInject(tag, tag.length - 1, 0, ' id="' + id + '"');
+         return tag;
+      },
+      _prepareInput: function _prepareInput(input) {
+         input = input.replace(/\[row\]/g, '<div>');
+         input = input.replace(/\[\/row\]/g, '</div>');
+         input = input.replace(/\[\/br\]/g, '<div><br></div>');
+         input = this.replaceEndTags(input);
+         return input;
+      },
+      toProduction: function toProduction(input, opts) {
+         opts = opts || {};
+
+         input = this._prepareInput(input);
+         var data = BBCodeExtractor(input);
+         var self = this;
+         input = data.input;
+         var codes = data.codes;
+         var binders = {};
+         _.each(codes, function (item) {
+            var handler;
+            if (handler = $BBCodeHandlers[item.name]) {
+               if (_.isFunction(handler.toProduction)) {
+
+                  html = handler.toProduction(item, opts);
+               } else {
+                  html = '<' + handler.tag + '>';
+               };
+               input = input.replace(item.str, html);
+            }
+         });
+
+         _.each(codes, function (item) {
+            var handler;
+            if (handler = BBCodeHandlers[item.name]) {
+               if (_.isFunction(handler.processAfterRender)) {
+                  html = handler.processAfterRender(input, item, opts);
+               }
+            }
+         });
+         return input;
+      },
+      toEditor: function toEditor(input, editor) {
+         input = this._prepareInput(input);
+         var data = BBCodeExtractor(input);
+         var self = this;
+         input = data.input;
+         var codes = data.codes;
+         var binders = {};
+         _.each(codes, function (item) {
+            var handler;
+            if (handler = BBCodeHandlers[item.name]) {
+               if (_.isFunction(handler.toProduction)) {
+                  html = handler.toProduction(item);
+               } else {
+                  html = '<' + handler.tag + '>';
+               };
+
+               if (_.isFunction(handler.bindEditorEvents)) {
+                  var systemId = "sane-element-" + item.attrs.p;
+                  html = self._injectSystemId(html, systemId);
+                  binders[item.name] = binders[item.name] || [];
+                  binders[item.name].push(systemId);
+               }
+               input = input.replace(item.str, html);
+            }
+         });
+         var dom = $(input);
+
+         editor.content.append(dom);
+         _.each(binders, function (ids, handlerName) {
+            _.each(ids, function (id) {
+               var el = editor.content.find("#" + id)[0];
+               BBCodeHandlers[handlerName].bindEditorEvents.apply(editor, [el]);
+            });
+         });
+      }
+   };
+
+   $_exports = BBCodeEngine;
+
+   return $_exports;
+});
+realm.module("morrr.editor.bbcode.BBCodeExtractor", ["morrr.editor.bbcode.AttributeParser", "morrr.editor.utils"], function (AttributeParser, utils) {
+   var $_exports;
+
+   var BBCodeExtractor = function BBCodeExtractor(input) {
+      var positions = [];
+
+      var index = 1;
+      var expectingAttr = false;
+      var attrStarted = false;
+      for (var i = 0; i < input.length; i++) {
+         var letter = input[i];
+         if (letter === "/") {
+            expectingAttr = false;
+         }
+         if (expectingAttr) {
+            if (attrStarted && letter === ']') {
+               var attr = ' p="' + index++ + '"';
+               input = utils.stringInject(input, i, 0, attr);
+               i += attr.length - 1;
+               attrStarted = false;
+               expectingAttr = false;
+            }
+
+            if (letter.match(/[a-z0-9_]/i)) {
+               attrStarted = true;
+            }
+         }
+         if (letter === "[") {
+            expectingAttr = true;
+         }
+      }
+      var rx = /\[([a-z0-9]+)\s?([^\]]+)?]/igm;
+      var data = rx.execAll(input);
+      var output = [];
+      _.each(data, function (item) {
+         output.push({
+            str: item[0],
+            name: item[1],
+            attrs: AttributeParser(item[2])
+         });
+      });
+      return {
+         input: input,
+         codes: output
+      };
+   };
+
+   $_exports = BBCodeExtractor;
+
+   return $_exports;
+});
+realm.module("morrr.editor.bbcode.BBCodeHandlers", ["morrr.editor.utils.Promise", "morrr.editor.utils.lodash"], function (Promise, _) {
+   var $_exports;
+
+   var BBCodeHandlers = realm.requirePackage('morrr.editor.elements').then(function (packages) {
+      var packs = {};
+      _.each(packages, function (pack, name) {
+         packs[name.substring(22, name.length)] = pack;
+      });
+      return packs;
+   });
+
+   $_exports = BBCodeHandlers;
+
+   return $_exports;
+});
+realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash"], function (utils, BBCodeHandlers, _) {
+   var $_exports;
+
+   var Generator = function Generator(editor) {
+      var el = editor.content.clone();
+
+      // Process inline styles first
+      _.each(BBCodeHandlers, function (handler) {
+         if (handler.toBBCode && handler.inline) {
+            handler.toBBCode.bind(editor)(el);
+         }
+      });
+      //var root = el[0];
+      var root = utils.flattenNodes(editor, el[0].childNodes);
+      // // Process the rest wrappers
+      _.each(BBCodeHandlers, function (handler) {
+         if (handler.toBBCode && !handler.inline) {
+            handler.toBBCode.bind(editor)($(root));
+         }
+      });
+      var BBCODE = [];
+      var prevEmpty = false;
+      var lineInsertedAt;
+
+      for (var i = 0; i <= root.childNodes.length; i++) {
+         var node = root.childNodes[i];
+         if (node && node.nodeName !== 'X') {
+            if (node.nodeType === 3) {
+               //Text is here
+
+               if (!node.nodeValue.match(/\[\S+\]/)) {
+
+                  BBCODE.push('[row]' + utils.trimText(node.nodeValue, true) + '[/row]');
+               } else {
+                  var text = utils.trimText(node.nodeValue);
+                  var isBlockModule = text.match(/^\[(blockquote|gallery|intro|h3)/);
+                  BBCODE.push(text);
+                  if (isBlockModule) {
+                     prevEmpty = true;
+                     if (lineInsertedAt) {
+                        // Removing prev inserted break (we dont' need it)
+                        var supposedlyBr = BBCODE[lineInsertedAt];
+                        if (supposedlyBr === '[/br]') {
+                           BBCODE.splice(lineInsertedAt, 1);
+                        }
+                     }
+                  }
+               }
+            }
+            if (node.nodeType === 1) {
+               var text = utils.trimText($(node).text(), true);
+               var isEmpty = text.replace(/\[\/?[^\]]+(\]|$)/g, "") === "";
+               if (isEmpty) {
+                  text = "";
+               }
+               if (text.length > 0) {
+                  lineInsertedAt = null;
+                  prevEmpty = false;
+               }
+               if (!prevEmpty) {
+                  if (text.length === 0) {
+                     BBCODE.push('[/br]');
+                     lineInsertedAt = BBCODE.length - 1;
+                  } else {
+                     BBCODE.push('[row]' + text + '[/row]');
+                  }
+               }
+               prevEmpty = !text ? true : false;
+            }
+         };
+      }
+      var _bbcode = utils.cleanUpItems(BBCODE.join('\n'));
+      return _bbcode;
+   };
+
+   $_exports = Generator;
 
    return $_exports;
 });

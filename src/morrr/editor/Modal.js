@@ -18,6 +18,8 @@ class Modal {
    constructor(opts) {
       var self = this;
       opts = opts || {};
+      var target = opts.target || document.body;
+
       this.header = el('div', {
          class: "header",
          textContent: opts.title || "opts.title"
@@ -46,8 +48,8 @@ class Modal {
          style: ("z-index:" + modalIndex++),
       }, [this.header, this.content, this.footer]);
 
-      this.createOverlay();
-      $(document.body).prepend(this.modal);
+      //this.createOverlay();
+      $(target).prepend(this.modal);
       instances++;
    }
 

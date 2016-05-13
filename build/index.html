@@ -37,12 +37,6 @@
       </div>
       <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
       <script>
-      realm.require("morrr.editor.Modal", function(Modal){
-         var modal = Modal.create({title : "Hello modal window"});
-         modal.disableSuccess();
-
-      });
-
       realm.require("morrr.editor.Engine", function(Editor){
          var editor = new Editor();
          var element = $("#editor");
