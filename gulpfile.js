@@ -30,7 +30,8 @@ gulp.task('sass', function() {
          sourceMap: true
       }))
       .pipe(rename('editor.min.css'))
-      .pipe(gulp.dest('build/'));
+      .pipe(gulp.dest('build/'))
+      .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('watch', function() {
@@ -55,11 +56,11 @@ gulp.task('start', ['server'], function() {
    });
 });
 
-gulp.task('uglify', ['build'], function() {
+gulp.task('dist', ['build', 'sass'], function() {
    return gulp.src("build/build.js")
       .pipe(uglify())
-      .pipe(rename('build.min.js'))
-      .pipe(gulp.dest('build'));
+      .pipe(rename('editor.min.js'))
+      .pipe(gulp.dest('./dist'));
 
 });
 

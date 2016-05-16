@@ -11,7 +11,6 @@ const Gallery = function(editor, parentId, done) {
       '<div class="actions"><div class="button cancel">Cancel</div><div class="ui button primary okay">Insert</div></div>')
    modal.append(multiupLoadElement)
    modal.append(images);
-   //modal.append(buttonElements);
 
    var selected = [];
    var loader = $('<div class="image"><div class="active large inline loader image-loader"></div></div>');
