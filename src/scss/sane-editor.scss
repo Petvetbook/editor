@@ -33,6 +33,7 @@ textarea#supereditor2 {
     height: 40px;
     background-color: $grey;
     .button {
+      cursor: pointer;
       position: relative;
       display: inline-block;
       width: 30px;
@@ -43,7 +44,7 @@ textarea#supereditor2 {
         margin-left: 5px;
       }
       &:hover {
-        background-color: $dkgrey;
+        background-color: white;
       }
     }
   }
@@ -121,6 +122,9 @@ textarea#supereditor2 {
   ul {
     margin-left: 40px;
   }
+  a {
+    border-bottom: 1px solid $dkgrey;
+  }
   blockquote {
     font-size: 18px;
     font-weight: 400;
@@ -141,9 +145,10 @@ textarea#supereditor2 {
   }
 
   .blog-gallery {
-    figure,
-    .placeholder {
-      display: block;
+    text-align: center;
+    figure {
+      display: inline-block;
+      border-bottom: 1px solid $grey;
       margin: 20px 40px;
       // &.selected:after {
       //   content: "";
@@ -159,8 +164,7 @@ textarea#supereditor2 {
       img {
         display: block;
         margin: 0 auto;
-        width: auto;
-        max-height: 350px;
+        max-width: 100%;
       }
       // .remove {
       //   position: absolute;
@@ -170,6 +174,32 @@ textarea#supereditor2 {
       //   padding: 5px;
       //   z-index: 10;
       // }
+    }
+    figcaption {
+      padding: 5px 0;
+      font-size: 14px;
+      .hint,
+      .figcontent {
+        display: inline-block;
+      }
+      .hint {
+        background-repeat: no-repeat;
+        background-size: 80% auto;
+        background-position: 50% 50%;
+        background-image: inline('insert.svg');
+        width: 25px;
+        height: 25px;
+        overflow: hidden;
+        color: transparent !important;
+        vertical-align: bottom;
+      }
+      .figcontent {
+        min-width: 50%;
+      }
+    }
+    .placeholder {
+      display: block;
+      margin: 20px auto;
     }
   }
 

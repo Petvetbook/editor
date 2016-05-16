@@ -4,8 +4,8 @@ const orderedList = {
    tag: 'ol',
    menu: true,
    inline: true,
-   icon: 'ordered list',
-   hint: 'Ordered list',
+   icon: 'ordered-list',
+   hint: 'Numbered list',
    toBBCode: function(root) {
       root.find('ol').each(function(index, element) {
          $(element).replaceWith('[ol]' + $(element).html() + '[/ol]');

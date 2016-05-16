@@ -5,7 +5,7 @@ const BlockQuote = {
    tag: 'blockquote',
    menu: true,
    hint: 'Quote',
-   icon: 'quote left',
+   icon: 'quote',
    bindEditorEvents: function(element) {
       this.basicStringWrapper(element, {
          service: 'blockquote',

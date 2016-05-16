@@ -4,7 +4,7 @@ const Intro = {
    tag: 'div',
    menu: true,
    stringWrapper: true,
-   icon: 'info',
+   icon: 'intro',
    hint: 'Opening paragraph',
    bindEditorEvents: function(element) {
       this.basicStringWrapper(element, {
