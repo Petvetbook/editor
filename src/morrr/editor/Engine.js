@@ -39,6 +39,7 @@ class SaneEditor {
    }
 
    triggerActivity() {
+
       if (this.activity_cb) {
          this.activity_cb();
       }
@@ -409,7 +410,7 @@ class SaneEditor {
    execCommand(a, b, c) {
       this.triggerActivity();
       this.content.focus();
-      console.log(this.content[0]);
+
       document.execCommand(a, b || false, c || null);
    }
 

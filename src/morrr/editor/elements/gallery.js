@@ -80,6 +80,7 @@ const GalleryTag = {
    },
    toBBCode: function(root) {
       root.find('*[data-service="gallery"]').each(function(index, element) {
+         console.log('got shit', element)
          var gallery = ['[gallery]'];
          $(element).find('figure').each(function(index, element) {
             gallery.push('[img id="' + $(element).data("id") + '"][/img]')
