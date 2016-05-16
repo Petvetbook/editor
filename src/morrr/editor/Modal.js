@@ -55,13 +55,9 @@ class Modal {
    close() {
       instances--;
       $(this.modal).remove();
-      if (instances === 0) {
-         $(this.overlay).remove();
-      }
    }
 
    append(element) {
-      console.log("appending", element[0])
       $(this.content).append(element)
    }
 
@@ -72,6 +68,15 @@ class Modal {
          });
          $(document.body).prepend(this.overlay);
       }
+   }
+
+   onSuccess(cb) {
+      var self = this;
+      $(this.successButton).click(function() {
+         if (!self.saveLock) {
+            cb();
+         }
+      });
    }
 
    /**

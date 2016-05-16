@@ -11,7 +11,7 @@ const Gallery = function(editor, parentId, done) {
       '<div class="actions"><div class="ui button cancel">Cancel</div><div class="ui button primary okay">Insert</div></div>')
    modal.append(multiupLoadElement)
    modal.append(images);
-   modal.append(buttonElements);
+   //modal.append(buttonElements);
 
    var selected = [];
    var loader = $('<div class="image"><div class="ui active large inline loader image-loader"></div></div>');
@@ -40,6 +40,11 @@ const Gallery = function(editor, parentId, done) {
                   selected.push(item.image);
                   image.addClass('selected')
                }
+               if (selected.length === 0) {
+                  modal.disableSuccess();
+               } else {
+                  modal.enableSuccess();
+               }
             });
          });
          if (initialImage) {
@@ -49,15 +54,10 @@ const Gallery = function(editor, parentId, done) {
       });
    }
    updateImageList();
-   // cancel
-   buttonElements.find('.cancel').click(function() {
-      modal.close();
-   });
-   // Okay
-   buttonElements.find('.okay').click(function() {
+   modal.onSuccess(function() {
       done(selected);
       modal.close();
-   })
+   });
 
    // Bind multi upload thingy *********************
    multiupLoadElement.uploadFile({

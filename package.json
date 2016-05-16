@@ -39,6 +39,7 @@
     "wires-mongo": "^1.6.60"
   },
   "dependencies": {
+    "image-server-client": "^1.0.4",
     "lodash": "^4.12.0",
     "promise": "^7.1.1",
     "realm-js": "^1.1.55"

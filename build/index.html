@@ -10,12 +10,47 @@
       <link rel="stylesheet" type="text/css" href="editor.min.css">
    </head>
    <body>
+      <style>
+      .images .image {
+         display: inline-block;
+         margin-right: 5px;
+         border:2px solid white;
+      }
+      .images .image.selected {
+         border:2px solid black;
+      }
+      .footer {
+         margin-top: 10px;
+      }
+      .footer .button {
+
+         display: inline-block;
+         margin-right: 10px;
+         padding: 5px;
+         background-color: black;
+         color:white;
+      }
+      .footer .button.disabled {
+         opacity: 0.3;
+      }
+
+      .footer .button.success {
+         background-color: #21ba45;
+
+      }
+      </style>
       <div id="editor">
 
       </div>
       <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
       <script>
       $(function(){
+         realm.module('morrr.editor.config', function(){
+            return {
+               server: "http://img.dev.morrr.com",
+               folder: "editortest"
+            }
+         })
          realm.require("morrr.editor.Engine", function(Editor){
             var editor = new Editor();
             var element = $("#editor");
@@ -26,7 +61,10 @@
             values.push('[row][/row]');
             values.push('[blockquote]Quote is here[/blockquote]');
 
+
             values.push('[row]text with [url=google.com]link[/url][/row]');
+
+            values.push('[gallery][img id="VkgthyAC-Z.jpg"][/img][img id="N1lpq98zfZ.jpg"][/img][/gallery]')
 
 
             editor.initialize(element, {

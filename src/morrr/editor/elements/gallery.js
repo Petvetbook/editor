@@ -11,12 +11,14 @@ const GalleryTag = {
 
       var self = this;
       Gallery(this, this.parentId, function(images) {
+
          var figures = ['<div class="blog-gallery">'];
          _.each(images, function(image) {
             figures.push('<figure data-id="' + image + '"><img src="' + sharedImagePath(image) + '"></figure>');
          });
          figures.push('</div>');
          var gl = $(figures.join(''))[0]
+
          range.inject(gl)
          GalleryTag.bindEditorEvents.bind(self)(gl);
       });
@@ -78,6 +80,7 @@ const GalleryTag = {
    },
    toBBCode: function(root) {
       root.find('*[data-service="gallery"]').each(function(index, element) {
+         console.log('got shit', element)
          var gallery = ['[gallery]'];
          $(element).find('figure').each(function(index, element) {
             gallery.push('[img id="' + $(element).data("id") + '"][/img]')

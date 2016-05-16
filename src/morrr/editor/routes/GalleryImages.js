@@ -9,12 +9,12 @@ class GalleryRoute {
 
    static get($query, $body) {
 
-      var parent = $query.get('parent')
+      var parent = $query.get('parent') || "test";
       var q = Image.find({
-         parent: $query.attrs.parent
+         parent: parent
       });
-      if (!parent) {
-         q.sort('_id', 'desc')
+      q.sort('_id', 'desc')
+      if (parent === "test") {
          q.limit(5);
       }
       return q.all();
