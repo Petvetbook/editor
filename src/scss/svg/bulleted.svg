@@ -2,7 +2,7 @@
 <svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" >
     
     <g id="Page-1" stroke="none" stroke-width="1"  fill-rule="evenodd">
-        <g id="bullet" >
+        <g id="bulleted" >
             <path d="M15,7 C10.5822863,7 7,10.5822863 7,15 C7,19.4185376 10.5822863,23 15,23 C19.4185376,23 23,19.4185376 23,15 C23,10.5822863 19.4185376,7 15,7 L15,7 Z" id="deletecircle"></path>
         </g>
     </g>

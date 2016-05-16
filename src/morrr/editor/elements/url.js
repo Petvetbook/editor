@@ -4,7 +4,7 @@ const Link = {
    tag: 'a',
    menu: true,
    inline: true,
-   icon: 'linkify',
+   icon: 'link',
    hint: 'Insert a link',
    toBBCode: function(root) {
       root.find('a').each(function(index, element) {

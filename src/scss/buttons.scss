@@ -1,7 +1,46 @@
 .toolbar .button {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 80% auto;
+  background-position: 50% 50%;
   &.header {
     background-image: inline('header.svg');
+  }
+  &.intro {
+    background-image: inline('intro.svg');
+  }
+  &.quote {
+    background-image: inline('quote.svg');
+  }
+  &.bold {
+    background-image: inline('bold.svg');
+  }
+  &.bullet,
+  &.ordered-list {
+    background-image: inline('bulleted.svg');
+  }
+  &.numbered,
+  &.unordered-list {
+    background-image: inline('numbered.svg');
+  }
+  &.link {
+    background-image: inline('link.svg');
+  }
+  &.unlink {
+    background-image: inline('unlink.svg');
+  }
+  &.img,
+  &.picture {
+    background-image: inline('img.svg');
+  }
+  &.expand,
+  &.maximize {
+    background-image: inline('expand.svg');
+  }
+  &.add {
+    background-image: inline('add.svg');
+  }
+  &.delete,
+  &.remove {
+    background-image: inline('delete.svg');
   }
 }
