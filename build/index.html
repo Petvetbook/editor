@@ -11,6 +11,15 @@
    </head>
    <body>
       <style>
+      figcaption {
+         padding: 10px;
+         border: 2px dotted gray;
+         margin: 10px;
+      }
+      figcaption .hint {
+         color: gray;
+         font-size: 9px;
+      }
       .images .image {
          display: inline-block;
          margin-right: 5px;
@@ -64,7 +73,7 @@
 
             values.push('[row]text with [url=google.com]link[/url][/row]');
 
-            values.push('[gallery][img id="VkgthyAC-Z.jpg"][/img][img id="N1lpq98zfZ.jpg"][/img][/gallery]')
+            values.push('[gallery][img caption="Watch me!" id="VkgthyAC-Z.jpg"][/img][img id="N1lpq98zfZ.jpg"][/img][/gallery]')
 
 
             editor.initialize(element, {

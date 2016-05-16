@@ -18,7 +18,11 @@ const ImgTag = {
       imgString = imgString.join('&');
 
       var img = sharedImagePath(data.attrs.id) + (imgString ? "?" + imgString : '');
-      return '<figure data-id="' + data.attrs.id + '"><img ' + (alt ? 'alt="' + alt + '" ' : '') + 'src="' + img + '">';
+      var html = '<figure data-id="' + data.attrs.id + '"><img ' + (alt ? 'alt="' + alt + '" ' : '') + 'src="' + img + '">';
+      if (data.attrs.caption) {
+         html += '<figcaption>' + data.attrs.caption + '</figcaption>';
+      }
+      return html;
    }
 }
 export ImgTag;

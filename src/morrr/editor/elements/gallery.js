@@ -25,6 +25,19 @@ const GalleryTag = {
    },
    _bindFigure: function(element, figure) {
       var removeIcon = $('<i class="ui icon remove"></i>');
+
+      var caption = $(figure).find('figcaption')[0]
+      var cnt = $('<figcaption><div class="hint">Image caption</div><div contenteditable="true" class="figcontent"></div></figcaption>');
+
+      if (!caption) {
+         caption = cnt;
+         $(figure).append(caption);
+      } else {
+         var figText = $(caption).text()
+         cnt.find('.figcontent').html(figText)
+         $(caption).replaceWith(cnt);
+      }
+
       removeIcon.appendTo(figure);
       removeIcon.click(function() {
          // check amount of images
@@ -48,6 +61,7 @@ const GalleryTag = {
       this.basicModuleWrapper(element, {
          service: 'gallery',
          onReady: function(element) {
+
             // creating placeholder for new picture
             var addPlaceHolder = $(
                '<div class="placeholder"><img src="https://images.morrr.com/test-shit/pukka/4kgKwN2Ucx.png?width=150&height=150&mode=crop"/></div>'
@@ -80,10 +94,15 @@ const GalleryTag = {
    },
    toBBCode: function(root) {
       root.find('*[data-service="gallery"]').each(function(index, element) {
-         console.log('got shit', element)
          var gallery = ['[gallery]'];
          $(element).find('figure').each(function(index, element) {
-            gallery.push('[img id="' + $(element).data("id") + '"][/img]')
+
+            var attrs = ['id="' + $(element).data("id") + '"']
+            var caption = $(element).find('figcaption .figcontent');
+            if (caption[0] && caption.text()) {
+               attrs.push('caption="' + caption.text() + '"');
+            }
+            gallery.push('[img ' + attrs.join(' ') + '"][/img]')
          });
          gallery.push('[/gallery]')
          $(element).replaceWith(gallery.join(''));

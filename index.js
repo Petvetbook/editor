@@ -1,8 +1,8 @@
 var realm = require('realm-js');
 var fs = require('fs');
 
-var dist = "/dist/editor.min.js";
-require(__dirname + "/dist/editor.min.js");
+var dist = __dirname + "/dist/editor.min.js";
+require(dist);
 
 var contents;
 module.exports = {
