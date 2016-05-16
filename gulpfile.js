@@ -9,6 +9,7 @@ var uglify = require('gulp-uglify');
 var addsrc = require('gulp-add-src');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
+var base64 = require('gulp-base64-inline');
 var cssmin = require('gulp-cssmin');
 var sketch = require('gulp-sketch');
 
@@ -27,6 +28,7 @@ gulp.task('sass', function() {
             inline: false
          }
       }))
+      .pipe(base64('svg'))
       .pipe(cssmin({
          sourceMap: true
       }))
@@ -35,13 +37,15 @@ gulp.task('sass', function() {
       .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('sketch', function(){
+gulp.task('icons', function(){
   return gulp.src('src/icons.sketch')
     .pipe(sketch({
       export: 'artboards',
-      formats: 'svg'
+      formats: 'svg',
+      compact: 'YES',
+      clean: 'YES'
     }))
-    .pipe(gulp.dest('src/svg/'));
+    .pipe(gulp.dest('src/scss/svg/'));
 });
 
 gulp.task('watch', function() {
@@ -66,7 +70,7 @@ gulp.task('start', ['server'], function() {
    });
 });
 
-gulp.task('dist', ['build', 'sass'], function() {
+gulp.task('dist', ['build', 'icons', 'sass'], function() {
    return gulp.src("build/build.js")
       .pipe(uglify())
       .pipe(rename('editor.min.js'))

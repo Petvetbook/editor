@@ -1,0 +1,7 @@
+.toolbar .button {
+  background-repeat: no-repeat;
+  background-size: cover;
+  &.header {
+    background-image: inline('header.svg');
+  }
+}
