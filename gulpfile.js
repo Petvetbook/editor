@@ -10,6 +10,7 @@ var addsrc = require('gulp-add-src');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var cssmin = require('gulp-cssmin');
+var sketch = require('gulp-sketch');
 
 var spawn = require('child_process').spawn;
 var node;
@@ -32,6 +33,15 @@ gulp.task('sass', function() {
       .pipe(rename('editor.min.css'))
       .pipe(gulp.dest('build/'))
       .pipe(gulp.dest('dist/'));
+});
+
+gulp.task('sketch', function(){
+  return gulp.src('src/icons.sketch')
+    .pipe(sketch({
+      export: 'artboards',
+      formats: 'svg'
+    }))
+    .pipe(gulp.dest('src/svg/'));
 });
 
 gulp.task('watch', function() {
