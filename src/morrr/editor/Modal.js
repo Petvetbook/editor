@@ -44,7 +44,7 @@ class Modal {
          class: 'content'
       });
       this.modal = el('div', {
-         class: "morrr-modal",
+         class: "modal",
          style: ("z-index:" + modalIndex++),
       }, [this.header, this.content, this.footer]);
 

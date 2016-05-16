@@ -16,6 +16,7 @@ textarea#supereditor2 {
   margin: 0 0 20px 0;
   width: 100%;
   border: 1px solid $grey;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -37,7 +38,7 @@ textarea#supereditor2 {
       height: 40px;
       &:after {
         content: '';
-        border-right: 1px solid white;
+        border-right: 1px solid darken($grey,20%);
         position: absolute;
         top: 5px;
         bottom: 5px;
@@ -71,6 +72,9 @@ textarea#supereditor2 {
   line-height: 1.4em;
   height: 100%;
   outline: none !important;
+  > div {
+    margin-bottom: 20px;
+  }
 }
 // .sane-editor {
 //     position: relative;
