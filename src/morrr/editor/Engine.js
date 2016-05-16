@@ -214,16 +214,17 @@ class SaneEditor {
                text: text,
                elements: finalElements,
                inject: function(el) {
-                  console.log("inject element", el)
+
                   self.triggerActivity();
                   var endContainer = $(range.endContainer);
-                  if (!endContainer.parent('.content')[0] && !$(range.endContainer).hasClass("content")) {
+                  if (!endContainer.parent('.sane-editor-content')[0] && !$(range.endContainer).hasClass("sane-editor-content")) {
                      var found = false;
                      var parent = endContainer.parent();
                      var target;
                      var iterations = 0;
                      while (!found && iterations < 50) {
-                        if (parent.hasClass('content')) {
+
+                        if (parent.hasClass('sane-editor-content')) {
                            found = true;
                         } else {
                            target = parent;
