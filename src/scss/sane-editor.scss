@@ -33,6 +33,7 @@ textarea#supereditor2 {
     height: 40px;
     background-color: $grey;
     .button {
+      cursor: pointer;
       position: relative;
       display: inline-block;
       width: 30px;
@@ -120,6 +121,9 @@ textarea#supereditor2 {
   ol,
   ul {
     margin-left: 40px;
+  }
+  a {
+    border-bottom: 1px solid $dkgrey;
   }
   blockquote {
     font-size: 18px;
