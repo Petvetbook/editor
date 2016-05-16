@@ -1,7 +1,39 @@
-.toolbar .button {
+.sane-editor .button {
+  cursor: pointer;
+  position: relative;
   background-repeat: no-repeat;
-  background-size: 80% auto;
+  background-size: 75% auto;
   background-position: 50% 50%;
+  transition: 0.3s all ease-out;
+
+  &.floating {
+    margin: 20px auto;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    border: 1px solid $grey;
+    background-color: $grey;
+    background-size: 60% auto;
+    &:hover {
+      background-color: white;
+    }
+    &.save,
+    &.preview,
+    &.exit {
+      position: absolute;
+      right: 20px;
+    }
+    &.save {
+      bottom: 140px;
+    }
+    &.preview {
+      bottom: 70px;
+    }
+    &.exit {
+      bottom: 0;
+    }
+  }
+
   &.header {
     background-image: inline('header.svg');
   }
@@ -36,11 +68,22 @@
   &.maximize {
     background-image: inline('expand.svg');
   }
-  &.add {
+  &.add,
+  &.placeholder {
     background-image: inline('add.svg');
   }
   &.delete,
   &.remove {
     background-image: inline('delete.svg');
+  }
+  &.save {
+    background-image: inline('save.svg');
+  }
+  &.preview {
+    background-image: inline('preview.svg');
+  }
+  &.return,
+  &.exit {
+    background-image: inline('return.svg');
   }
 }

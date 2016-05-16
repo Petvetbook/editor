@@ -4,3 +4,16 @@
 @import "buttons";
 @import "ajax-upload";
 @import "sane-editor";
+
+textarea#supereditor2 {
+    display: none;
+}
+#debug {
+    border: 2px solid $yellow;
+    margin: 20px 0 0 0;
+}
+.install-chrome {
+    @include danger;
+    margin-top: 20px;
+    font-size: 18px;
+}

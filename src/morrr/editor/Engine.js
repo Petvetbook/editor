@@ -259,9 +259,7 @@ class SaneEditor {
                '</div>');
             currentHint.appendTo(self.toolbar);
             currentHint.css({
-               top: (offset.top + 35) + "px",
                left: offset.left + "px",
-               position: "absolute"
             });
          });
          icon.mouseout(function() {
@@ -429,16 +427,15 @@ class SaneEditor {
 
    bindFullScreenButtons() {
       var self = this;
-      this.floatingSave = $('<div class="circular ui icon button primary small floating-save"><i class="icon save"></i></div>');
-      this.floatingPreview = $('<div class="circular ui icon button small floating-preview"><i class="icon zoom"></i></div>');
+      this.floatingSave = $('<div class="floating button save"></div>');
+      this.floatingPreview = $('<div class="floating button preview"></div>');
       this.floatingPreview.click(function() {
          if (self.onFloatingPreview) {
             self.onFloatingPreview();
          }
       });
 
-      self.exitFullScreenModeButton = $(
-         '<div class="circular ui icon button small floating-exit"><i class="icon angle double down"></i></div>');
+      self.exitFullScreenModeButton = $('<div class="floating button exit"></div>');
       self.exitFullScreenModeButton.click(function() {
          self.toggleFullScreenMode();
       });

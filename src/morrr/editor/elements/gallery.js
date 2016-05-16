@@ -64,7 +64,7 @@ const GalleryTag = {
 
             // creating placeholder for new picture
             var addPlaceHolder = $(
-               '<div class="placeholder"><img src="https://images.morrr.com/test-shit/pukka/4kgKwN2Ucx.png?width=150&height=150&mode=crop"/></div>'
+               '<div class="floating button placeholder"></div>'
             );
             addPlaceHolder.appendTo($(element).find(".blog-gallery"));
 
