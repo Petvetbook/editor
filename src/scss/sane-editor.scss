@@ -71,6 +71,7 @@ textarea#supereditor2 {
   padding: 20px;
   font-size: 18px;
   line-height: 1.4em;
+  font-variant-ligatures: common-ligatures;
   height: 100%;
   outline: none !important;
   &:read-write:focus,
@@ -105,6 +106,30 @@ textarea#supereditor2 {
     line-height: 1.25em;
     font-weight: 400;
   }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.25em;
+  }
+  a {
+    cursor: pointer;
+    color: black;
+    text-decoration: none;
+    border-bottom: 1px solid $grey;
+    &:hover {
+      color: $blue;
+    }
+    &:focus {
+      outline: none;
+    }
+  }
   h2,
   h3,
   h4 {
@@ -112,8 +137,18 @@ textarea#supereditor2 {
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .blog-intro,
-  p,
+  p {
+    position: relative;
+    font-size: 16px;
+    line-height: 1.25em;
+    margin-bottom: 20px;
+  }
+  .blog-intro {
+    margin-bottom: 20px;
+  }
+  em {
+    font-weight: bold;
+  }
   ul li,
   ol li {
     margin-bottom: 1em;
@@ -122,8 +157,37 @@ textarea#supereditor2 {
   ul {
     margin-left: 40px;
   }
-  a {
-    border-bottom: 1px solid $dkgrey;
+  ol {
+    list-style-type: decimal;
+    margin-left: 25px;
+    li {
+      padding-left: 2px;
+      margin-bottom: 5px;
+    }
+  }
+  ol ol {
+    list-style: upper-alpha;
+  }
+  ol ol ol {
+    list-style: lower-roman;
+  }
+  ol ol ol ol {
+    list-style: lower-alpha;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style-type: disc;
+    }
+  }
+  img {
+    -ms-interpolation-mode: bicubic;
+
+    &.upload-preview {
+      width: 100%;
+      max-height: 200px;
+    }
   }
   blockquote {
     font-size: 18px;
