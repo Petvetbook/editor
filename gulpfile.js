@@ -37,15 +37,15 @@ gulp.task('sass', function() {
       .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('icons', function(){
-  return gulp.src('src/icons.sketch')
-    .pipe(sketch({
-      export: 'artboards',
-      formats: 'svg',
-      compact: 'YES',
-      clean: 'YES'
-    }))
-    .pipe(gulp.dest('src/scss/svg/'));
+gulp.task('icons', function() {
+   return gulp.src('src/icons.sketch')
+      .pipe(sketch({
+         export: 'artboards',
+         formats: 'svg',
+         compact: 'YES',
+         clean: 'YES'
+      }))
+      .pipe(gulp.dest('src/scss/svg/'));
 });
 
 gulp.task('watch', function() {
@@ -70,13 +70,16 @@ gulp.task('start', ['server'], function() {
    });
 });
 
-gulp.task('dist', ['build', 'icons', 'sass'], function() {
-   return gulp.src("build/build.js")
+gulp.task('dist', function(cb) {
+   runSequence('build', ['icons', 'sass', 'uglify'], cb)
+});
+gulp.task('uglify', function() {
+   return gulp.src("dist/editor.js")
       .pipe(uglify())
       .pipe(rename('editor.min.js'))
       .pipe(gulp.dest('./dist'));
 
-});
+})
 
 gulp.task("build", function() {
    return gulp.src("src/morrr/**/*.js").pipe(realm.transpiler({
@@ -97,5 +100,7 @@ gulp.task("build", function() {
       }))
       .pipe(addsrc('src/lib/**/*.js'))
       .pipe(concat('build.js'))
-      .pipe(gulp.dest("./build"));
+      .pipe(gulp.dest("./build"))
+      .pipe(rename('editor.js'))
+      .pipe(gulp.dest("./dist"))
 });;
