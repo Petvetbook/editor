@@ -30,6 +30,6 @@ realm.module("morrr.editor.utils.Promise", function() {
 realm.module("morrr.editor.utils.sharedImagePath", ['morrr.editor.runtime.config'], function(cfg) {
 
    return function(img, size) {
-      return cfg.server + "/" + cfg.folder + "/" + img + "?width=" + (size || 150) + "&height=" + (size || 150) + "&mode=crop&quality=80";
+      return cfg.server + "/" + cfg.folder + "/" + img + "?&height=" + (size || 400) + "&quality=80";
    }
 });

@@ -8,13 +8,13 @@ const Gallery = function(editor, parentId, done) {
    var images = $('<div class="images"></div>');
    var multiupLoadElement = $('<div class="multiupload"></div>');
    var buttonElements = $(
-      '<div class="actions"><div class="ui button cancel">Cancel</div><div class="ui button primary okay">Insert</div></div>')
+      '<div class="actions"><div class="button cancel">Cancel</div><div class="ui button primary okay">Insert</div></div>')
    modal.append(multiupLoadElement)
    modal.append(images);
    //modal.append(buttonElements);
 
    var selected = [];
-   var loader = $('<div class="image"><div class="ui active large inline loader image-loader"></div></div>');
+   var loader = $('<div class="image"><div class="active large inline loader image-loader"></div></div>');
    // fetching existing images ******
    var updateImageList = function() {
       images.empty();
