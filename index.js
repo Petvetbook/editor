@@ -1,9 +1,10 @@
 var realm = require('realm-js');
 var fs = require('fs');
 
-var jsFile = __dirname + "/dist/editor.min.js";
+var jsMinifiedFile = __dirname + "/dist/editor.min.js";
+var jsRaw = __dirname + "/dist/editor.js";
 var cssFile = __dirname + "/dist/editor.min.css";
-require(dist);
+require(jsFile);
 
 var js_contents, css_contents;
 module.exports = {
@@ -11,7 +12,7 @@ module.exports = {
       var self = this;
       return function(req, res, next) {
          res.setHeader('content-type', 'text/javascript');
-         return res.end(self.getJS());
+         return res.end(self.getJS(false));
       }
    },
    css: function(req, res, next) {
@@ -21,8 +22,8 @@ module.exports = {
          return res.end(self.getCSS());
       }
    },
-   getJS: function() {
-      js_contents = js_contents || fs.readFileSync(jsFile).toString();
+   getJS: function(minified) {
+      js_contents = js_contents || fs.readFileSync(minified ? jsMinifiedFile : jsRaw).toString();
       return js_contents;
    },
    getCSS: function() {
