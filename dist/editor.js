@@ -2324,6 +2324,33 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
+realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
+   var $_exports;
+
+   var UserImages = Model.extend({
+      collection: "user_images",
+      schema: {
+         _id: [],
+         parent: {
+            required: true,
+            reference: true,
+            index: true
+         },
+         image: {
+            required: true
+         },
+         created_time: {}
+      },
+      onBeforeCreate: function onBeforeCreate(resolve, reject) {
+         this.attrs.created_time = new Date();
+         return resolve();
+      }
+   });
+
+   $_exports = UserImages;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.blockquote", ["morrr.editor.utils"], function (utils) {
    var $_exports;
    var BlockQuote = {
@@ -2863,33 +2890,6 @@ realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "re
 
 
    $_exports = Upload;
-
-   return $_exports;
-});
-realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
-   var $_exports;
-
-   var UserImages = Model.extend({
-      collection: "user_images",
-      schema: {
-         _id: [],
-         parent: {
-            required: true,
-            reference: true,
-            index: true
-         },
-         image: {
-            required: true
-         },
-         created_time: {}
-      },
-      onBeforeCreate: function onBeforeCreate(resolve, reject) {
-         this.attrs.created_time = new Date();
-         return resolve();
-      }
-   });
-
-   $_exports = UserImages;
 
    return $_exports;
 });

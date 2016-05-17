@@ -18,8 +18,19 @@
       display: none;
     }
   }
-  &.full-screen-mode .sane-editor-content-wrapper {
-    padding-right: 70px;
+  &.full-screen-mode {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    .sane-editor-content-wrapper {
+      padding-right: 70px;
+    }
+    .sane-editor-toolbar-wrapper .button.maximize {
+      background-image: inline('contract.svg');
+    }
   }
 }
 .sane-editor-toolbar-wrapper {
@@ -128,7 +139,7 @@
       text-align: center;
       visibility: hidden;
       &:after {
-        content: 'x';
+        content: '\00d7';
         position: absolute;
         top: 0;
         right: 0;
