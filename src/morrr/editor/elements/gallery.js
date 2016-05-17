@@ -27,14 +27,14 @@ const GalleryTag = {
       var removeIcon = $('<i class="ui icon remove"></i>');
 
       var caption = $(figure).find('figcaption')[0]
-      var cnt = $('<figcaption><div class="hint">Image caption</div><div contenteditable="true" class="figcontent"></div></figcaption>');
+      var cnt = $('<figcaption><div class="hint">Image caption</div><input type="text" placeholder="Image description" class="figcontent"></input></figcaption>');
 
       if (!caption) {
          caption = cnt;
          $(figure).append(caption);
       } else {
          var figText = $(caption).text()
-         cnt.find('.figcontent').html(figText)
+         cnt.find('.figcontent').val(figText)
          $(caption).replaceWith(cnt);
       }
 
@@ -99,8 +99,8 @@ const GalleryTag = {
 
             var attrs = ['id="' + $(element).data("id") + '"']
             var caption = $(element).find('figcaption .figcontent');
-            if (caption[0] && caption.text()) {
-               attrs.push('caption="' + caption.text() + '"');
+            if (caption[0] && caption.val()) {
+               attrs.push('caption="' + caption.val() + '"');
             }
             gallery.push('[img ' + attrs.join(' ') + '"][/img]')
          });
