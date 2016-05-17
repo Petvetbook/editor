@@ -252,31 +252,13 @@ class SaneEditor {
    inializeToolbar() {
       var self = this;
       var currentHint;
-      var bindHint = function(icon, text) {
-         icon.mouseover(function(e) {
-            var offset = icon.position();
-            currentHint = $('<div class="toolbar-hint">' + text +
-               '</div>');
-            currentHint.appendTo(self.toolbar);
-            currentHint.css({
-               left: offset.left + "px",
-            });
-         });
-         icon.mouseout(function() {
-            if (currentHint) {
-               currentHint.remove();
-            }
-         });
-      }
+
       _.each(this.toolbarConfig, function(str) {
          var handler = BBCodeHandlers[str]
          if (handler) {
-            var icon = $('<div class="button"></div>')
+            var icon = $('<div class="button"><span>' + handler.hint + '</span></div>')
             icon.addClass(handler.icon);
 
-            if (handler.hint) {
-               bindHint(icon, handler.hint)
-            }
             $(self.toolbar).append(icon);
             icon.mousedown(function(e) {
                e.preventDefault();
@@ -293,12 +275,11 @@ class SaneEditor {
             });
          }
       });
-      var fScreen = $('<div class="button maximize"></div>');
+      var fScreen = $('<div class="button maximize"><span>Toggle fullscreen</span></div>');
       fScreen.appendTo($(self.toolbar));
       fScreen.click(function() {
          self.toggleFullScreenMode();
       });
-      bindHint(fScreen, "Full screen")
       this.bindFullScreenButtons();
    }
 

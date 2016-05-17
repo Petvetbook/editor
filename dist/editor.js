@@ -1377,30 +1377,13 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
          value: function inializeToolbar() {
             var self = this;
             var currentHint;
-            var bindHint = function bindHint(icon, text) {
-               icon.mouseover(function (e) {
-                  var offset = icon.position();
-                  currentHint = $('<div class="toolbar-hint">' + text + '</div>');
-                  currentHint.appendTo(self.toolbar);
-                  currentHint.css({
-                     left: offset.left + "px"
-                  });
-               });
-               icon.mouseout(function () {
-                  if (currentHint) {
-                     currentHint.remove();
-                  }
-               });
-            };
+
             _.each(this.toolbarConfig, function (str) {
                var handler = BBCodeHandlers[str];
                if (handler) {
-                  var icon = $('<div class="button"></div>');
+                  var icon = $('<div class="button"><span>' + handler.hint + '</span></div>');
                   icon.addClass(handler.icon);
 
-                  if (handler.hint) {
-                     bindHint(icon, handler.hint);
-                  }
                   $(self.toolbar).append(icon);
                   icon.mousedown(function (e) {
                      e.preventDefault();
@@ -1415,12 +1398,11 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
                   });
                }
             });
-            var fScreen = $('<div class="button maximize"></div>');
+            var fScreen = $('<div class="button maximize"><span>Toggle fullscreen</span></div>');
             fScreen.appendTo($(self.toolbar));
             fScreen.click(function () {
                self.toggleFullScreenMode();
             });
-            bindHint(fScreen, "Full screen");
             this.bindFullScreenButtons();
          }
       }, {
@@ -2336,6 +2318,33 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
+realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
+   var $_exports;
+
+   var UserImages = Model.extend({
+      collection: "user_images",
+      schema: {
+         _id: [],
+         parent: {
+            required: true,
+            reference: true,
+            index: true
+         },
+         image: {
+            required: true
+         },
+         created_time: {}
+      },
+      onBeforeCreate: function onBeforeCreate(resolve, reject) {
+         this.attrs.created_time = new Date();
+         return resolve();
+      }
+   });
+
+   $_exports = UserImages;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.blockquote", ["morrr.editor.utils"], function (utils) {
    var $_exports;
    var BlockQuote = {
@@ -2804,33 +2813,6 @@ realm.module("morrr.editor.elements.url", [], function () {
    };
 
    $_exports = Link;
-
-   return $_exports;
-});
-realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
-   var $_exports;
-
-   var UserImages = Model.extend({
-      collection: "user_images",
-      schema: {
-         _id: [],
-         parent: {
-            required: true,
-            reference: true,
-            index: true
-         },
-         image: {
-            required: true
-         },
-         created_time: {}
-      },
-      onBeforeCreate: function onBeforeCreate(resolve, reject) {
-         this.attrs.created_time = new Date();
-         return resolve();
-      }
-   });
-
-   $_exports = UserImages;
 
    return $_exports;
 });

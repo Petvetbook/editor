@@ -4,7 +4,7 @@ var fs = require('fs');
 var jsMinifiedFile = __dirname + "/dist/editor.min.js";
 var jsRaw = __dirname + "/dist/editor.js";
 var cssFile = __dirname + "/dist/editor.min.css";
-require(jsFile);
+require(jsRaw);
 
 var js_contents, css_contents;
 module.exports = {
