@@ -1490,7 +1490,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             if (opts.focus !== false) {
                this.content[0].focus();
             }
-            return document.getSelection();
+            return window.getSelection();
          }
       }, {
          key: "getRange",
@@ -1499,9 +1499,12 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             if (!s) {
                return null;
             }
+
             if (s.getRangeAt) {
                if (s.rangeCount > 0) {
+
                   var gotRange = s.getRangeAt(0);
+
                   return gotRange;
                }
             }
@@ -1522,16 +1525,17 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
       }, {
          key: "setCaretPosition",
          value: function setCaretPosition(elem, caretPos) {
-            if (elem !== null) {
-               var range = this.getRange();
-               var sel = this.getSelection();
-               if (range) {
-                  range.setStart(elem, 1);
-                  range.collapse(true);
-                  sel.removeAllRanges();
-                  sel.addRange(range);
-               }
-            }
+            var el = elem;
+            var range = document.createRange();
+            var sel = window.getSelection();
+            range.setStart(elem, 1);
+            range.collapse(true);
+            sel.removeAllRanges();
+            sel.addRange(range);
+
+            setTimeout(function () {
+               $(elem).remove();
+            }, 0);
          }
       }, {
          key: "bindFullScreenButtons",
@@ -1623,6 +1627,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
 
                // ENTER TRICK
                if (e.keyCode === 13) {
+
                   // If we are in a wrapper
                   if (parentWrapper[0]) {
                      if (currentPosition[0].nodeType === 3) {
@@ -1667,6 +1672,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
                         });
                         var newline = $('<div></br></div>');
                         newline.insertAfter(parentWrapper);
+
                         self.setCaretPosition(newline[0], 1);
                      }
                   }
@@ -2789,33 +2795,6 @@ realm.module("morrr.editor.elements.url", [], function () {
 
    return $_exports;
 });
-realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
-   var $_exports;
-
-   var UserImages = Model.extend({
-      collection: "user_images",
-      schema: {
-         _id: [],
-         parent: {
-            required: true,
-            reference: true,
-            index: true
-         },
-         image: {
-            required: true
-         },
-         created_time: {}
-      },
-      onBeforeCreate: function onBeforeCreate(resolve, reject) {
-         this.attrs.created_time = new Date();
-         return resolve();
-      }
-   });
-
-   $_exports = UserImages;
-
-   return $_exports;
-});
 realm.module("morrr.editor.routes.GalleryImages", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image"], function (route, cors, Image) {
    var _dec, _class;
 
@@ -2884,6 +2863,33 @@ realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "re
 
 
    $_exports = Upload;
+
+   return $_exports;
+});
+realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
+   var $_exports;
+
+   var UserImages = Model.extend({
+      collection: "user_images",
+      schema: {
+         _id: [],
+         parent: {
+            required: true,
+            reference: true,
+            index: true
+         },
+         image: {
+            required: true
+         },
+         created_time: {}
+      },
+      onBeforeCreate: function onBeforeCreate(resolve, reject) {
+         this.attrs.created_time = new Date();
+         return resolve();
+      }
+   });
+
+   $_exports = UserImages;
 
    return $_exports;
 });
