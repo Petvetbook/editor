@@ -22,7 +22,7 @@
     &.exit {
       position: absolute;
       right: 20px;
-      box-shadow: 0 0 3px rgba(black, 0.8);
+      box-shadow: 0 1px 3px rgba(black, 0.5);
     }
     &.save {
       bottom: 140px;
@@ -76,9 +76,14 @@
   &.placeholder {
     background-image: inline('add.svg');
   }
+  &.close,
   &.delete,
   &.remove {
     background-image: inline('delete.svg');
+  }
+  &.success,
+  &.approve {
+    background-image: inline('approve.svg');
   }
   &.save {
     background-image: inline('save.svg');

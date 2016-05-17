@@ -26,12 +26,12 @@ class Modal {
       });
 
       this.successButton = el('div', {
-         class: 'button success',
-         textContent: opts.successButton || "Done"
+         class: 'button success'
+         // textContent: opts.successButton || "Done"
       });
       this.closeButton = el('div', {
-         class: 'button close',
-         textContent: opts.successButton || "Close"
+         class: 'button close'
+         // textContent: opts.successButton || "Close"
       });
       $(this.closeButton).click(function() {
          self.close();
@@ -61,14 +61,14 @@ class Modal {
       $(this.content).append(element)
    }
 
-   createOverlay() {
-      if (overlay === false) {
-         this.overlay = el('div', {
-            class: "morrr-overlay"
-         });
-         $(document.body).prepend(this.overlay);
-      }
-   }
+   // createOverlay() {
+   //    if (overlay === false) {
+   //       this.overlay = el('div', {
+   //          class: "overlay"
+   //       });
+   //       $(document.body).prepend(this.overlay);
+   //    }
+   // }
 
    onSuccess(cb) {
       var self = this;

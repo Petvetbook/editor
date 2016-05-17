@@ -4,13 +4,14 @@
   margin: 0 0 20px 0;
   width: 100%;
   height: 60vh;
+  background-color: lighten($grey, 12%);
   border: 1px solid $grey;
   overflow: hidden;
 
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
-  transition: all 0.3s ease-out;
+  // transition: all 0.3s ease-out;
 
   * {
     box-sizing: border-box;
@@ -45,7 +46,7 @@
     display: block;
     margin: 0 auto;
     width: 100%;
-    max-width: 815px;
+    max-width: $max-width;
     height: 40px;
     .button {
       display: inline-block;
@@ -79,24 +80,12 @@
     }
   }
 }
-.sane-editor-modal-wrapper {
-  flex: 0 0 auto;
-  z-index: 60;
-  transition: height 0.3s ease-out;
-  div[class*='modal'] {
-    display: block;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 0 0 5000px rgba(black, 0.6);
-  }
-}
 .sane-editor-content-wrapper {
   flex: 1 0 0;
   min-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 40px 0;
-  background-color: lighten($grey, 12%);
 }
 .sane-editor-content {
   display: block;
@@ -107,7 +96,7 @@
   font-size: 18px;
   line-height: 1.4em;
   font-variant-ligatures: common-ligatures;
-  max-width: 815px;
+  max-width: $max-width;
   height: 100%;
   outline: none !important;
   &:read-write:focus,

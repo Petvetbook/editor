@@ -10,12 +10,11 @@ $orange:    rgb(252, 176, 0);
 $green:     rgb(53, 177, 3);
 $yellow:    rgb(244, 229, 88);
 
+$max-width: 815px;
 $imgpath:  '../img/';
 $fontpath: '../fonts/';
 
 $font-family-base: 'FoundersGroteskText', Helvetica, Arial, sans-serif;
-$icon-font-path: "../bower_components/bootstrap-sass/assets/fonts/bootstrap/";
-$fa-font-path: "../bower_components/font-awesome-sass/assets/fonts/font-awesome/";
 
 @mixin noselect {
   user-select: none;

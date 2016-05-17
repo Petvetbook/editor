@@ -20,7 +20,7 @@ const Gallery = function(editor, parentId, done) {
       $.get('/api/editor/images?parent=' + parentId, function(data) {
          var initialImage;
          _.each(data, function(item) {
-            var image = $('<div class="image"><img src="' + sharedImagePath(item.image, 70) + '"/></div>');
+            var image = $('<div class="image"><img src="' + sharedImagePath(item.image, 120) + '"/></div>');
             image.appendTo(images);
             image.data("item", item);
             initialImage = {

@@ -1708,7 +1708,7 @@ realm.module("morrr.editor.Gallery", ["morrr.editor.utils.lodash", "morrr.editor
          $.get('/api/editor/images?parent=' + parentId, function (data) {
             var initialImage;
             _.each(data, function (item) {
-               var image = $('<div class="image"><img src="' + sharedImagePath(item.image, 70) + '"/></div>');
+               var image = $('<div class="image"><img src="' + sharedImagePath(item.image, 120) + '"/></div>');
                image.appendTo(images);
                image.data("item", item);
                initialImage = {
@@ -1801,12 +1801,12 @@ realm.module("morrr.editor.Modal", ["frzr"], function (frzr) {
          });
 
          this.successButton = el('div', {
-            class: 'button success',
-            textContent: opts.successButton || "Done"
+            class: 'button success'
+            // textContent: opts.successButton || "Done"
          });
          this.closeButton = el('div', {
-            class: 'button close',
-            textContent: opts.successButton || "Close"
+            class: 'button close'
+            // textContent: opts.successButton || "Close"
          });
          $(this.closeButton).click(function () {
             self.close();
@@ -1838,16 +1838,16 @@ realm.module("morrr.editor.Modal", ["frzr"], function (frzr) {
          value: function append(element) {
             $(this.content).append(element);
          }
-      }, {
-         key: "createOverlay",
-         value: function createOverlay() {
-            if (overlay === false) {
-               this.overlay = el('div', {
-                  class: "morrr-overlay"
-               });
-               $(document.body).prepend(this.overlay);
-            }
-         }
+
+         // createOverlay() {
+         //    if (overlay === false) {
+         //       this.overlay = el('div', {
+         //          class: "overlay"
+         //       });
+         //       $(document.body).prepend(this.overlay);
+         //    }
+         // }
+
       }, {
          key: "onSuccess",
          value: function onSuccess(cb) {

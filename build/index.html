@@ -10,40 +10,13 @@
       <link rel="stylesheet" type="text/css" href="editor.min.css">
    </head>
    <body style="margin: 0; padding: 40px;">
-      <style>
-      .images .image {
-         display: inline-block;
-         margin-right: 5px;
-         border:2px solid white;
-      }
-      .images .image.selected {
-         border:2px solid black;
-      }
-      .footer {
-         margin-top: 10px;
-      }
-      .footer .button {
-
-         display: inline-block;
-         margin-right: 10px;
-         padding: 5px;
-         background-color: black;
-         color:white;
-      }
-      .footer .button.disabled {
-         opacity: 0.3;
-      }
-
-      .footer .button.success {
-         background-color: #21ba45;
-
-      }
-      </style>
 
       <div id="editor">
 
       </div>
+
       <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
+
       <script>
       $(function(){
          realm.module('morrr.editor.config', function(){
