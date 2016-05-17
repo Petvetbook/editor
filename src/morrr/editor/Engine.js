@@ -78,23 +78,12 @@ class SaneEditor {
    }
    showError(message) {
       this.element.find(".notification").remove();
-      var notification = $('<div class="notification"><div class="text"><i class="ui icon warning sign"></i>' + message + '</div></div>');
-      notification.hide();
+      var notification = $('<div class="notification"><div class="text">' + message + '</div></div>');
       notification.insertBefore(this.content);
-      notification.fadeIn({
-         duration: 200,
-         queue: false
-      }).css('display', 'none').slideDown(200, function() {
-         setTimeout(function() {
-            notification.show();
-            notification.fadeOut({
-               duration: 200,
-               queue: false
-            }).css('display', 'block').slideIn(200, function() {
-               notification.remove();
-            });
-         }, 2000);
-      });
+      notification.addClass('show')
+      setTimeout(function(){
+         notification.removeClass('show')
+      },1500)
    }
 
    createModal(header) {

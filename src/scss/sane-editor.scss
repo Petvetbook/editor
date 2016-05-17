@@ -82,10 +82,32 @@
 }
 .sane-editor-content-wrapper {
   flex: 1 0 0;
+  position: relative;
   min-height: 300px;
   overflow-x: hidden;
   overflow-y: auto;
   padding: 40px 0;
+
+  .notification {
+    position: fixed;
+    opacity: 0;
+    right: 30vw;
+    left: 30vw;
+    z-index: 70;
+    padding: 10px;
+    border-radius: 4px;
+    background: rgba(0,0,0,0.7);
+    box-shadow: 0 0 5px white;
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    -webkit-font-smoothing: antialiased;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+    &.show {
+      opacity: 1;
+    }
+  }
 }
 .sane-editor-content {
   display: block;

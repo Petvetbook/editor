@@ -1,22 +1,22 @@
 .ajax-file-upload-statusbar {
-    border: 1px solid lighten($blue, 25%);
-    margin-top: 10px;
-    margin-right: 10px;
-    margin: 5px;
+    border-bottom: 1px dashed lighten($blue, 25%);
+    margin: 10px 0;
+    width: 100% !important;
+    padding: 10px;
 }
 
 .ajax-file-upload-filename {
     width: 100%;
     height: auto;
-    margin: 0 5px 5px 10px;
-    color: $dkgrey;
+    margin: 0 0 5px 0;
+    font-size: 13px;
 }
 
 .ajax-file-upload-progress {
-    margin: 0 10px 5px 10px;
+    margin: 0 10px 0 0;
     position: relative;
     width: 250px;
-    border: 1px solid $grey;
+    border: 0;
     display: inline-block;
 }
 
@@ -24,40 +24,60 @@
     background-color: lighten($blue, 30%);
     width: 0;
     height: 20px;
+    font-size: 13px;
+    line-height: 20px;
     color: white;
 }
 
 .ajax-file-upload-percent {
     position: absolute;
     display: inline-block;
-    top: 3px;
-    left: 48%
+    top: 0;
+    left: 48%;
+    font-size: 13px;
+    line-height: 20px;
 }
 
 .ajax-file-upload-red {
-    background-color: $red;
-    display: inline-block;
-    color: white;
-    font-size: 13px;
-    padding: 4px 15px;
-    text-decoration: none;
-    cursor: pointer;
-    vertical-align: top;
-    margin-right: 5px;
-}
-
-.ajax-file-upload-green {
-    background-color: $green;
     margin: 0;
     padding: 0;
     display: inline-block;
-    color: white;
-    font-size: 13px;
-    padding: 4px 15px;
-    text-decoration: none;
+    color: transparent;
+    font-size: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
     cursor: pointer;
-    vertical-align: top;
+    vertical-align: bottom;
     margin-right: 5px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-image:  inline('delete.svg');
+    &:hover {
+        background-color: lighten($red, 40%);
+    }
+}
+
+.ajax-file-upload-green {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    color: transparent;
+    font-size: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    vertical-align: bottom;
+    margin-right: 5px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-image:  inline('approve.svg');
+    &:hover {
+        background-color: lighten($green, 40%);
+    }
 }
 
 .ajax-file-upload {
