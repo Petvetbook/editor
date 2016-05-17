@@ -473,15 +473,15 @@ class SaneEditor {
       if ($(this.element).hasClass("full-screen-mode")) {
          $(this.element).removeClass("full-screen-mode");
          $('body').css('overflow', 'auto');
-         this.floatingSave.hide();
-         this.floatingPreview.hide();
-         this.exitFullScreenModeButton.hide();
+         // this.floatingSave.hide();
+         // this.floatingPreview.hide();
+         // this.exitFullScreenModeButton.hide();
       } else {
          $('body').css('overflow', 'hidden');
          $(this.element).addClass("full-screen-mode");
-         this.floatingSave.show();
-         this.floatingPreview.show();
-         this.exitFullScreenModeButton.show();
+         // this.floatingSave.show();
+         // this.floatingPreview.show();
+         // this.exitFullScreenModeButton.show();
       }
    }
 
