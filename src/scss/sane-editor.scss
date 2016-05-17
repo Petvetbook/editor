@@ -44,18 +44,23 @@
       &:hover {
         background-color: white;
       }
-    }
-    .toolbar-hint {
-      position: absolute;
-      bottom: -20px;
-      padding: 0px 6px;
-      font-size: 10px;
-      line-height: 20px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      background: $grey;
-      color: black;
-      border-radius: 0 0 3px 3px;
+      &:not(:hover) span {
+        display: none;
+      }
+      span {
+        position: absolute;
+        left: 0;
+        bottom: -25px;
+        padding: 0px 6px;
+        font-size: 10px;
+        line-height: 20px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        background: $grey;
+        color: black;
+        border-radius: 0 0 3px 3px;
+        white-space: nowrap;
+      }
     }
   }
 }
