@@ -64,6 +64,9 @@
   &.picture {
     background-image: inline('img.svg');
   }
+  &.video {
+    background-image: inline('video.svg');
+  }
   &.expand,
   &.maximize {
     background-image: inline('expand.svg');

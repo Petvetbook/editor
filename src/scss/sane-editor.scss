@@ -83,11 +83,13 @@
 }
 .sane-editor-content {
   display: block;
+  margin: 0 auto;
   padding: 20px;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 18px;
   line-height: 1.4em;
   font-variant-ligatures: common-ligatures;
+  max-width: 815px;
   height: 100%;
   outline: none !important;
   &:read-write:focus,
