@@ -365,7 +365,7 @@ class SaneEditor {
       if (opts.focus !== false) {
          this.content[0].focus();
       }
-      return document.getSelection();
+      return window.getSelection();
    }
 
    getRange(opts) {
@@ -373,9 +373,12 @@ class SaneEditor {
       if (!s) {
          return null;
       }
+
       if (s.getRangeAt) {
          if (s.rangeCount > 0) {
+
             var gotRange = s.getRangeAt(0)
+
             return gotRange
          }
       }
@@ -394,16 +397,17 @@ class SaneEditor {
    }
 
    setCaretPosition(elem, caretPos) {
-      if (elem !== null) {
-         var range = this.getRange();
-         var sel = this.getSelection();
-         if (range) {
-            range.setStart(elem, 1);
-            range.collapse(true);
-            sel.removeAllRanges();
-            sel.addRange(range);
-         }
-      }
+      var el = elem;
+      var range = document.createRange();
+      var sel = window.getSelection();
+      range.setStart(elem, 1);
+      range.collapse(true);
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      setTimeout(function() {
+         $(elem).remove();
+      }, 0);
    }
 
    bindFullScreenButtons() {
@@ -492,6 +496,7 @@ class SaneEditor {
 
          // ENTER TRICK
          if (e.keyCode === 13) {
+
             // If we are in a wrapper
             if (parentWrapper[0]) {
                if (currentPosition[0].nodeType === 3) {
@@ -536,7 +541,9 @@ class SaneEditor {
                   });
                   var newline = $('<div></br></div>');
                   newline.insertAfter(parentWrapper);
+
                   self.setCaretPosition(newline[0], 1);
+
                }
             }
          }
