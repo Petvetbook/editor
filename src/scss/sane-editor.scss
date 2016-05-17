@@ -10,6 +10,11 @@
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
+  transition: all 0.3s ease-out;
+
+  * {
+    box-sizing: border-box;
+  }
 
   &:not(.full-screen-mode) {
     .button.save,
@@ -25,9 +30,6 @@
     left: 0;
     right: 0;
     height: 100vh;
-    .sane-editor-content-wrapper {
-      padding-right: 70px;
-    }
     .sane-editor-toolbar-wrapper .button.maximize {
       background-image: inline('contract.svg');
     }
@@ -36,13 +38,15 @@
 .sane-editor-toolbar-wrapper {
   flex: 0 0 40px;
   z-index: 50;
+  background-color: $grey;
   box-shadow: 0 0 3px rgba(black, 0.8);
   .toolbar {
     position: relative;
     display: block;
+    margin: 0 auto;
     width: 100%;
+    max-width: 815px;
     height: 40px;
-    background-color: $grey;
     .button {
       display: inline-block;
       width: 30px;
