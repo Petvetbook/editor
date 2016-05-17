@@ -108,14 +108,28 @@
       }
     }
     .remove {
+      cursor: pointer;
       position: absolute;
       top: 5px;
       right: 5px;
-      cursor: pointer;
-      font-size: 12px;
+      display: block;
+      width: 16px;
+      height: 16px;
+      background-color: white;
+      color: lighten($blue, 25%);
+      font-size: 16px;
+      font-style: normal;
+      line-height: 15px;
+      text-align: center;
       visibility: hidden;
-      color: lighten($blue, 30%);
-      outline: 1px solid $blue;
+      &:after {
+        content: '×';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 16px;
+        height: 16px;
+      }
     }
   }
   .blog-intro {
@@ -226,20 +240,10 @@
   .blog-gallery {
     text-align: center;
     figure {
+      position: relative;
       display: inline-block;
       border-bottom: 1px solid $grey;
       margin: 0 40px 20px 40px;
-      // &.selected:after {
-      //   content: "";
-      //   position: absolute;
-      //   top: 0;
-      //   right: 0;
-      //   bottom: 0;
-      //   left: 0;
-      //   background-color: rgba($blue,0.2);
-      //   border: 10px solid $blue;
-      //   z-index: 2;
-      // }
       img {
         display: block;
         margin: 0 auto;
@@ -249,23 +253,14 @@
     figcaption {
       padding: 5px 0;
       font-size: 14px;
-      .hint,
       .figcontent {
-        display: inline-block;
-      }
-      .hint {
-        background-repeat: no-repeat;
-        background-size: 80% auto;
-        background-position: 50% 50%;
-        background-image: inline('insert.svg');
-        width: 25px;
-        height: 25px;
-        overflow: hidden;
-        color: transparent !important;
-        vertical-align: bottom;
-      }
-      .figcontent {
-        min-width: 50%;
+        width: 100%;
+        border: 0;
+        outline: 0 !important;
+        padding: 0;
+        margin: 0;
+        font-size: 14px;
+        line-height: 25px;
       }
     }
   }

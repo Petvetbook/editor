@@ -27,7 +27,7 @@ const GalleryTag = {
       var removeIcon = $('<i class="ui icon remove"></i>');
 
       var caption = $(figure).find('figcaption')[0]
-      var cnt = $('<figcaption><div class="hint">Image caption</div><input type="text" placeholder="Image description" class="figcontent"></input></figcaption>');
+      var cnt = $('<figcaption><input type="text" placeholder="Image description" class="figcontent"></input></figcaption>');
 
       if (!caption) {
          caption = cnt;

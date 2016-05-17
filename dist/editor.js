@@ -2318,77 +2318,6 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
-realm.module("morrr.editor.routes.GalleryImages", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image"], function (route, cors, Image) {
-   var _dec, _class;
-
-   var $_exports;
-
-   var GalleryRoute = (_dec = route("/api/editor/images"), _dec(_class = function () {
-      function GalleryRoute() {
-         _classCallCheck(this, GalleryRoute);
-      }
-
-      _createClass(GalleryRoute, null, [{
-         key: "get",
-         value: function get($query, $body) {
-
-            var parent = $query.get('parent') || "test";
-            var q = Image.find({
-               parent: parent
-            });
-            q.sort('_id', 'desc');
-            if (parent === "test") {
-               q.limit(5);
-            }
-            return q.all();
-         }
-      }]);
-
-      return GalleryRoute;
-   }()) || _class);
-
-
-   $_exports = GalleryRoute;
-
-   return $_exports;
-});
-realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image", "morrr.editor.runtime.config"], function (route, cors, Image, config) {
-   var _dec2, _class2;
-
-   var $_exports;
-
-   var Upload = (_dec2 = route("/api/editor/upload"), _dec2(_class2 = function () {
-      function Upload() {
-         _classCallCheck(this, Upload);
-      }
-
-      _createClass(Upload, null, [{
-         key: "post",
-         value: function post($req, $query, $res, $imageServer) {
-            var parentId = $query.get("parentId") || "test";
-            return $imageServer.send({
-               server: config.server,
-               token: config.token,
-               folder: config.folder
-            }).then(function (files) {
-               return realm.each(files, function (fileInfo) {
-                  return new Image({
-                     image: fileInfo.name,
-                     parent: parentId
-                  }).save();
-               });
-            });
-         }
-      }]);
-
-      return Upload;
-   }()) || _class2);
-
-
-   $_exports = Upload;
-
-   return $_exports;
-});
 realm.module("morrr.editor.elements.blockquote", ["morrr.editor.utils"], function (utils) {
    var $_exports;
    var BlockQuote = {
@@ -2454,7 +2383,7 @@ realm.module("morrr.editor.elements.gallery", ["morrr.editor.Gallery", "morrr.ed
          var removeIcon = $('<i class="ui icon remove"></i>');
 
          var caption = $(figure).find('figcaption')[0];
-         var cnt = $('<figcaption><div class="hint">Image caption</div><input type="text" placeholder="Image description" class="figcontent"></input></figcaption>');
+         var cnt = $('<figcaption><input type="text" placeholder="Image description" class="figcontent"></input></figcaption>');
 
          if (!caption) {
             caption = cnt;
@@ -2860,29 +2789,6 @@ realm.module("morrr.editor.elements.url", [], function () {
 
    return $_exports;
 });
-realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
-   var $_exports;
-
-   var Config = new Promise(function (resolve, reject) {
-      if (realm.isRegistered('morrr.editor.config')) {
-         return realm.require('morrr.editor.config', function (cfg) {
-            return cfg;
-         }).then(resolve).catch(reject);
-      }
-      return resolve({
-         token: "c0b7bdf9b9f645f9f7b106d41082f50d14726129",
-         server: "http://img.dev.morrr.com",
-         folder: "editortest",
-         fullPath: function fullPath(publicPath) {
-            return this.server + "/" + publicPath;
-         }
-      });
-   });
-
-   $_exports = Config;
-
-   return $_exports;
-});
 realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
    var $_exports;
 
@@ -2907,6 +2813,100 @@ realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model
    });
 
    $_exports = UserImages;
+
+   return $_exports;
+});
+realm.module("morrr.editor.routes.GalleryImages", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image"], function (route, cors, Image) {
+   var _dec, _class;
+
+   var $_exports;
+
+   var GalleryRoute = (_dec = route("/api/editor/images"), _dec(_class = function () {
+      function GalleryRoute() {
+         _classCallCheck(this, GalleryRoute);
+      }
+
+      _createClass(GalleryRoute, null, [{
+         key: "get",
+         value: function get($query, $body) {
+
+            var parent = $query.get('parent') || "test";
+            var q = Image.find({
+               parent: parent
+            });
+            q.sort('_id', 'desc');
+            if (parent === "test") {
+               q.limit(5);
+            }
+            return q.all();
+         }
+      }]);
+
+      return GalleryRoute;
+   }()) || _class);
+
+
+   $_exports = GalleryRoute;
+
+   return $_exports;
+});
+realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image", "morrr.editor.runtime.config"], function (route, cors, Image, config) {
+   var _dec2, _class2;
+
+   var $_exports;
+
+   var Upload = (_dec2 = route("/api/editor/upload"), _dec2(_class2 = function () {
+      function Upload() {
+         _classCallCheck(this, Upload);
+      }
+
+      _createClass(Upload, null, [{
+         key: "post",
+         value: function post($req, $query, $res, $imageServer) {
+            var parentId = $query.get("parentId") || "test";
+            return $imageServer.send({
+               server: config.server,
+               token: config.token,
+               folder: config.folder
+            }).then(function (files) {
+               return realm.each(files, function (fileInfo) {
+                  return new Image({
+                     image: fileInfo.name,
+                     parent: parentId
+                  }).save();
+               });
+            });
+         }
+      }]);
+
+      return Upload;
+   }()) || _class2);
+
+
+   $_exports = Upload;
+
+   return $_exports;
+});
+realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
+   var $_exports;
+
+   var Config = new Promise(function (resolve, reject) {
+      if (realm.isRegistered('morrr.editor.config')) {
+         return realm.require('morrr.editor.config', function (cfg) {
+            return cfg;
+         }).then(resolve).catch(reject);
+      }
+      return resolve({
+         token: "c0b7bdf9b9f645f9f7b106d41082f50d14726129",
+         server: "http://img.dev.morrr.com",
+         folder: "editortest",
+         fullPath: function fullPath(publicPath) {
+            return this.server + "/" + publicPath;
+         }
+      });
+   });
+
+   $_exports = Config;
 
    return $_exports;
 });
