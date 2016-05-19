@@ -36,7 +36,7 @@ const Generator = function(editor) {
                BBCODE.push('[row]' + utils.trimText(node.nodeValue, true) + '[/row]');
             } else {
                var text = utils.trimText(node.nodeValue);
-               var isBlockModule = text.match(/^\[(blockquote|gallery|intro|h3)/);
+               var isBlockModule = text.match(/^\[(blockquote|gallery|intro|h3|h1)/);
                BBCODE.push(text);
                if (isBlockModule) {
                   prevEmpty = true;
