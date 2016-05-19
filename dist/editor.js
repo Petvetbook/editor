@@ -2466,12 +2466,48 @@ realm.module("morrr.editor.elements.gallery", ["morrr.editor.Gallery", "morrr.ed
 
    return $_exports;
 });
+realm.module("morrr.editor.elements.h1", ["morrr.editor.utils"], function (utils) {
+   var $_exports;
+   var Heading3 = {
+      tag: 'h1',
+      icon: 'header1',
+      hint: 'Heading 1',
+      bindEditorEvents: function bindEditorEvents(element) {
+         this.basicStringWrapper(element, {
+            service: 'h1',
+            onRemove: function onRemove(dom) {
+               dom.replaceWith('<div>' + dom.find('.wrapper-editable-area').text() + '</div>');
+            }
+         });
+      },
+      toBBCode: function toBBCode(root) {
+         var self = this;
+         root.find('*[data-service="h1"]').each(function (index, element) {
+            var text = $(element).find('.wrapper-editable-area').text();
+            $(element).replaceWith('[h1]' + utils.trimText(text) + '[/h1]');
+         });
+      },
+      cmdSmart: function cmdSmart(range) {
+         var heading = $('<h1>' + range.text.join(' ') + '</h1>');
+         $(range.elements).remove();
+         range.inject(heading[0]);
+         Heading3.bindEditorEvents.apply(this, [heading[0]]);
+      },
+      toProduction: function toProduction() {
+         return '<h1>';
+      }
+   };
+
+   $_exports = Heading3;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.h3", ["morrr.editor.utils"], function (utils) {
    var $_exports;
    var Heading3 = {
       tag: 'h3',
-      icon: 'header',
-      hint: 'Heading',
+      icon: 'header3',
+      hint: 'Heading 3',
       bindEditorEvents: function bindEditorEvents(element) {
          this.basicStringWrapper(element, {
             service: 'h3',
@@ -2618,6 +2654,22 @@ realm.module("morrr.editor.elements.italic", [], function () {
    };
 
    $_exports = Italic;
+
+   return $_exports;
+});
+realm.module("morrr.editor.elements.li", [], function () {
+   var $_exports;
+
+   var orderedList = {
+      tag: 'li',
+      inline: true,
+
+      toProduction: function toProduction(item) {
+         return '<li>';
+      }
+   };
+
+   $_exports = orderedList;
 
    return $_exports;
 });
