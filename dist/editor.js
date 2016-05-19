@@ -2863,6 +2863,29 @@ realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model
 
    return $_exports;
 });
+realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
+   var $_exports;
+
+   var Config = new Promise(function (resolve, reject) {
+      if (realm.isRegistered('morrr.editor.config')) {
+         return realm.require('morrr.editor.config', function (cfg) {
+            return cfg;
+         }).then(resolve).catch(reject);
+      }
+      return resolve({
+         token: "c0b7bdf9b9f645f9f7b106d41082f50d14726129",
+         server: "http://img.dev.morrr.com",
+         folder: "editortest",
+         fullPath: function fullPath(publicPath) {
+            return this.server + "/" + publicPath;
+         }
+      });
+   });
+
+   $_exports = Config;
+
+   return $_exports;
+});
 realm.module("morrr.editor.routes.GalleryImages", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image"], function (route, cors, Image) {
    var _dec, _class;
 
@@ -2931,29 +2954,6 @@ realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "re
 
 
    $_exports = Upload;
-
-   return $_exports;
-});
-realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
-   var $_exports;
-
-   var Config = new Promise(function (resolve, reject) {
-      if (realm.isRegistered('morrr.editor.config')) {
-         return realm.require('morrr.editor.config', function (cfg) {
-            return cfg;
-         }).then(resolve).catch(reject);
-      }
-      return resolve({
-         token: "c0b7bdf9b9f645f9f7b106d41082f50d14726129",
-         server: "http://img.dev.morrr.com",
-         folder: "editortest",
-         fullPath: function fullPath(publicPath) {
-            return this.server + "/" + publicPath;
-         }
-      });
-   });
-
-   $_exports = Config;
 
    return $_exports;
 });
