@@ -2,7 +2,7 @@
 
 const Italic = {
    tag: 'i',
-   menu: true,
+   menu: false,
    inline: true,
    icon: 'italic',
    hint: 'Italic',

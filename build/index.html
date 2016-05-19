@@ -43,7 +43,7 @@
 
 
             editor.initialize(element, {
-               toolbar: ['h1', 'h3', 'intro', 'blockquote', 'strong', 'i', 'ol', 'ul', 'url', 'unlink', 'gallery']
+               toolbar: ['h1', 'h3', 'intro', 'blockquote', 'strong', 'ol', 'ul', 'url', 'unlink', 'gallery']
             });
             editor.onActivity(function(){
                $("#debug").val(editor.getValue());
@@ -52,7 +52,9 @@
             $("#apply").click(function(){
                editor.setValue($("#debug").val());
             });
-            editor.setValue(values.join(''));
+
+            var some = "[h1]How is urinary incontinence treated in dogs?[/h1]Urinary incontinence is a condition characterised by occasional involuntary “leaking” of urine. It is most common in middle-aged to older neutered bitches; it is also occasionally observed in neutered males and (more rarely) in entire dogs.&nbsp; The treatment to some extent depends on the cause – for example, if there is an underlying condition (e.g. a urinary tract infection or ectopic ureters), they must be treated and will often resolve the incontinence. If not, there are two medications that are widely used:[ul][li][strong]Phenylpropanolamine[/strong]:[ul][li]A drug that reinforces the sphincter.[/li][li]It acts to increase the strength of contraction of the sphincter muscles, improving voluntary control of urination.[/li][li]Designed for use in bitches, but may be used (off license on the Prescribing Cascade) in almost any dog with incontinence problems.[/li][/ul][/li][li][strong]Estriol[/strong]:[ul][li]A synthetic oestrogen, this acts like hormone replacement therapy and often reverses the changes in a neutered bitch that cause the incontinence.[/li][/ul][/li][/ul]Some cases are resistant to treatment and may require more than one treatment; however, most incontinent dogs can be stabilised and with ongoing (life-long) medical treatment, will live a normal life.&nbsp; [strong] [/strong] [strong]If your dog is leaking urine, make an appointment to get them checked out by your vet.[/strong] "
+            editor.setValue(some);
             $("#debug").val(editor.getValue());
          })
 

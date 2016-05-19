@@ -7,9 +7,12 @@ const UL = {
    icon: 'unordered-list',
    hint: 'Bulleted list',
    toBBCode: function(root) {
-      root.find('ul').each(function(index, element) {
-         $(element).replaceWith('[ul]' + $(element).html() + '[/ul]');
-      });
+
+      while (root.find('ul').length > 0) {
+         root.find('ul').each(function(index, element) {
+            $(element).replaceWith('[ul]' + $(element).html() + '[/ul]');
+         });
+      }
    },
    cmd: function() {
       this.execCommand('insertunorderedlist');

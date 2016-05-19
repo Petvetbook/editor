@@ -2543,7 +2543,7 @@ realm.module("morrr.editor.elements.i", [], function () {
 
    var Italic = {
       tag: 'i',
-      menu: true,
+      menu: false,
       inline: true,
       icon: 'italic',
       hint: 'Italic',
@@ -2663,9 +2663,12 @@ realm.module("morrr.editor.elements.li", [], function () {
    var orderedList = {
       tag: 'li',
       inline: true,
-
-      toProduction: function toProduction(item) {
-         return '<li>';
+      toBBCode: function toBBCode(root) {
+         while (root.find('li').length > 0) {
+            root.find('li').each(function (index, element) {
+               $(element).replaceWith('[li]' + $(element).html() + '[/li]');
+            });
+         }
       }
    };
 
@@ -2768,9 +2771,12 @@ realm.module("morrr.editor.elements.ul", [], function () {
       icon: 'unordered-list',
       hint: 'Bulleted list',
       toBBCode: function toBBCode(root) {
-         root.find('ul').each(function (index, element) {
-            $(element).replaceWith('[ul]' + $(element).html() + '[/ul]');
-         });
+
+         while (root.find('ul').length > 0) {
+            root.find('ul').each(function (index, element) {
+               $(element).replaceWith('[ul]' + $(element).html() + '[/ul]');
+            });
+         }
       },
       cmd: function cmd() {
          this.execCommand('insertunorderedlist');
@@ -2833,6 +2839,11 @@ realm.module("morrr.editor.elements.url", [], function () {
    };
 
    $_exports = Link;
+
+   return $_exports;
+});
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
 
    return $_exports;
 });
