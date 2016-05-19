@@ -35,8 +35,11 @@
     }
   }
 
-  &.header {
-    background-image: inline('header.svg');
+  &.header1 {
+    background-image: inline('header1.svg');
+  }
+  &.header3 {
+    background-image: inline('header3.svg');
   }
   &.intro {
     background-image: inline('intro.svg');
@@ -48,11 +51,11 @@
     background-image: inline('bold.svg');
   }
   &.bullet,
-  &.ordered-list {
+  &.unordered-list {
     background-image: inline('bulleted.svg');
   }
   &.numbered,
-  &.unordered-list {
+  &.ordered-list {
     background-image: inline('numbered.svg');
   }
   &.link {

@@ -193,6 +193,11 @@
       outline: none;
     }
   }
+  h1 {
+    font-size: 28px;
+    font-weight: bold;
+    line-height: 1.15em;
+  }
   h2,
   h3,
   h4 {
@@ -205,26 +210,21 @@
     font-size: 16px;
     line-height: 1.25em;
   }
-  .blog-intro {
-  }
   em {
     font-weight: bold;
   }
-  ul li,
-  ol li {
-    margin-bottom: 1em;
-  }
   ol,
   ul {
-    margin-left: 40px;
-  }
-  ol {
-    list-style-type: decimal;
     margin-left: 25px;
     li {
-      padding-left: 2px;
-      margin-bottom: 5px;
+      margin-bottom: 0.25em;
     }
+  }
+  ul li {
+    list-style-type: disc;
+  }
+  ol li {
+    list-style-type: decimal;
   }
   ol ol {
     list-style: upper-alpha;
@@ -234,13 +234,6 @@
   }
   ol ol ol ol {
     list-style: lower-alpha;
-  }
-  ul {
-    margin: 0;
-    padding: 0;
-    li {
-      list-style-type: disc;
-    }
   }
   img {
     -ms-interpolation-mode: bicubic;
