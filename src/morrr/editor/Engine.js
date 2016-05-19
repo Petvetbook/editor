@@ -98,6 +98,9 @@ class SaneEditor {
       });
       return modal;
    }
+   onFullScreenLeftMenu(fn) {
+      this._onFullScreenLeftMenu = fn;
+   }
 
    smartRangeDetect(callback) {
 
@@ -451,15 +454,25 @@ class SaneEditor {
    }
 
    toggleFullScreenMode() {
+      var self = this;
       if ($(this.element).hasClass("full-screen-mode")) {
          $(this.element).removeClass("full-screen-mode");
          $('body').css('overflow', 'auto');
+         $(this.element).find('.left-menu').remove();
          // this.floatingSave.hide();
          // this.floatingPreview.hide();
          // this.exitFullScreenModeButton.hide();
       } else {
          $('body').css('overflow', 'hidden');
          $(this.element).addClass("full-screen-mode");
+
+         if (self._onFullScreenLeftMenu) {
+            var element = $("<div class='left-menu' style='color:white'></div>");
+            $(this.element).find(".sane-editor-content-wrapper").append(element);
+
+            self._onFullScreenLeftMenu(element);
+         }
+
          // this.floatingSave.show();
          // this.floatingPreview.show();
          // this.exitFullScreenModeButton.show();

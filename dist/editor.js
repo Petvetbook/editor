@@ -1221,6 +1221,11 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             return modal;
          }
       }, {
+         key: "onFullScreenLeftMenu",
+         value: function onFullScreenLeftMenu(fn) {
+            this._onFullScreenLeftMenu = fn;
+         }
+      }, {
          key: "smartRangeDetect",
          value: function smartRangeDetect(callback) {
 
@@ -1580,15 +1585,25 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
       }, {
          key: "toggleFullScreenMode",
          value: function toggleFullScreenMode() {
+            var self = this;
             if ($(this.element).hasClass("full-screen-mode")) {
                $(this.element).removeClass("full-screen-mode");
                $('body').css('overflow', 'auto');
+               $(this.element).find('.left-menu').remove();
                // this.floatingSave.hide();
                // this.floatingPreview.hide();
                // this.exitFullScreenModeButton.hide();
             } else {
                   $('body').css('overflow', 'hidden');
                   $(this.element).addClass("full-screen-mode");
+
+                  if (self._onFullScreenLeftMenu) {
+                     var element = $("<div class='left-menu' style='color:white'></div>");
+                     $(this.element).find(".sane-editor-content-wrapper").append(element);
+
+                     self._onFullScreenLeftMenu(element);
+                  }
+
                   // this.floatingSave.show();
                   // this.floatingPreview.show();
                   // this.exitFullScreenModeButton.show();
@@ -2319,6 +2334,11 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.blockquote", ["morrr.editor.utils"], function (utils) {
    var $_exports;
    var BlockQuote = {
@@ -2846,11 +2866,6 @@ realm.module("morrr.editor.elements.url", [], function () {
    };
 
    $_exports = Link;
-
-   return $_exports;
-});
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
 
    return $_exports;
 });

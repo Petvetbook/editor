@@ -10,7 +10,19 @@
       <link rel="stylesheet" type="text/css" href="editor.min.css">
    </head>
    <body style="margin: 0; padding: 40px;">
+      <style>
+         .left-menu {
+            position: fixed;
+            top:80px;
+            width: 200px;
+            left:20px;
+            border: 1px solid #ececec;
+            background: white;
+            padding: 10px;
+            color:black !important;
 
+         }
+      </style>
       <div id="editor">
 
       </div>
@@ -44,6 +56,10 @@
 
             editor.initialize(element, {
                toolbar: ['h1', 'h3', 'intro', 'blockquote', 'strong', 'ol', 'ul', 'url', 'unlink', 'gallery']
+            });
+
+            editor.onFullScreenLeftMenu(function(element){
+
             });
             editor.onActivity(function(){
                $("#debug").val(editor.getValue());
