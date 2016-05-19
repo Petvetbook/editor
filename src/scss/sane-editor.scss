@@ -31,6 +31,7 @@
     left: 0;
     right: 0;
     height: 100vh;
+    z-index: 999999;
     .sane-editor-toolbar-wrapper .button.maximize {
       background-image: inline('contract.svg');
     }
