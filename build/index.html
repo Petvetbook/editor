@@ -16,7 +16,7 @@
       </div>
 
       <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
-
+      <input type="button" id="apply" value="APPLY"  />
       <script>
       $(function(){
          realm.module('morrr.editor.config', function(){
@@ -32,7 +32,7 @@
             values.push('[h3]Some h3 header[/h3]');
             values.push('[h1]Some h1 header[/h1]');
             values.push('[row][/row]');
-            values.push('[row]Some text [strong]bold[/strong] [italic]italic[/italic][/row]');
+            values.push('[row]Some text [strong]bold[/strong] [i]italic[/i][/row]');
             values.push('[row][/row]');
             values.push('[blockquote]Quote is here[/blockquote]');
 
@@ -47,6 +47,10 @@
             });
             editor.onActivity(function(){
                $("#debug").val(editor.getValue());
+            });
+
+            $("#apply").click(function(){
+               editor.setValue($("#debug").val());
             });
             editor.setValue(values.join(''));
             $("#debug").val(editor.getValue());

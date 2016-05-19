@@ -9,7 +9,7 @@ const Strong = {
    hint: 'Bold',
    toBBCode: function(root) {
       var self = this;
-      root.find('b').each(function(index, element) {
+      root.find('strong,b').each(function(index, element) {
          $(element).replaceWith('[strong]' + utils.trimText($(element).text()) + '[/strong]');
       });
    },

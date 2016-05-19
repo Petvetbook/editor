@@ -2538,6 +2538,29 @@ realm.module("morrr.editor.elements.h3", ["morrr.editor.utils"], function (utils
 
    return $_exports;
 });
+realm.module("morrr.editor.elements.i", [], function () {
+   var $_exports;
+
+   var Italic = {
+      tag: 'i',
+      menu: true,
+      inline: true,
+      icon: 'italic',
+      hint: 'Italic',
+      toBBCode: function toBBCode(root) {
+         root.find('i').each(function (index, element) {
+            $(element).replaceWith('[i]' + $(element).text() + '[/i]');
+         });
+      },
+      cmd: function cmd() {
+         this.execCommand('italic');
+      }
+   };
+
+   $_exports = Italic;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.img", ["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath"], function (_, sharedImagePath) {
    var $_exports;
 
@@ -2634,29 +2657,6 @@ realm.module("morrr.editor.elements.intro", ["morrr.editor.utils"], function (ut
 
    return $_exports;
 });
-realm.module("morrr.editor.elements.italic", [], function () {
-   var $_exports;
-
-   var Italic = {
-      tag: 'i',
-      menu: true,
-      inline: true,
-      icon: 'italic',
-      hint: 'Italic',
-      toBBCode: function toBBCode(root) {
-         root.find('i').each(function (index, element) {
-            $(element).replaceWith('[i]' + $(element).text() + '[/i]');
-         });
-      },
-      cmd: function cmd() {
-         this.execCommand('italic');
-      }
-   };
-
-   $_exports = Italic;
-
-   return $_exports;
-});
 realm.module("morrr.editor.elements.li", [], function () {
    var $_exports;
 
@@ -2744,7 +2744,7 @@ realm.module("morrr.editor.elements.strong", ["morrr.editor.utils"], function (u
       hint: 'Bold',
       toBBCode: function toBBCode(root) {
          var self = this;
-         root.find('b').each(function (index, element) {
+         root.find('strong,b').each(function (index, element) {
             $(element).replaceWith('[strong]' + utils.trimText($(element).text()) + '[/strong]');
          });
       },
