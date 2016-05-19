@@ -46,7 +46,12 @@ class SaneEditor {
    }
 
    getValue() {
-      return this.generate();
+      this.$value = this.generate()
+      return this.$value;
+   }
+
+   getHeadings() {
+
    }
 
    generate() {
@@ -81,9 +86,9 @@ class SaneEditor {
       var notification = $('<div class="notification"><div class="text">' + message + '</div></div>');
       notification.insertBefore(this.content);
       notification.addClass('show')
-      setTimeout(function(){
+      setTimeout(function() {
          notification.removeClass('show')
-      },1500)
+      }, 1500)
    }
 
    createModal(header) {
@@ -254,6 +259,7 @@ class SaneEditor {
             })
             icon.click(function(e) {
                handler.cmd ? self.toolbarIconClick(handler.cmd) : '';
+
                if (handler.cmdSmart) {
                   self.smartRangeDetect(handler.cmdSmart).then(function() {
 
@@ -261,6 +267,7 @@ class SaneEditor {
                      self.showError(data.message)
                   })
                }
+               self.triggerActivity();
             });
          }
       });

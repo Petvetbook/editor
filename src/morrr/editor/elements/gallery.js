@@ -21,6 +21,7 @@ const GalleryTag = {
 
          range.inject(gl)
          GalleryTag.bindEditorEvents.bind(self)(gl);
+         self.triggerActivity();
       });
    },
    _bindFigure: function(element, figure) {

@@ -1164,8 +1164,12 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
       }, {
          key: "getValue",
          value: function getValue() {
-            return this.generate();
+            this.$value = this.generate();
+            return this.$value;
          }
+      }, {
+         key: "getHeadings",
+         value: function getHeadings() {}
       }, {
          key: "generate",
          value: function generate() {
@@ -1379,11 +1383,13 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
                   });
                   icon.click(function (e) {
                      handler.cmd ? self.toolbarIconClick(handler.cmd) : '';
+
                      if (handler.cmdSmart) {
                         self.smartRangeDetect(handler.cmdSmart).then(function () {}).catch(function (data) {
                            self.showError(data.message);
                         });
                      }
+                     self.triggerActivity();
                   });
                }
             });
@@ -2372,6 +2378,7 @@ realm.module("morrr.editor.elements.gallery", ["morrr.editor.Gallery", "morrr.ed
 
             range.inject(gl);
             GalleryTag.bindEditorEvents.bind(self)(gl);
+            self.triggerActivity();
          });
       },
       _bindFigure: function _bindFigure(element, figure) {
