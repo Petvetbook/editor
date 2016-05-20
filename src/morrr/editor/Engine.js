@@ -117,7 +117,7 @@ class SaneEditor {
 
    createModal(header) {
       var modal = Modal.create({
-         title: "Insert image",
+         title: header,
          target: this.modalWrapper
       });
       return modal;
