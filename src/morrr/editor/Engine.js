@@ -18,11 +18,17 @@ class SaneEditor {
       this.modalWrapper.appendTo(this.element);
       this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
       this.leftMenu = $('<div class="sane-editor-left-menu"></div>');
+
       this.element.append(this.leftMenu)
+      this.element.append(this.contentPane);
 
       this.contentWrapper.appendTo(this.element);
       this.content = $('<div class="sane-editor-content" contenteditable="true"></div>').appendTo(this.toolbar);
       this.content.appendTo(this.contentWrapper);
+      this.contentPane = $('<div class="sane-editor-content-pane"></div>');
+      this.contentPane.hide();
+      this.contentPane.appendTo(this.contentWrapper)
+
       target.replaceWith(this.element);
 
       this.inializeToolbar();
@@ -35,6 +41,20 @@ class SaneEditor {
          var cleanText = utils.trimText(text);
          e.originalEvent.preventDefault();
          self.execCommand("insertHTML", false, '<x></x><div>' + cleanText + '</div>');
+      });
+   }
+   openContentPane() {
+
+      var self = this;
+      this.content.fadeOut(function() {
+         self.contentPane.fadeIn();
+      })
+
+   }
+   closeContentPane() {
+      var self = this;
+      this.contentPane.fadeOut(function() {
+         self.content.fadeIn();
       });
    }
 

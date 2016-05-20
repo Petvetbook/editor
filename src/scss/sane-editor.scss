@@ -110,6 +110,20 @@
     }
   }
 }
+.sane-editor-content-pane {
+   display: block;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 18px;
+    line-height: 1.4em;
+    font-variant-ligatures: common-ligatures;
+    max-width: 815px;
+    height: 100%;
+    outline: 0!important;
+}
+
 .sane-editor-content {
   display: block;
   margin: 0 auto;
