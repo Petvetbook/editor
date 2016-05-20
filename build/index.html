@@ -18,9 +18,17 @@
             left:20px;
             border: 1px solid #ececec;
             background: white;
-            padding: 10px;
+
             color:black !important;
 
+         }
+         .sane-editor-left-menu {
+            width: 200px;
+            height: 100px;
+            background: white;
+            position: absolute;
+            left: 50px;
+            top: 80px;
          }
       </style>
       <div id="editor">
@@ -58,9 +66,9 @@
                toolbar: ['h1', 'h3', 'intro', 'blockquote', 'strong', 'ol', 'ul', 'url', 'unlink', 'gallery']
             });
 
-            editor.onFullScreenLeftMenu(function(element){
-
-            });
+            // editor.onFullScreenLeftMenu(function(element){
+            //
+            // });
             editor.onActivity(function(){
                $("#debug").val(editor.getValue());
             });

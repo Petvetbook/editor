@@ -17,10 +17,14 @@ class SaneEditor {
       this.modalWrapper = $('<div class="sane-editor-modal-wrapper"></div>');
       this.modalWrapper.appendTo(this.element);
       this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
+      this.leftMenu = $('<div class="sane-editor-left-menu"></div>');
+      this.element.append(this.leftMenu)
+
       this.contentWrapper.appendTo(this.element);
       this.content = $('<div class="sane-editor-content" contenteditable="true"></div>').appendTo(this.toolbar);
       this.content.appendTo(this.contentWrapper);
       target.replaceWith(this.element);
+
       this.inializeToolbar();
       this.fixCloningFeature();
       var self = this;
