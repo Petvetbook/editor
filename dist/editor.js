@@ -1176,7 +1176,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             }
 
             var tag = riot.mount(toolbar[0], riotTag, props || {});
-            this.tags.mainToolbar = tag[0];
+            this.tags.mainToolbar = tag ? tag[0] : undefined;
             return this.tags.mainToolbar;
          }
       }, {
@@ -1189,8 +1189,8 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
                toolbar = this.fileToolbar;
             }
             var tag = riot.mount(toolbar[0], riotTag, props || {});
-            this.tags.fileToolbar = tag[0];
-            return this.tags;
+            this.tags.fileToolbar = tag ? tag[0] : undefined;
+            return this.fileToolbar;
          }
       }, {
          key: "update",
@@ -2422,11 +2422,6 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
-
-   return $_exports;
-});
 realm.module("morrr.editor.elements.b", ["morrr.editor.utils"], function (utils) {
    var $_exports;
 
@@ -2972,6 +2967,11 @@ realm.module("morrr.editor.elements.url", [], function () {
    };
 
    $_exports = Link;
+
+   return $_exports;
+});
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
 
    return $_exports;
 });

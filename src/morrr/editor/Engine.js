@@ -60,7 +60,7 @@ class SaneEditor {
       }
 
       var tag = riot.mount(toolbar[0], riotTag, props || {});
-      this.tags.mainToolbar = tag[0];
+      this.tags.mainToolbar = tag ? tag[0] : undefined;
       return this.tags.mainToolbar;
    }
 
@@ -72,8 +72,8 @@ class SaneEditor {
          toolbar = this.fileToolbar;
       }
       var tag = riot.mount(toolbar[0], riotTag, props || {});
-      this.tags.fileToolbar = tag[0];
-      return this.tags;
+      this.tags.fileToolbar = tag ? tag[0] : undefined;
+      return this.fileToolbar;
    }
 
    update(specific) {
