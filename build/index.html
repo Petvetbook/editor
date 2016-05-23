@@ -5,6 +5,7 @@
       <title></title>
       <script src="https://cdn.jsdelivr.net/riot/2.4/riot+compiler.min.js"></script>
       <script type="riot/tag" src="/menu-toolbar.tag"></script>
+      <script type="riot/tag" src="/file-toolbar.tag"></script>
 
       <script type="text/javascript" src="/bower_components/lodash/dist/lodash.min.js"></script>
       <script type="text/javascript" src="/realm.js"></script>
@@ -13,29 +14,6 @@
       <link rel="stylesheet" type="text/css" href="editor.min.css">
    </head>
    <body style="margin: 0; padding: 40px;">
-      <style>
-         .left-menu {
-            position: fixed;
-            top:80px;
-            width: 200px;
-            left:20px;
-            border: 1px solid #ececec;
-            background: white;
-
-            color:black !important;
-
-         }
-         .sane-editor-left-menu {
-            display: none;
-            width: 200px;
-            height: 100px;
-            background: white;
-            position: absolute;
-            left: 50px;
-            top: 80px;
-            z-index: 1;
-         }
-      </style>
       <div id="editor">
 
       </div>
@@ -76,6 +54,7 @@
             // creating toolbar
 
             editor.mountToolbar('menu-toolbar',{ hello : 'world'});
+            editor.mountFileToolbar('file-toolbar');
 
             editor.showEditor();
 

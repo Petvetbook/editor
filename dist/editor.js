@@ -1125,7 +1125,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             this.opts = opts || {};
             this.toolbarConfig = opts.toolbar || [];
             this.element = $('<div class="sane-editor"></div>');
-            this.formattingWrapper = $('<div class="sane-formatting-wrapper"></div>');
+            this.formattingWrapper = $('<div class="sane-formatting-toolbar-wrapper"></div>');
             this.toolbarWrapper = $('<div class="sane-editor-toolbar-wrapper"></div>');
             this.toolbarWrapper.appendTo(this.element);
             this.toolbar = $('<div class="sane-formatting-toolbar"></div>');
@@ -1263,6 +1263,21 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
                this.menuToolbar = $("<div class='main-toolbar'></div>");
                this.menuToolbar.appendTo(this.toolbarWrapper);
                toolbar = this.menuToolbar;
+            }
+            if (riotTag && window.riot) {
+               var tag = riot.mount(toolbar[0], riotTag, props || {});
+               return tag;
+            }
+            return element;
+         }
+      }, {
+         key: "mountFileToolbar",
+         value: function mountFileToolbar(riotTag, props) {
+            var toolbar = this.fileToolbar;
+            if (!toolbar) {
+               this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
+               this.fileToolbar.appendTo(this.contentWrapper);
+               toolbar = this.fileToolbar;
             }
             if (riotTag && window.riot) {
                var tag = riot.mount(toolbar[0], riotTag, props || {});
@@ -2941,6 +2956,11 @@ realm.module("morrr.editor.elements.url", [], function () {
 
    return $_exports;
 });
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
+
+   return $_exports;
+});
 realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
    var $_exports;
 
@@ -2965,11 +2985,6 @@ realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model
    });
 
    $_exports = UserImages;
-
-   return $_exports;
-});
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
 
    return $_exports;
 });

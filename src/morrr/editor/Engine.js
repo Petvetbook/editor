@@ -10,7 +10,7 @@ class SaneEditor {
       this.opts = opts || {};
       this.toolbarConfig = opts.toolbar || [];
       this.element = $('<div class="sane-editor"></div>');
-      this.formattingWrapper = $('<div class="sane-formatting-wrapper"></div>');
+      this.formattingWrapper = $('<div class="sane-formatting-toolbar-wrapper"></div>');
       this.toolbarWrapper = $('<div class="sane-editor-toolbar-wrapper"></div>');
       this.toolbarWrapper.appendTo(this.element);
       this.toolbar = $('<div class="sane-formatting-toolbar"></div>');
@@ -136,6 +136,20 @@ class SaneEditor {
          this.menuToolbar = $("<div class='main-toolbar'></div>");
          this.menuToolbar.appendTo(this.toolbarWrapper);
          toolbar = this.menuToolbar;
+      }
+      if (riotTag && window.riot) {
+         var tag = riot.mount(toolbar[0], riotTag, props || {});
+         return tag;
+      }
+      return element;
+   }
+
+   mountFileToolbar(riotTag, props) {
+      var toolbar = this.fileToolbar;
+      if (!toolbar) {
+         this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
+         this.fileToolbar.appendTo(this.contentWrapper);
+         toolbar = this.fileToolbar;
       }
       if (riotTag && window.riot) {
          var tag = riot.mount(toolbar[0], riotTag, props || {});

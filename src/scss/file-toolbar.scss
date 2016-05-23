@@ -1,12 +1,16 @@
-.sane-formatting-toolbar-wrapper {
-  margin: 50px 0;
-  width: 30px;
+.sane-file-toolbar-wrapper {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  height: 30px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  z-index: 50;
+  flex-direction: row;
+  justify-content: flex-end;
+  z-index: 5;
+  background-color: $dkdkgrey;
 }
-.sane-formatting-toolbar {
+.sane-file-toolbar {
   position: relative;
   display: block;
   margin: 0 auto;
