@@ -1229,9 +1229,12 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
       }, {
          key: "triggerActivity",
          value: function triggerActivity() {
-
+            var self = this;
             if (this.activity_cb) {
-               this.activity_cb();
+               clearTimeout(this.updateTyping);
+               this.updateTyping = setTimeout(function () {
+                  self.activity_cb();
+               }, 50);
             }
          }
       }, {
@@ -2419,6 +2422,11 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.b", ["morrr.editor.utils"], function (utils) {
    var $_exports;
 
@@ -2967,6 +2975,33 @@ realm.module("morrr.editor.elements.url", [], function () {
 
    return $_exports;
 });
+realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
+   var $_exports;
+
+   var UserImages = Model.extend({
+      collection: "user_images",
+      schema: {
+         _id: [],
+         parent: {
+            required: true,
+            reference: true,
+            index: true
+         },
+         image: {
+            required: true
+         },
+         created_time: {}
+      },
+      onBeforeCreate: function onBeforeCreate(resolve, reject) {
+         this.attrs.created_time = new Date();
+         return resolve();
+      }
+   });
+
+   $_exports = UserImages;
+
+   return $_exports;
+});
 realm.module("morrr.editor.routes.GalleryImages", ["realm.router.decorators.route", "realm.router.decorators.cors", "morrr.editor.models.Image"], function (route, cors, Image) {
    var _dec, _class;
 
@@ -3038,11 +3073,6 @@ realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "re
 
    return $_exports;
 });
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
-
-   return $_exports;
-});
 realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
    var $_exports;
 
@@ -3063,33 +3093,6 @@ realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], func
    });
 
    $_exports = Config;
-
-   return $_exports;
-});
-realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
-   var $_exports;
-
-   var UserImages = Model.extend({
-      collection: "user_images",
-      schema: {
-         _id: [],
-         parent: {
-            required: true,
-            reference: true,
-            index: true
-         },
-         image: {
-            required: true
-         },
-         created_time: {}
-      },
-      onBeforeCreate: function onBeforeCreate(resolve, reject) {
-         this.attrs.created_time = new Date();
-         return resolve();
-      }
-   });
-
-   $_exports = UserImages;
 
    return $_exports;
 });

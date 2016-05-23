@@ -94,6 +94,7 @@ class SaneEditor {
          self.contentPane.fadeIn();
       });
    }
+
    closeContentPane() {
       var self = this;
       this.contentPane.fadeOut(function() {
@@ -106,9 +107,12 @@ class SaneEditor {
    }
 
    triggerActivity() {
-
+      var self = this;
       if (this.activity_cb) {
-         this.activity_cb();
+         clearTimeout(this.updateTyping);
+         this.updateTyping = setTimeout(function() {
+            self.activity_cb();
+         }, 50);
       }
    }
 
