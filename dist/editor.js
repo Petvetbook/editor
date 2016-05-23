@@ -1160,6 +1160,8 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
                e.originalEvent.preventDefault();
                self.execCommand("insertHTML", false, '<x></x><div>' + cleanText + '</div>');
             });
+            this.hideEditor();
+            this.toggleFullScreenMode();
          }
       }, {
          key: "openContentPane",
@@ -1231,6 +1233,18 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             };
          }
       }, {
+         key: "hideEditor",
+         value: function hideEditor() {
+            $(this.content).hide();
+            $(this.formattingWrapper).hide();
+         }
+      }, {
+         key: "showEditor",
+         value: function showEditor() {
+            $(this.content).show();
+            $(this.formattingWrapper).show();
+         }
+      }, {
          key: "showError",
          value: function showError(message) {
             this.element.find(".notification").remove();
@@ -1240,6 +1254,21 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             setTimeout(function () {
                notification.removeClass('show');
             }, 1500);
+         }
+      }, {
+         key: "mountToolbar",
+         value: function mountToolbar(riotTag, props) {
+            var toolbar = this.menuToolbar;
+            if (!toolbar) {
+               this.menuToolbar = $("<div class='main-toolbar'></div>");
+               this.menuToolbar.appendTo(this.toolbarWrapper);
+               toolbar = this.menuToolbar;
+            }
+            if (riotTag && window.riot) {
+               var tag = riot.mount(toolbar[0], riotTag, props || {});
+               return tag;
+            }
+            return element;
          }
       }, {
          key: "createModal",
@@ -2361,6 +2390,24 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
    };
 
    $_exports = Generator;
+
+   return $_exports;
+});
+realm.module("morrr.editor.elements.b", ["morrr.editor.utils"], function (utils) {
+   var $_exports;
+
+   var Strong = {
+      tag: 'b',
+      inline: true,
+      toBBCode: function toBBCode(root) {
+         var self = this;
+         root.find('b').each(function (index, element) {
+            $(element).replaceWith('[strong]' + utils.trimText($(element).text()) + '[/strong]');
+         });
+      }
+   };
+
+   $_exports = Strong;
 
    return $_exports;
 });

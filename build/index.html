@@ -3,6 +3,9 @@
    <head>
       <meta charset="utf-8">
       <title></title>
+      <script src="https://cdn.jsdelivr.net/riot/2.4/riot+compiler.min.js"></script>
+      <script type="riot/tag" src="/menu-toolbar.tag"></script>
+
       <script type="text/javascript" src="/bower_components/lodash/dist/lodash.min.js"></script>
       <script type="text/javascript" src="/realm.js"></script>
       <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
@@ -49,6 +52,7 @@
          })
          realm.require("morrr.editor.Engine", function(Editor){
             var editor = new Editor();
+
             var element = $("#editor");
             var values = ['[intro]This is blog intro[/intro]'];
             values.push('[h3]Some h3 header[/h3]');
@@ -68,28 +72,31 @@
                toolbar: ['h1', 'h3', 'intro', 'blockquote', 'strong', 'ol', 'ul', 'url', 'unlink', 'gallery']
             });
 
+
+            // creating toolbar
+
+            editor.mountToolbar('menu-toolbar',{ hello : 'world'});
+
+            editor.showEditor();
+
+
             // editor.onFullScreenLeftMenu(function(element){
             //
             // });
+            var tm;
             editor.onActivity(function(){
-               $("#debug").val(editor.getValue());
-            });
+               clearTimeout(tm);
+               tm = setTimeout(function(){
+                  $("#debug").val(editor.getValue());
+               },100)
 
-            var buttonShow = $("<input type='button' value='show' />")
-            var buttonHide = $("<input type='button' value='hide' />")
-            editor.leftMenu.append(buttonShow).append(buttonHide)
-            buttonShow.click(function(){
-               editor.openContentPane();
-            });
-            buttonHide.click(function(){
-               editor.closeContentPane();
             });
 
             $("#apply").click(function(){
                editor.setValue($("#debug").val());
             });
 
-            var some = "[h1]How is urinary incontinence treated in dogs?[/h1]Urinary incontinence is a condition characterised by occasional involuntary “leaking” of urine. It is most common in middle-aged to older neutered bitches; it is also occasionally observed in neutered males and (more rarely) in entire dogs.&nbsp; The treatment to some extent depends on the cause – for example, if there is an underlying condition (e.g. a urinary tract infection or ectopic ureters), they must be treated and will often resolve the incontinence. If not, there are two medications that are widely used:[ul][li][strong]Phenylpropanolamine[/strong]:[ul][li]A drug that reinforces the sphincter.[/li][li]It acts to increase the strength of contraction of the sphincter muscles, improving voluntary control of urination.[/li][li]Designed for use in bitches, but may be used (off license on the Prescribing Cascade) in almost any dog with incontinence problems.[/li][/ul][/li][li][strong]Estriol[/strong]:[ul][li]A synthetic oestrogen, this acts like hormone replacement therapy and often reverses the changes in a neutered bitch that cause the incontinence.[/li][/ul][/li][/ul]Some cases are resistant to treatment and may require more than one treatment; however, most incontinent dogs can be stabilised and with ongoing (life-long) medical treatment, will live a normal life.&nbsp; [strong] [/strong] [strong]If your dog is leaking urine, make an appointment to get them checked out by your vet.[/strong] "
+            var some = "Normally, pain is a mechanism warning [b]the dog[/b] that part of their body is being damaged, so that they can avoid it. However, sometimes, pain messages may be sent by damaged nerves, even if there is no physical damage occurring. This is called neuropathic pain, or nerve pain.  The most common reason for it to occur is following injury (including surgery), where although the other tissues heal fully, the nerves may take much, much longer to “reset”. Following amputations in particular";
             editor.setValue(some);
             $("#debug").val(editor.getValue());
          })

@@ -45,6 +45,8 @@ class SaneEditor {
          e.originalEvent.preventDefault();
          self.execCommand("insertHTML", false, '<x></x><div>' + cleanText + '</div>');
       });
+      this.hideEditor();
+      this.toggleFullScreenMode();
    }
    openContentPane() {
 
@@ -108,6 +110,16 @@ class SaneEditor {
          }
       };
    }
+
+   hideEditor() {
+      $(this.content).hide();
+      $(this.formattingWrapper).hide();
+   }
+   showEditor() {
+      $(this.content).show();
+      $(this.formattingWrapper).show();
+   }
+
    showError(message) {
       this.element.find(".notification").remove();
       var notification = $('<div class="notification"><div class="text">' + message + '</div></div>');
@@ -116,6 +128,20 @@ class SaneEditor {
       setTimeout(function() {
          notification.removeClass('show')
       }, 1500)
+   }
+
+   mountToolbar(riotTag, props) {
+      var toolbar = this.menuToolbar;
+      if (!toolbar) {
+         this.menuToolbar = $("<div class='main-toolbar'></div>");
+         this.menuToolbar.appendTo(this.toolbarWrapper);
+         toolbar = this.menuToolbar;
+      }
+      if (riotTag && window.riot) {
+         var tag = riot.mount(toolbar[0], riotTag, props || {});
+         return tag;
+      }
+      return element;
    }
 
    createModal(header) {
