@@ -1123,6 +1123,8 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
          key: "initialize",
          value: function initialize(target, opts) {
             this.opts = opts || {};
+            this.tags = {};
+
             this.toolbarConfig = opts.toolbar || [];
             this.element = $('<div class="sane-editor"></div>');
             this.formattingWrapper = $('<div class="sane-formatting-toolbar-wrapper"></div>');
@@ -1164,9 +1166,48 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             this.toggleFullScreenMode();
          }
       }, {
+         key: "mountToolbar",
+         value: function mountToolbar(riotTag, props) {
+            var toolbar = this.menuToolbar;
+            if (!toolbar) {
+               this.menuToolbar = $("<div class='main-toolbar'></div>");
+               this.menuToolbar.appendTo(this.toolbarWrapper);
+               toolbar = this.menuToolbar;
+            }
+
+            var tag = riot.mount(toolbar[0], riotTag, props || {});
+            this.tags.mainToolbar = tag[0];
+            return this.tags.mainToolbar;
+         }
+      }, {
+         key: "mountFileToolbar",
+         value: function mountFileToolbar(riotTag, props) {
+            var toolbar = this.fileToolbar;
+            if (!toolbar) {
+               this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
+               this.fileToolbar.appendTo(this.contentWrapper);
+               toolbar = this.fileToolbar;
+            }
+            var tag = riot.mount(toolbar[0], riotTag, props || {});
+            this.tags.fileToolbar = tag[0];
+            return this.tags;
+         }
+      }, {
+         key: "update",
+         value: function update(specific) {
+            var self = this;
+            clearTimeout(this.updateTimeout);
+            this.updateTimeout = setTimeout(function () {
+               _.each(self.tags, function (tag) {
+                  if (tag && tag.update) {
+                     tag.update();
+                  }
+               });
+            }, 1);
+         }
+      }, {
          key: "openContentPane",
          value: function openContentPane() {
-
             var self = this;
             this.content.fadeOut(function () {
                self.contentPane.fadeIn();
@@ -1254,36 +1295,6 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             setTimeout(function () {
                notification.removeClass('show');
             }, 1500);
-         }
-      }, {
-         key: "mountToolbar",
-         value: function mountToolbar(riotTag, props) {
-            var toolbar = this.menuToolbar;
-            if (!toolbar) {
-               this.menuToolbar = $("<div class='main-toolbar'></div>");
-               this.menuToolbar.appendTo(this.toolbarWrapper);
-               toolbar = this.menuToolbar;
-            }
-            if (riotTag && window.riot) {
-               var tag = riot.mount(toolbar[0], riotTag, props || {});
-               return tag;
-            }
-            return element;
-         }
-      }, {
-         key: "mountFileToolbar",
-         value: function mountFileToolbar(riotTag, props) {
-            var toolbar = this.fileToolbar;
-            if (!toolbar) {
-               this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
-               this.fileToolbar.appendTo(this.contentWrapper);
-               toolbar = this.fileToolbar;
-            }
-            if (riotTag && window.riot) {
-               var tag = riot.mount(toolbar[0], riotTag, props || {});
-               return tag;
-            }
-            return element;
          }
       }, {
          key: "createModal",
@@ -2408,11 +2419,6 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
-
-   return $_exports;
-});
 realm.module("morrr.editor.elements.b", ["morrr.editor.utils"], function (utils) {
    var $_exports;
 
@@ -3032,6 +3038,34 @@ realm.module("morrr.editor.routes.Upload", ["realm.router.decorators.route", "re
 
    return $_exports;
 });
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
+
+   return $_exports;
+});
+realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
+   var $_exports;
+
+   var Config = new Promise(function (resolve, reject) {
+      if (realm.isRegistered('morrr.editor.config')) {
+         return realm.require('morrr.editor.config', function (cfg) {
+            return cfg;
+         }).then(resolve).catch(reject);
+      }
+      return resolve({
+         token: "c0b7bdf9b9f645f9f7b106d41082f50d14726129",
+         server: "http://img.dev.morrr.com",
+         folder: "editortest",
+         fullPath: function fullPath(publicPath) {
+            return this.server + "/" + publicPath;
+         }
+      });
+   });
+
+   $_exports = Config;
+
+   return $_exports;
+});
 realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
    var $_exports;
 
@@ -3056,29 +3090,6 @@ realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model
    });
 
    $_exports = UserImages;
-
-   return $_exports;
-});
-realm.module("morrr.editor.runtime.config", ["morrr.editor.utils.Promise"], function (Promise) {
-   var $_exports;
-
-   var Config = new Promise(function (resolve, reject) {
-      if (realm.isRegistered('morrr.editor.config')) {
-         return realm.require('morrr.editor.config', function (cfg) {
-            return cfg;
-         }).then(resolve).catch(reject);
-      }
-      return resolve({
-         token: "c0b7bdf9b9f645f9f7b106d41082f50d14726129",
-         server: "http://img.dev.morrr.com",
-         folder: "editortest",
-         fullPath: function fullPath(publicPath) {
-            return this.server + "/" + publicPath;
-         }
-      });
-   });
-
-   $_exports = Config;
 
    return $_exports;
 });

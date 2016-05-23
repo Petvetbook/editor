@@ -8,6 +8,8 @@ class SaneEditor {
 
    initialize(target, opts) {
       this.opts = opts || {};
+      this.tags = {};
+
       this.toolbarConfig = opts.toolbar || [];
       this.element = $('<div class="sane-editor"></div>');
       this.formattingWrapper = $('<div class="sane-formatting-toolbar-wrapper"></div>');
@@ -48,13 +50,49 @@ class SaneEditor {
       this.hideEditor();
       this.toggleFullScreenMode();
    }
-   openContentPane() {
 
+   mountToolbar(riotTag, props) {
+      var toolbar = this.menuToolbar;
+      if (!toolbar) {
+         this.menuToolbar = $("<div class='main-toolbar'></div>");
+         this.menuToolbar.appendTo(this.toolbarWrapper);
+         toolbar = this.menuToolbar;
+      }
+
+      var tag = riot.mount(toolbar[0], riotTag, props || {});
+      this.tags.mainToolbar = tag[0];
+      return this.tags.mainToolbar;
+   }
+
+   mountFileToolbar(riotTag, props) {
+      var toolbar = this.fileToolbar;
+      if (!toolbar) {
+         this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
+         this.fileToolbar.appendTo(this.contentWrapper);
+         toolbar = this.fileToolbar;
+      }
+      var tag = riot.mount(toolbar[0], riotTag, props || {});
+      this.tags.fileToolbar = tag[0];
+      return this.tags;
+   }
+
+   update(specific) {
+      var self = this;
+      clearTimeout(this.updateTimeout);
+      this.updateTimeout = setTimeout(function() {
+         _.each(self.tags, function(tag) {
+            if (tag && tag.update) {
+               tag.update();
+            }
+         });
+      }, 1);
+   }
+
+   openContentPane() {
       var self = this;
       this.content.fadeOut(function() {
          self.contentPane.fadeIn();
-      })
-
+      });
    }
    closeContentPane() {
       var self = this;
@@ -128,34 +166,6 @@ class SaneEditor {
       setTimeout(function() {
          notification.removeClass('show')
       }, 1500)
-   }
-
-   mountToolbar(riotTag, props) {
-      var toolbar = this.menuToolbar;
-      if (!toolbar) {
-         this.menuToolbar = $("<div class='main-toolbar'></div>");
-         this.menuToolbar.appendTo(this.toolbarWrapper);
-         toolbar = this.menuToolbar;
-      }
-      if (riotTag && window.riot) {
-         var tag = riot.mount(toolbar[0], riotTag, props || {});
-         return tag;
-      }
-      return element;
-   }
-
-   mountFileToolbar(riotTag, props) {
-      var toolbar = this.fileToolbar;
-      if (!toolbar) {
-         this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
-         this.fileToolbar.appendTo(this.contentWrapper);
-         toolbar = this.fileToolbar;
-      }
-      if (riotTag && window.riot) {
-         var tag = riot.mount(toolbar[0], riotTag, props || {});
-         return tag;
-      }
-      return element;
    }
 
    createModal(header) {
