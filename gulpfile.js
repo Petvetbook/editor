@@ -41,9 +41,7 @@ gulp.task('icons', function() {
    return gulp.src('src/icons.sketch')
       .pipe(sketch({
          export: 'artboards',
-         formats: 'svg',
-         compact: 'YES',
-         clean: 'YES'
+         formats: 'svg'
       }))
       .pipe(gulp.dest('src/scss/svg/'));
 });

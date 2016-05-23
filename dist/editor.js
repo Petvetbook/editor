@@ -1125,20 +1125,23 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             this.opts = opts || {};
             this.toolbarConfig = opts.toolbar || [];
             this.element = $('<div class="sane-editor"></div>');
+            this.formattingWrapper = $('<div class="sane-formatting-wrapper"></div>');
             this.toolbarWrapper = $('<div class="sane-editor-toolbar-wrapper"></div>');
             this.toolbarWrapper.appendTo(this.element);
-            this.toolbar = $('<div class="toolbar"></div>');
-            this.toolbar.appendTo(this.toolbarWrapper);
+            this.toolbar = $('<div class="sane-formatting-toolbar"></div>');
+            this.toolbar.appendTo(this.formattingWrapper);
             this.modalWrapper = $('<div class="sane-editor-modal-wrapper"></div>');
             this.modalWrapper.appendTo(this.element);
+            this.contentAreaWrapper = $('<div class="sane-editor-content-area-wrapper"></div>');
             this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
             this.leftMenu = $('<div class="sane-editor-left-menu"></div>');
 
             this.element.append(this.leftMenu);
             this.element.append(this.contentPane);
-
-            this.contentWrapper.appendTo(this.element);
-            this.content = $('<div class="sane-editor-content" contenteditable="true"></div>').appendTo(this.toolbar);
+            this.formattingWrapper.appendTo(this.contentAreaWrapper);
+            this.contentWrapper.appendTo(this.contentAreaWrapper);
+            this.contentAreaWrapper.appendTo(this.element);
+            this.content = $('<div class="sane-editor-content" contenteditable="true"></div>'); //.appendTo(this.toolbar);
             this.content.appendTo(this.contentWrapper);
             this.contentPane = $('<div class="sane-editor-content-pane"></div>');
             this.contentPane.hide();
@@ -2891,11 +2894,6 @@ realm.module("morrr.editor.elements.url", [], function () {
 
    return $_exports;
 });
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
-
-   return $_exports;
-});
 realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model) {
    var $_exports;
 
@@ -2920,6 +2918,11 @@ realm.module("morrr.editor.models.Image", ["wires.mongo.Model"], function (Model
    });
 
    $_exports = UserImages;
+
+   return $_exports;
+});
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
 
    return $_exports;
 });

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" >
-    
-    <g id="Page-1" stroke="none" stroke-width="1"  fill-rule="evenodd">
-        <g id="bold" >
+<svg width="30px" height="30px" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 3.8.1 (29687) - http://www.bohemiancoding.com/sketch -->
+    <title>bold</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="bold" fill="#AAAAAA">
             <path d="M8.016,22.152 C8.016,23.184 8.832,24 9.864,24 L16.008,24 C19.8,24 22.296,22.464 22.296,19.392 L22.296,19.344 C22.296,17.088 21.096,15.96 19.152,15.216 C20.352,14.544 21.36,13.488 21.36,11.592 L21.36,11.544 C21.36,10.392 20.976,9.456 20.208,8.688 C19.248,7.728 17.736,7.2 15.816,7.2 L9.864,7.2 C8.832,7.2 8.016,8.016 8.016,9.048 L8.016,22.152 Z M11.616,13.992 L11.616,10.44 L15.264,10.44 C16.824,10.44 17.688,11.064 17.688,12.168 L17.688,12.216 C17.688,13.464 16.656,13.992 15.024,13.992 L11.616,13.992 Z M11.616,20.76 L11.616,17.064 L15.888,17.064 C17.784,17.064 18.624,17.76 18.624,18.888 L18.624,18.936 C18.624,20.184 17.64,20.76 16.008,20.76 L11.616,20.76 Z" id="B"></path>
         </g>
     </g>

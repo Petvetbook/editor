@@ -4,23 +4,22 @@
   transition: all 0.2s ease-out;
   div[class*='modal'] {
     display: block;
-    margin: 0 auto;
+    margin: 20px auto;
     padding: 20px;
     max-width: $max-width;
     background-color: white;
-    box-shadow: 0 0 10px rgba(black, 0.3);
-    &:after {
-      content: '';
-      display: block;
-      z-index: -1;
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: rgba(black, 0.6);
-      pointer-events: none;
-    }
+    // &:after {
+    //   content: '';
+    //   display: block;
+    //   z-index: -1;
+    //   position: fixed;
+    //   top: 0;
+    //   right: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   background-color: rgba(black, 0.6);
+    //   pointer-events: none;
+    // }
   }
   .header,
   .footer {
@@ -36,7 +35,6 @@
   }
   .footer {
     margin: 20px 0 0 0;
-    // border-top: 1px solid $grey;
     padding-top: 10px;
     text-align: right;
     .button {
