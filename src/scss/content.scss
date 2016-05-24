@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* FIXME */
 .sane-editor-content-pane {
    display: block;
@@ -89,7 +91,7 @@
       text-align: center;
       visibility: hidden;
       &:after {
-        content: '\00d7';
+        content: '×';
         position: absolute;
         top: 0;
         right: 0;
