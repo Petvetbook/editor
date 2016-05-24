@@ -35,10 +35,10 @@
     &.published:before,
     &.unpublished:before {
       content: '•';
-      font-size: 30px;
+      font-size: 26px;
       line-height: 30px;
       vertical-align: middle;
-      margin-left: 5px;
+      margin: 0 5px;
     }
     &.published:before {
       color: green;
@@ -60,22 +60,18 @@
     }
   }
   .tab {
-    margin-left: 5px;
-    &:not(.active) .button {
-      display: none;
-    }
+    margin-left: 10px;
+    background-color: rgba(black, 0.1);
   }
   .button {
+    display: none;
     background-color: green;
     border-radius: 0 3px 0 0;
     &:hover {
       background-color: black;
     }
-    &.disabled {
-      background-color: $grey;
-      &:hover {
-        background-color: $grey;
-      }
+    &.enabled {
+      display: inline-block;
     }
     span {
       color: white;

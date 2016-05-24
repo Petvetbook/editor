@@ -66,11 +66,13 @@ gulp.task('server', function() {
 });
 
 gulp.task('start', function() {
-
-   runSequence('build-riot', 'build-universal', 'babel-all', 'frontend-libs', function() {
+   runSequence('build-riot', 'build-universal', 'babel-all', 'frontend-libs', 'sass', function() {
       runSequence('server')
       gulp.watch(['tags/**/*.tag'], function() {
          runSequence('build-riot')
+      });
+      gulp.watch(['src/scss/*.scss'], function() {
+         runSequence('sass')
       });
       gulp.watch(['src/morrr/**/*.js'], function() {
          runSequence('build-universal', 'babel-all');

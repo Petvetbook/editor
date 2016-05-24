@@ -1,3 +1,19 @@
-.sane-drop-down {
+.dropdown {
+  font-size: 13px;
+  .dropdown-current {
 
+  }
+  .dropdown-arrow {
+
+  }
+  .dropdown-list-wrapper {
+
+  }
+  .dropdown-list {
+    .item {
+      display: flex;
+      flex-direction: row;
+      margin: 0.5em 0;
+    }
+  }
 }
