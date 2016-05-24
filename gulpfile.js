@@ -71,9 +71,7 @@ gulp.task('start', function() {
          runSequence('sass')
       });
       gulp.watch(['src/morrr/**/*.js'], function() {
-         return realm.transpiler2.universal(__dirname + "/src/morrr", __dirname + "/build/", {
-            preffix: "morrr"
-         });
+         runSequence('build-universal')
 
       });
    });
