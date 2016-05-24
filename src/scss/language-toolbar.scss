@@ -16,15 +16,20 @@
   flex: 0 1 $max-width;
   margin: 0 auto;
   text-align: right;
-  .tab,
-  .button {
+  .tab {
     cursor: pointer;
     display: inline-block;
     width: auto;
     height: 30px;
-    margin: 0;
-    background-size: 70% auto;
+    margin: 0 0 0 10px;
+    padding: 0 10px;
     border-radius: 3px 3px 0 0;
+    color: $dkdkgrey;
+    background-color: rgba(black, 0.1);
+    font-size: 11px;
+    line-height: 30px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     text-align: center;
     vertical-align: middle;
     &.active,
@@ -32,50 +37,53 @@
       background-color: white;
       box-shadow: 0 -2px 3px rgba(black, 0.05);
     }
-    &.published:before,
-    &.unpublished:before {
+    &:before {
       content: '•';
       font-size: 26px;
       line-height: 30px;
       vertical-align: middle;
-      margin: 0 5px;
+      margin-right: 5px;
+      color: orange;
     }
     &.published:before {
       color: green;
     }
-    &.unpublished:before {
-      color: orange;
-    }
-    span {
+    &.modified:after {
+      content: ' - not saved';
       font-size: 11px;
       line-height: 30px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: $dkdkgrey;
-      padding-right: 5px;
+      color: red;
+    }
+    span {
       white-space: nowrap;
       visibility: visible;
       opacity: 1;
       transition: 0.3s all ease-out;
     }
   }
-  .tab {
-    margin-left: 10px;
-    background-color: rgba(black, 0.1);
-  }
   .button {
-    display: none;
-    background-color: green;
     border-radius: 0 3px 0 0;
-    &:hover {
-      background-color: black;
-    }
+    background-color: $grey;
+    pointer-events: none;
     &.enabled {
+      background-color: green;
       display: inline-block;
+      pointer-events: auto;
+      &:hover {
+        background-color: black;
+      }
     }
     span {
+      font-size: 11px;
+      line-height: 30px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       color: white;
       padding: 0 10px;
+      white-space: nowrap;
+      visibility: visible;
+      opacity: 1;
+      transition: 0.3s all ease-out;
     }
   }
 }
