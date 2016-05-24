@@ -1,4 +1,5 @@
 "use realm";
+
 import utils from morrr.editor;
 
 const Strong = {

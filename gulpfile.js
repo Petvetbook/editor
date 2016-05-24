@@ -4,9 +4,12 @@ var concat = require("gulp-concat");
 var concatUtil = require('gulp-concat-util');
 var rename = require("gulp-rename");
 var realm = require('realm-js');
+var riot = require('gulp-riot');
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var addsrc = require('gulp-add-src');
+
+var insert = require('gulp-insert');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var base64 = require('gulp-base64-inline');
@@ -62,28 +65,26 @@ gulp.task('server', function() {
    });
 });
 
-gulp.task('start', ['server'], function() {
-   gulp.watch(['src/**/*.js', 'src/scss/*'], function() {
-      runSequence('build', 'sass', 'server')
+gulp.task('start', function() {
+   runSequence('build-riot', 'build-universal', 'babel-all', 'frontend-libs', function() {
+      runSequence('server')
+      gulp.watch(['src/sherlock/admin/tags/**/*.tag'], function() {
+         runSequence('build-riot')
+      });
+      gulp.watch(['src/morrr/**/*.js'], function() {
+         runSequence('build-universal', 'babel-all');
+
+      });
    });
 });
 
-gulp.task('dist', function(cb) {
-   runSequence('build', ['icons', 'sass', 'uglify'], cb)
-});
-gulp.task('uglify', function() {
-   return gulp.src("dist/editor.js")
-      .pipe(uglify())
-      .pipe(rename('editor.min.js'))
-      .pipe(gulp.dest('./dist'));
-
-})
-
-gulp.task("build", function() {
-   return gulp.src("src/morrr/**/*.js").pipe(realm.transpiler({
-         preffix: "morrr",
-         base: "src/morrr",
-         target: "./build.js"
+gulp.task("build-riot", function() {
+   return gulp.src("tags/**/*.tag")
+      .pipe(riot({
+         compact: true
+      }))
+      .pipe(realm.transpiler2.gulp(__dirname + "/tags/", "riot-tags.js", {
+         preffix: "test.tags"
       }))
       .pipe(babel({
          presets: ["es2016"],
@@ -93,12 +94,42 @@ gulp.task("build", function() {
          console.log(e.stack);
          this.emit('end');
       })
-      .pipe(realm.transpiler({
-         wrap: true
+      .pipe(gulp.dest('./build'));
+});
+
+gulp.task("babel-all", function() {
+   return gulp.src(["build/frontend.js", "build/backend.js", "build/universal.js"])
+      .pipe(babel({
+         presets: ["es2016"],
+         plugins: ["transform-decorators-legacy"]
       }))
-      .pipe(addsrc('src/lib/**/*.js'))
-      .pipe(concat('build.js'))
-      .pipe(gulp.dest("./build"))
-      .pipe(rename('editor.js'))
-      .pipe(gulp.dest("./dist"))
+      .on('error', function(e) {
+         console.log(e.stack);
+         this.emit('end');
+      })
+      .pipe(gulp.dest("./build"));
+});
+
+gulp.task('dist', function(cb) {
+   runSequence('build', ['icons', 'sass', 'uglify'], cb)
+});
+
+gulp.task('uglify', function() {
+   return gulp.src("dist/editor.js")
+      .pipe(uglify())
+      .pipe(rename('editor.min.js'))
+      .pipe(gulp.dest('./dist'));
+
+})
+
+gulp.task("build-universal", function() {
+   return realm.transpiler2.universal(__dirname + "/src/morrr/", __dirname + "/build", {
+      preffix: "morrr"
+   });
+});;
+
+gulp.task("frontend-libs", function() {
+   gulp.src("src/frontend-libs/**/*.js")
+      .pipe(concat('lib.js'))
+      .pipe(gulp.dest("./build/"))
 });;

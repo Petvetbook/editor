@@ -6,7 +6,8 @@ var wiresMongo = require('wires-mongo');
 
 app.use('/realm.js', realm.serve.express());
 
-require('./build/build.js');
+require('./build/universal.js');
+require('./build/backend.js');
 require("./db.js")
 
 app.use('/', express.static(__dirname + "/build"));

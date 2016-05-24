@@ -1,4 +1,4 @@
-"use realm";
+"use realm backend";
 
 import route, cors from realm.router.decorators;
 import Image from morrr.editor.models;

@@ -2435,6 +2435,11 @@ realm.module("morrr.editor.bbcode.Generator", ["morrr.editor.utils", "morrr.edit
 
    return $_exports;
 });
+realm.module("morrr.editor.integrations.riot", [], function () {
+   var $_exports;
+
+   return $_exports;
+});
 realm.module("morrr.editor.elements.b", ["morrr.editor.utils"], function (utils) {
    var $_exports;
 
@@ -2980,11 +2985,6 @@ realm.module("morrr.editor.elements.url", [], function () {
    };
 
    $_exports = Link;
-
-   return $_exports;
-});
-realm.module("morrr.editor.integrations.riot", [], function () {
-   var $_exports;
 
    return $_exports;
 });
