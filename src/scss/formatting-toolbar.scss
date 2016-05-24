@@ -1,5 +1,5 @@
 .sane-formatting-toolbar-wrapper {
-  margin: 60px 0;
+  margin: 50px 0;
   width: 30px;
   display: flex;
   flex-direction: column;
@@ -28,13 +28,9 @@
       z-index: -1;
       padding: 0 30px 0 10px;
       font-size: 10px;
-      line-height: 30px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
       background: black;
       color: $grey;
       border-radius: 3px 0 0 3px;
-      white-space: nowrap;
       visibility: visible;
       opacity: 1;
       transition: 0.3s all ease-out;

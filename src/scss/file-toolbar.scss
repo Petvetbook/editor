@@ -21,13 +21,7 @@
       background-color: $dkgrey !important;
     }
     span {
-      font-size: 11px;
-      line-height: 30px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: white;
-      padding: 0 10px;
-      white-space: nowrap;
+      color: $grey;
     }
   }
 }
