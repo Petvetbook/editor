@@ -5,6 +5,7 @@ var concatUtil = require('gulp-concat-util');
 var rename = require("gulp-rename");
 var realm = require('realm-js');
 var riot = require('gulp-riot');
+var gulpFile = require('gulp-file')
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var addsrc = require('gulp-add-src');
@@ -37,7 +38,7 @@ gulp.task('sass', function() {
       }))
       .pipe(rename('editor.min.css'))
       .pipe(gulp.dest('build/'))
-      .pipe(gulp.dest('dist/'));
+      .pipe(gulp.dest('dist/frontend'));
 });
 
 gulp.task('icons', function() {
@@ -66,6 +67,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('start', function() {
+
    runSequence('build-riot', 'build-universal', 'babel-all', 'frontend-libs', function() {
       runSequence('server')
       gulp.watch(['src/sherlock/admin/tags/**/*.tag'], function() {
@@ -110,8 +112,19 @@ gulp.task("babel-all", function() {
       .pipe(gulp.dest("./build"));
 });
 
-gulp.task('dist', function(cb) {
-   runSequence('build', ['icons', 'sass', 'uglify'], cb)
+gulp.task('dist', function(callback) {
+   runSequence('build-universal', 'babel-all', 'frontend-libs', 'dist-backend', 'dist-frontend', 'icons', 'sass', callback)
+});
+
+gulp.task('dist-backend', function() {
+   return gulp.src(["build/universal.js", "build/backend.js"])
+      .pipe(concat("backend.js"))
+      .pipe(gulp.dest("./dist/backend/"))
+});
+gulp.task('dist-frontend', function() {
+   return gulp.src(["build/lib.js", "build/universal.js"])
+      .pipe(concat('editor.js'))
+      .pipe(gulp.dest("./dist/frontend/"))
 });
 
 gulp.task('uglify', function() {
@@ -129,7 +142,7 @@ gulp.task("build-universal", function() {
 });;
 
 gulp.task("frontend-libs", function() {
-   gulp.src("src/frontend-libs/**/*.js")
+   return gulp.src("src/frontend-libs/**/*.js")
       .pipe(concat('lib.js'))
       .pipe(gulp.dest("./build/"))
 });;
