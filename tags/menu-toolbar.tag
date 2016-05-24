@@ -1,52 +1,35 @@
 <menu-toolbar>
-    <span class="status">Editing</span>
-    <div class="dropdown">
-        <input class="dropdown-current" type="text" name="name" value="Item Title">
-        <button class="dropdown-arrow" type="button" name="button">v</button>
-        <div class="dropdown-list-wrapper">
+    <span class="currently">Editing</span>
+    <div class="dropdown {active : isShown}">
+        <span class="dropdown-current" onclick={show}>Item Title</span>
+        <div class="dropdown-list-wrapper {active : isShown}">
             <div class="dropdown-list">
+                <div class="header">
+                    <span class="item-name">Title</span>
+                    <span class="assigned-to">Assigned to</span>
+                    <span class="edited">Edited</span>
+                    <span class="status">Status</span>
+                </div>
                 <div class="item ">
                     <span class="item-name">How is urinary incontinence treated in dogs?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What is sinus arrhythmia?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What is an ectopic ureter?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What is urinary incontinence in dogs?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">How are uroliths in dogs treated?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What are the symptoms of uroliths in dogs?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What types of uroliths are there?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What are uroliths?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What is the treatment for cystitis in dogs?</span>
-                    <i class="flag gb "></i>
-                </div>
-                <div class="item ">
-                    <span class="item-name">What are the symptoms of cystitis in dogs?</span>
-                    <i class="flag gb "></i>
+                    <span class="assigned-to">Lynda</span>
+                    <span class="edited">22.02.2016</span>
+                    <span class="status">
+                        <span class="published">EN</span>
+                        <span class="published">SV</span>
+                        <span class="">FI</span>
+                    </span>
                 </div>
             </div>
-            <div class="paginator"></div>
+            <paginator></paginator>
         </div>
     </div>
+    <script>
+        riot.mount('ui-paginator');
+        this.show = function () {
+            this.isShown = this.isShown
+                ? false
+                : true;
+        }
+    </script>
 </menu-toolbar>

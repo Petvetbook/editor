@@ -36,7 +36,7 @@ realm.module("morrr.editor.utils.sharedImagePath", ['morrr.editor.runtime.config
    }
 });
 
-realm.module("editor.Engine",["morrr.editor.bbcode.BBCodeEngine", "morrr.editor.bbcode.Generator", "morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash", "morrr.editor.utils", "morrr.editor.Modal"],function(BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers, _, utils, Modal){ var $_exports;
+realm.module("morrr.editor.Engine",["morrr.editor.bbcode.BBCodeEngine", "morrr.editor.bbcode.Generator", "morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash", "morrr.editor.utils", "morrr.editor.Modal"],function(BBCodeEngine, Generator, BBCodeExtractor, BBCodeHandlers, _, utils, Modal){ var $_exports;
 
 
 class SaneEditor {
@@ -692,7 +692,7 @@ $_exports = SaneEditor;
 
 return $_exports;
 });
-realm.module("editor.Gallery",["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr"],function(_, sharedImagePath, frzr){ var $_exports;
+realm.module("morrr.editor.Gallery",["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath", "frzr"],function(_, sharedImagePath, frzr){ var $_exports;
 
 
 const Gallery = function(editor, parentId, done) {
@@ -777,7 +777,7 @@ $_exports = Gallery;
 
 return $_exports;
 });
-realm.module("editor.Modal",["frzr"],function(frzr){ var $_exports;
+realm.module("morrr.editor.Modal",["frzr"],function(frzr){ var $_exports;
 
 
 let modalIndex = 1000;
@@ -895,7 +895,7 @@ $_exports = Modal;
 
 return $_exports;
 });
-realm.module("editor.utils",["morrr.editor.utils.lodash"],function(_){ var $_exports;
+realm.module("morrr.editor.utils",["morrr.editor.utils.lodash"],function(_){ var $_exports;
 
 class Utils {
    static stringInject(str, idx, rem, inputString) {
@@ -993,7 +993,7 @@ $_exports = Utils;
 
 return $_exports;
 });
-realm.module("editor.runtime.config",["morrr.editor.utils.Promise"],function(Promise){ var $_exports;
+realm.module("morrr.editor.runtime.config",["morrr.editor.utils.Promise"],function(Promise){ var $_exports;
 
 
 const Config = new Promise(function(resolve, reject) {
@@ -1017,7 +1017,7 @@ $_exports = Config;
 
 return $_exports;
 });
-realm.module("editor.elements.b",["morrr.editor.utils"],function(utils){ var $_exports;
+realm.module("morrr.editor.elements.b",["morrr.editor.utils"],function(utils){ var $_exports;
 
 
 const Strong = {
@@ -1036,7 +1036,7 @@ $_exports = Strong
 
 return $_exports;
 });
-realm.module("editor.elements.blockquote",["morrr.editor.utils"],function(utils){ var $_exports;
+realm.module("morrr.editor.elements.blockquote",["morrr.editor.utils"],function(utils){ var $_exports;
 const BlockQuote = {
    index: 1,
    tag: 'blockquote',
@@ -1073,7 +1073,7 @@ $_exports = BlockQuote;
 
 return $_exports;
 });
-realm.module("editor.elements.gallery",["morrr.editor.Gallery", "morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath"],function(Gallery, _, sharedImagePath){ var $_exports;
+realm.module("morrr.editor.elements.gallery",["morrr.editor.Gallery", "morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath"],function(Gallery, _, sharedImagePath){ var $_exports;
 
 
 const GalleryTag = {
@@ -1192,7 +1192,7 @@ $_exports = GalleryTag;
 
 return $_exports;
 });
-realm.module("editor.elements.h1",["morrr.editor.utils"],function(utils){ var $_exports;
+realm.module("morrr.editor.elements.h1",["morrr.editor.utils"],function(utils){ var $_exports;
 const Heading3 = {
    tag: 'h1',
    icon: 'header1',
@@ -1227,7 +1227,7 @@ $_exports = Heading3;
 
 return $_exports;
 });
-realm.module("editor.elements.h3",["morrr.editor.utils"],function(utils){ var $_exports;
+realm.module("morrr.editor.elements.h3",["morrr.editor.utils"],function(utils){ var $_exports;
 const Heading3 = {
    tag: 'h3',
    icon: 'header3',
@@ -1262,7 +1262,7 @@ $_exports = Heading3;
 
 return $_exports;
 });
-realm.module("editor.elements.i",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.i",[],function(){ var $_exports;
 
 const Italic = {
    tag: 'i',
@@ -1284,7 +1284,7 @@ $_exports = Italic;
 
 return $_exports;
 });
-realm.module("editor.elements.img",["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath"],function(_, sharedImagePath){ var $_exports;
+realm.module("morrr.editor.elements.img",["morrr.editor.utils.lodash", "morrr.editor.utils.sharedImagePath"],function(_, sharedImagePath){ var $_exports;
 
 const ImgTag = {
    tag: 'figure',
@@ -1315,7 +1315,7 @@ $_exports = ImgTag;
 
 return $_exports;
 });
-realm.module("editor.elements.innerad",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.innerad",[],function(){ var $_exports;
 
 const InnerAd = {
    tag: 'div',
@@ -1340,7 +1340,7 @@ $_exports = InnerAd;
 
 return $_exports;
 });
-realm.module("editor.elements.intro",["morrr.editor.utils"],function(utils){ var $_exports;
+realm.module("morrr.editor.elements.intro",["morrr.editor.utils"],function(utils){ var $_exports;
 const Intro = {
    tag: 'div',
    menu: true,
@@ -1381,7 +1381,7 @@ $_exports = Intro;
 
 return $_exports;
 });
-realm.module("editor.elements.li",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.li",[],function(){ var $_exports;
 
 const orderedList = {
    tag: 'li',
@@ -1399,7 +1399,7 @@ $_exports = orderedList;
 
 return $_exports;
 });
-realm.module("editor.elements.list",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.list",[],function(){ var $_exports;
 
 const List = {
    tag: 'li',
@@ -1416,7 +1416,7 @@ $_exports = List;
 
 return $_exports;
 });
-realm.module("editor.elements.ol",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.ol",[],function(){ var $_exports;
 
 const orderedList = {
    tag: 'ol',
@@ -1441,7 +1441,7 @@ $_exports = orderedList;
 
 return $_exports;
 });
-realm.module("editor.elements.panorama",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.panorama",[],function(){ var $_exports;
 
 const Panorama = {
    tag: 'div',
@@ -1456,7 +1456,7 @@ $_exports = Panorama;
 
 return $_exports;
 });
-realm.module("editor.elements.strong",["morrr.editor.utils"],function(utils){ var $_exports;
+realm.module("morrr.editor.elements.strong",["morrr.editor.utils"],function(utils){ var $_exports;
 
 const Strong = {
    tag: 'strong',
@@ -1481,7 +1481,7 @@ $_exports = Strong
 
 return $_exports;
 });
-realm.module("editor.elements.ul",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.ul",[],function(){ var $_exports;
 
 const UL = {
    tag: 'ul',
@@ -1509,7 +1509,7 @@ $_exports = UL;
 
 return $_exports;
 });
-realm.module("editor.elements.unlink",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.unlink",[],function(){ var $_exports;
 
 const Unlink = {
    menu: true,
@@ -1525,7 +1525,7 @@ $_exports = Unlink;
 
 return $_exports;
 });
-realm.module("editor.elements.url",[],function(){ var $_exports;
+realm.module("morrr.editor.elements.url",[],function(){ var $_exports;
 
 const Link = {
    tag: 'a',
@@ -1559,7 +1559,7 @@ $_exports = Link;
 
 return $_exports;
 });
-realm.module("editor.bbcode.AttributeParser",[],function(){ var $_exports;
+realm.module("morrr.editor.bbcode.AttributeParser",[],function(){ var $_exports;
 
 const AttributeParser = function(input) {
    if (!input) {
@@ -1620,7 +1620,7 @@ $_exports = AttributeParser;
 
 return $_exports;
 });
-realm.module("editor.bbcode.BBCodeEngine",["morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.utils.lodash", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils"],function(BBCodeExtractor, _, BBCodeHandlers, utils){ var $_exports;
+realm.module("morrr.editor.bbcode.BBCodeEngine",["morrr.editor.bbcode.BBCodeExtractor", "morrr.editor.utils.lodash", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils"],function(BBCodeExtractor, _, BBCodeHandlers, utils){ var $_exports;
 
 
 
@@ -1722,7 +1722,7 @@ $_exports = BBCodeEngine;
 
 return $_exports;
 });
-realm.module("editor.bbcode.BBCodeExtractor",["morrr.editor.bbcode.AttributeParser", "morrr.editor.utils"],function(AttributeParser, utils){ var $_exports;
+realm.module("morrr.editor.bbcode.BBCodeExtractor",["morrr.editor.bbcode.AttributeParser", "morrr.editor.utils"],function(AttributeParser, utils){ var $_exports;
 
 const BBCodeExtractor = function(input) {
    var positions = [];
@@ -1773,7 +1773,7 @@ $_exports = BBCodeExtractor;
 
 return $_exports;
 });
-realm.module("editor.bbcode.BBCodeHandlers",["morrr.editor.utils.Promise", "morrr.editor.utils.lodash"],function(Promise, _){ var $_exports;
+realm.module("morrr.editor.bbcode.BBCodeHandlers",["morrr.editor.utils.Promise", "morrr.editor.utils.lodash"],function(Promise, _){ var $_exports;
 
 
 const BBCodeHandlers = realm.requirePackage('morrr.editor.elements').then(function(packages) {
@@ -1789,7 +1789,7 @@ $_exports = BBCodeHandlers;
 
 return $_exports;
 });
-realm.module("editor.bbcode.Generator",["morrr.editor.utils", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash"],function(utils, BBCodeHandlers, _){ var $_exports;
+realm.module("morrr.editor.bbcode.Generator",["morrr.editor.utils", "morrr.editor.bbcode.BBCodeHandlers", "morrr.editor.utils.lodash"],function(utils, BBCodeHandlers, _){ var $_exports;
 
 
 const Generator = function(editor) {

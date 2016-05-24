@@ -20,14 +20,11 @@
     &:hover {
       background-color: $dkgrey !important;
     }
+    &:not(:last-child) {
+      border-right: 1px solid $dkgrey;
+    }
     span {
-      font-size: 11px;
-      line-height: 30px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: white;
-      padding: 0 10px;
-      white-space: nowrap;
+      color: $grey;
     }
   }
 }
