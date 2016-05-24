@@ -73,7 +73,7 @@ class SaneEditor {
       }
       var tag = riot.mount(toolbar[0], riotTag, props || {});
       this.tags.fileToolbar = tag ? tag[0] : undefined;
-      return this.fileToolbar;
+      return this.tags.fileToolbar;
    }
 
    mountLanguageToolbar(riotTag, props) {
@@ -85,7 +85,7 @@ class SaneEditor {
       }
       var tag = riot.mount(toolbar[0], riotTag, props || {});
       this.tags.langToolbar = tag ? tag[0] : undefined;
-      return this.langToolbar;
+      return this.tags.langToolbar;
    }
 
    update(specific) {
