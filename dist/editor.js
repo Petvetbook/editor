@@ -1123,6 +1123,8 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
          key: "initialize",
          value: function initialize(target, opts) {
             this.opts = opts || {};
+            this.tags = {};
+
             this.toolbarConfig = opts.toolbar || [];
             this.element = $('<div class="sane-editor"></div>');
             this.formattingWrapper = $('<div class="sane-formatting-toolbar-wrapper"></div>');
@@ -1164,9 +1166,61 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             this.toggleFullScreenMode();
          }
       }, {
+         key: "mountToolbar",
+         value: function mountToolbar(riotTag, props) {
+            var toolbar = this.menuToolbar;
+            if (!toolbar) {
+               this.menuToolbar = $("<div class='main-toolbar'></div>");
+               this.menuToolbar.appendTo(this.toolbarWrapper);
+               toolbar = this.menuToolbar;
+            }
+
+            var tag = riot.mount(toolbar[0], riotTag, props || {});
+            this.tags.mainToolbar = tag ? tag[0] : undefined;
+            return this.tags.mainToolbar;
+         }
+      }, {
+         key: "mountFileToolbar",
+         value: function mountFileToolbar(riotTag, props) {
+            var toolbar = this.fileToolbar;
+            if (!toolbar) {
+               this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
+               this.fileToolbar.appendTo(this.contentWrapper);
+               toolbar = this.fileToolbar;
+            }
+            var tag = riot.mount(toolbar[0], riotTag, props || {});
+            this.tags.fileToolbar = tag ? tag[0] : undefined;
+            return this.fileToolbar;
+         }
+      }, {
+         key: "mountLanguageToolbar",
+         value: function mountLanguageToolbar(riotTag, props) {
+            var toolbar = this.langToolbar;
+            if (!toolbar) {
+               this.langToolbar = $("<div class='sane-language-toolbar-wrapper'></div>");
+               this.langToolbar.prependTo(this.contentAreaWrapper);
+               toolbar = this.langToolbar;
+            }
+            var tag = riot.mount(toolbar[0], riotTag, props || {});
+            this.tags.langToolbar = tag ? tag[0] : undefined;
+            return this.langToolbar;
+         }
+      }, {
+         key: "update",
+         value: function update(specific) {
+            var self = this;
+            clearTimeout(this.updateTimeout);
+            this.updateTimeout = setTimeout(function () {
+               _.each(self.tags, function (tag) {
+                  if (tag && tag.update) {
+                     tag.update();
+                  }
+               });
+            }, 1);
+         }
+      }, {
          key: "openContentPane",
          value: function openContentPane() {
-
             var self = this;
             this.content.fadeOut(function () {
                self.contentPane.fadeIn();
@@ -1188,9 +1242,12 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
       }, {
          key: "triggerActivity",
          value: function triggerActivity() {
-
+            var self = this;
             if (this.activity_cb) {
-               this.activity_cb();
+               clearTimeout(this.updateTyping);
+               this.updateTyping = setTimeout(function () {
+                  self.activity_cb();
+               }, 50);
             }
          }
       }, {
@@ -1254,51 +1311,6 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             setTimeout(function () {
                notification.removeClass('show');
             }, 1500);
-         }
-      }, {
-         key: "mountToolbar",
-         value: function mountToolbar(riotTag, props) {
-            var toolbar = this.menuToolbar;
-            if (!toolbar) {
-               this.menuToolbar = $("<div class='main-toolbar'></div>");
-               this.menuToolbar.appendTo(this.toolbarWrapper);
-               toolbar = this.menuToolbar;
-            }
-            if (riotTag && window.riot) {
-               var tag = riot.mount(toolbar[0], riotTag, props || {});
-               return tag;
-            }
-            return element;
-         }
-      }, {
-         key: "mountFileToolbar",
-         value: function mountFileToolbar(riotTag, props) {
-            var toolbar = this.fileToolbar;
-            if (!toolbar) {
-               this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
-               this.fileToolbar.appendTo(this.contentWrapper);
-               toolbar = this.fileToolbar;
-            }
-            if (riotTag && window.riot) {
-               var tag = riot.mount(toolbar[0], riotTag, props || {});
-               return tag;
-            }
-            return element;
-         }
-      }, {
-         key: "mountLanguageToolbar",
-         value: function mountLanguageToolbar(riotTag, props) {
-            var toolbar = this.langToolbar;
-            if (!toolbar) {
-               this.langToolbar = $("<div class='sane-language-toolbar-wrapper'></div>");
-               this.langToolbar.prependTo(this.contentAreaWrapper);
-               toolbar = this.langToolbar;
-            }
-            if (riotTag && window.riot) {
-               var tag = riot.mount(toolbar[0], riotTag, props || {});
-               return tag;
-            }
-            return element;
          }
       }, {
          key: "createModal",
