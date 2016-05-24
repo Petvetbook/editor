@@ -9,7 +9,7 @@ var gulpFile = require('gulp-file')
 var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var addsrc = require('gulp-add-src');
-
+var prettify = require('gulp-jsbeautifier');
 var insert = require('gulp-insert');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
@@ -49,10 +49,6 @@ gulp.task('icons', function() {
       .pipe(gulp.dest('src/scss/svg/'));
 });
 
-gulp.task('watch', function() {
-   gulp.watch(['src/**/*.js'], ['build']);
-});
-
 gulp.task('server', function() {
    if (node) node.kill()
    node = spawn('node', ['app.js'], {
@@ -66,7 +62,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('start', function() {
-   runSequence('build-riot', 'build-universal', 'babel-all', 'frontend-libs', 'sass', function() {
+   runSequence('build-riot', 'build-universal', 'frontend-libs', 'sass', function() {
       runSequence('server')
       gulp.watch(['tags/**/*.tag'], function() {
          runSequence('build-riot')
@@ -75,7 +71,9 @@ gulp.task('start', function() {
          runSequence('sass')
       });
       gulp.watch(['src/morrr/**/*.js'], function() {
-         runSequence('build-universal', 'babel-all');
+         return realm.transpiler2.universal(__dirname + "/src/morrr", __dirname + "/build/", {
+            preffix: "morrr"
+         });
 
       });
    });
@@ -89,70 +87,57 @@ gulp.task("build-riot", function() {
       .pipe(realm.transpiler2.gulp(__dirname + "/tags/", "riot-tags.js", {
          preffix: "test.tags"
       }))
-      .pipe(babel({
-         presets: ["es2016"],
-         plugins: ["transform-decorators-legacy"]
-      }))
       .on('error', function(e) {
          console.log(e.stack);
          this.emit('end');
       })
       .pipe(gulp.dest('./build'));
 });
-
-gulp.task("babel-all", function() {
-   return gulp.src(["build/frontend.js", "build/backend.js", "build/universal.js"])
-      .pipe(babel({
-         presets: ["es2016"],
-         plugins: ["transform-decorators-legacy"]
-      }))
-      .on('error', function(e) {
-         console.log(e.stack);
-         this.emit('end');
-      })
-      .pipe(gulp.dest("./build"));
+gulp.task("build-universal", function() {
+   return realm.transpiler2.universal(__dirname + "/src/morrr", "build/", {
+      preffix: "morrr"
+   })
 });
 
 gulp.task('dist', function(callback) {
-   runSequence('build-universal', 'babel-all', 'frontend-libs', 'dist-backend', 'icons', 'sass',
+   runSequence('build-universal', 'frontend-libs', 'dist-backend', 'icons', 'sass',
       'dist-frontend',
       'uglify-frontend',
       'dist-css', callback)
 });
-
-gulp.task('dist-backend', function() {
-   return gulp.src(["build/universal.js", "build/backend.js"])
-      .pipe(concat("backend.js"))
-      .pipe(gulp.dest("./dist/backend/"))
-});
-gulp.task('dist-frontend', function() {
-   return gulp.src(["build/lib.js", "build/universal.js"])
-      .pipe(concat('editor.js'))
-      .pipe(gulp.dest("./dist/frontend/"))
-});
-gulp.task('dist-css', function() {
-   return gulp.src(["build/editor.min.css"])
-      .pipe(gulp.dest("./dist/frontend/"))
-});
-
-gulp.task('uglify-frontend', function() {
-   return gulp.src("dist/frontend/editor.js")
-      .pipe(uglify())
-      .pipe(rename('editor.min.js'))
-      .pipe(gulp.dest('./dist/frontend/'));
-
-})
-
-gulp.task("build-universal", function(done) {
-   realm.transpiler2.universal(__dirname + "/src/morrr/", __dirname + "/build", {
-      preffix: "morrr"
-   }).then(function() {
-      done();
-   })
-});;
 
 gulp.task("frontend-libs", function() {
    return gulp.src("src/frontend-libs/**/*.js")
       .pipe(concat('lib.js'))
       .pipe(gulp.dest("./build/"))
 });;
+
+gulp.task('dist-backend', function() {
+   return gulp.src(["build/universal.js", "build/backend.js"])
+      .pipe(concat("editor.js"))
+      .pipe(prettify({
+         js: {
+            max_preserve_newlines: 1
+         }
+      }))
+      .pipe(gulp.dest("./dist/backend/"))
+});
+gulp.task('dist-frontend', function() {
+   return gulp.src(["build/universal.js"])
+      .pipe(concat('editor.js'))
+      .pipe(babel({
+         presets: ["es2016"]
+      }))
+      .pipe(gulp.dest("./build"))
+      .pipe(gulp.dest("./dist/frontend/"))
+});
+gulp.task('uglify-frontend', function() {
+   return gulp.src("dist/frontend/editor.js")
+      .pipe(uglify())
+      .pipe(rename('editor.min.js'))
+      .pipe(gulp.dest('./dist/frontend/'));
+});
+gulp.task('dist-css', function() {
+   return gulp.src(["build/editor.min.css"])
+      .pipe(gulp.dest("./dist/frontend/"))
+});
