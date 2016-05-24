@@ -70,7 +70,7 @@ gulp.task('start', function() {
 
    runSequence('build-riot', 'build-universal', 'babel-all', 'frontend-libs', function() {
       runSequence('server')
-      gulp.watch(['src/sherlock/admin/tags/**/*.tag'], function() {
+      gulp.watch(['tags/**/*.tag'], function() {
          runSequence('build-riot')
       });
       gulp.watch(['src/morrr/**/*.js'], function() {
@@ -135,10 +135,12 @@ gulp.task('uglify', function() {
 
 })
 
-gulp.task("build-universal", function() {
-   return realm.transpiler2.universal(__dirname + "/src/morrr/", __dirname + "/build", {
+gulp.task("build-universal", function(done) {
+   realm.transpiler2.universal(__dirname + "/src/morrr/", __dirname + "/build", {
       preffix: "morrr"
-   });
+   }).then(function() {
+      done();
+   })
 });;
 
 gulp.task("frontend-libs", function() {
