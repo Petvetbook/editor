@@ -20,6 +20,9 @@
     &:hover {
       background-color: $dkgrey !important;
     }
+    &:not(:last-child) {
+      border-right: 1px solid $dkgrey;
+    }
     span {
       color: $grey;
     }
