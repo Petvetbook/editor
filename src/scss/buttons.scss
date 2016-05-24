@@ -1,6 +1,9 @@
 .sane-editor .button {
   cursor: pointer;
   position: relative;
+  border: 0;
+  line-height: 30px;
+  margin: 1px;
   background-repeat: no-repeat;
   background-size: 75% auto;
   background-position: 50% 50%;

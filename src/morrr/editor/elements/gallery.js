@@ -5,7 +5,7 @@ import lodash as _, sharedImagePath, from morrr.editor.utils;
 
 const GalleryTag = {
    tag: 'div',
-   hint: 'Insert image gallery',
+   hint: 'Insert images',
    icon: 'picture',
    cmdSmart: function(range) {
 

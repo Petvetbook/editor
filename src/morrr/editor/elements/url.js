@@ -5,7 +5,7 @@ const Link = {
    menu: true,
    inline: true,
    icon: 'link',
-   hint: 'Insert a link',
+   hint: 'Insert link',
    toBBCode: function(root) {
       root.find('a').each(function(index, element) {
          $(element).replaceWith('[url=' + $(element).attr("href") + ']' + $(element).text() + '[/url]');

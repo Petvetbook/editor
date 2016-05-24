@@ -158,6 +158,20 @@ class SaneEditor {
       return element;
    }
 
+   mountLanguageToolbar(riotTag, props) {
+      var toolbar = this.langToolbar;
+      if (!toolbar) {
+         this.langToolbar = $("<div class='sane-language-toolbar-wrapper'></div>");
+         this.langToolbar.prependTo(this.contentAreaWrapper);
+         toolbar = this.langToolbar;
+      }
+      if (riotTag && window.riot) {
+         var tag = riot.mount(toolbar[0], riotTag, props || {});
+         return tag;
+      }
+      return element;
+   }
+
    createModal(header) {
       var modal = Modal.create({
          title: header,
@@ -346,7 +360,7 @@ class SaneEditor {
       fScreen.click(function() {
          self.toggleFullScreenMode();
       });
-      this.bindFullScreenButtons();
+      // this.bindFullScreenButtons();
    }
 
    basicStringWrapper(element, opts) {

@@ -1286,6 +1286,21 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             return element;
          }
       }, {
+         key: "mountLanguageToolbar",
+         value: function mountLanguageToolbar(riotTag, props) {
+            var toolbar = this.langToolbar;
+            if (!toolbar) {
+               this.langToolbar = $("<div class='sane-language-toolbar-wrapper'></div>");
+               this.langToolbar.prependTo(this.contentAreaWrapper);
+               toolbar = this.langToolbar;
+            }
+            if (riotTag && window.riot) {
+               var tag = riot.mount(toolbar[0], riotTag, props || {});
+               return tag;
+            }
+            return element;
+         }
+      }, {
          key: "createModal",
          value: function createModal(header) {
             var modal = Modal.create({
@@ -1477,7 +1492,7 @@ realm.module("morrr.editor.Engine", ["morrr.editor.bbcode.BBCodeEngine", "morrr.
             fScreen.click(function () {
                self.toggleFullScreenMode();
             });
-            this.bindFullScreenButtons();
+            // this.bindFullScreenButtons();
          }
       }, {
          key: "basicStringWrapper",
@@ -2469,7 +2484,7 @@ realm.module("morrr.editor.elements.gallery", ["morrr.editor.Gallery", "morrr.ed
 
    var GalleryTag = {
       tag: 'div',
-      hint: 'Insert image gallery',
+      hint: 'Insert images',
       icon: 'picture',
       cmdSmart: function cmdSmart(range) {
 
@@ -2736,7 +2751,7 @@ realm.module("morrr.editor.elements.intro", ["morrr.editor.utils"], function (ut
       menu: true,
       stringWrapper: true,
       icon: 'intro',
-      hint: 'Opening paragraph',
+      hint: 'Intro paragraph',
       bindEditorEvents: function bindEditorEvents(element) {
          this.basicStringWrapper(element, {
             service: 'intro',
@@ -2929,7 +2944,7 @@ realm.module("morrr.editor.elements.url", [], function () {
       menu: true,
       inline: true,
       icon: 'link',
-      hint: 'Insert a link',
+      hint: 'Insert link',
       toBBCode: function toBBCode(root) {
          root.find('a').each(function (index, element) {
             $(element).replaceWith('[url=' + $(element).attr("href") + ']' + $(element).text() + '[/url]');

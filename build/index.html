@@ -6,6 +6,7 @@
       <script src="https://cdn.jsdelivr.net/riot/2.4/riot+compiler.min.js"></script>
       <script type="riot/tag" src="/menu-toolbar.tag"></script>
       <script type="riot/tag" src="/file-toolbar.tag"></script>
+      <script type="riot/tag" src="/language-toolbar.tag"></script>
 
       <script type="text/javascript" src="/bower_components/lodash/dist/lodash.min.js"></script>
       <script type="text/javascript" src="/realm.js"></script>
@@ -54,6 +55,7 @@
             // creating toolbar
 
             editor.mountToolbar('menu-toolbar',{ hello : 'world'});
+            editor.mountLanguageToolbar('language-toolbar');
             editor.mountFileToolbar('file-toolbar');
 
             editor.showEditor();

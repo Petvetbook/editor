@@ -5,7 +5,7 @@ const Intro = {
    menu: true,
    stringWrapper: true,
    icon: 'intro',
-   hint: 'Opening paragraph',
+   hint: 'Intro paragraph',
    bindEditorEvents: function(element) {
       this.basicStringWrapper(element, {
          service: 'intro',
