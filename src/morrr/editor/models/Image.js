@@ -1,4 +1,4 @@
-"use realm";
+"use realm backend";
 
 import Model from wires.mongo;
 

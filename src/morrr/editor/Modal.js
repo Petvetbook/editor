@@ -27,11 +27,11 @@ class Modal {
 
       this.successButton = el('div', {
          class: 'button success'
-         // textContent: opts.successButton || "Done"
+            // textContent: opts.successButton || "Done"
       });
       this.closeButton = el('div', {
          class: 'button close'
-         // textContent: opts.successButton || "Close"
+            // textContent: opts.successButton || "Close"
       });
       $(this.closeButton).click(function() {
          self.close();

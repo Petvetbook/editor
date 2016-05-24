@@ -5,6 +5,7 @@ import lodash as _ from morrr.editor.utils;
 import BBCodeHandlers from morrr.editor.bbcode;
 
 import utils from morrr.editor;
+
 const BBCodeEngine = {
    replaceEndTags: function(input) {
       _.each(BBCodeHandlers, function(item, bbcodeName) {
@@ -34,8 +35,9 @@ const BBCodeEngine = {
       input = data.input;
       var codes = data.codes;
       var binders = {};
+
       _.each(codes, function(item) {
-         var handler;
+         var handler, html
          if ((handler = $BBCodeHandlers[item.name])) {
             if (_.isFunction(handler.toProduction)) {
 
@@ -48,7 +50,7 @@ const BBCodeEngine = {
       });
 
       _.each(codes, function(item) {
-         var handler;
+         var handler, html;
          if ((handler = BBCodeHandlers[item.name])) {
             if (_.isFunction(handler.processAfterRender)) {
                html = handler.processAfterRender(input, item, opts);
@@ -64,8 +66,10 @@ const BBCodeEngine = {
       input = data.input;
       var codes = data.codes;
       var binders = {};
+
       _.each(codes, function(item) {
-         var handler;
+         var handler, html;
+
          if ((handler = BBCodeHandlers[item.name])) {
             if (_.isFunction(handler.toProduction)) {
                html = handler.toProduction(item);
