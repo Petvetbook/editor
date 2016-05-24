@@ -112,7 +112,10 @@ gulp.task("babel-all", function() {
 });
 
 gulp.task('dist', function(callback) {
-   runSequence('build-universal', 'babel-all', 'frontend-libs', 'dist-backend', 'icons', 'sass', 'dist-frontend', 'dist-css', callback)
+   runSequence('build-universal', 'babel-all', 'frontend-libs', 'dist-backend', 'icons', 'sass',
+      'dist-frontend',
+      'uglify-frontend',
+      'dist-css', callback)
 });
 
 gulp.task('dist-backend', function() {
@@ -130,11 +133,11 @@ gulp.task('dist-css', function() {
       .pipe(gulp.dest("./dist/frontend/"))
 });
 
-gulp.task('uglify', function() {
-   return gulp.src("dist/editor.js")
+gulp.task('uglify-frontend', function() {
+   return gulp.src("dist/frontend/editor.js")
       .pipe(uglify())
       .pipe(rename('editor.min.js'))
-      .pipe(gulp.dest('./dist'));
+      .pipe(gulp.dest('./dist/frontend/'));
 
 })
 
