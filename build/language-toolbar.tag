@@ -1,8 +1,23 @@
 <language-toolbar>
     <div class="sane-language-toolbar">
-        <span class="button flag gb active"></span>
-        <span class="button flag sv"></span>
-        <span class="button flag fi"></span>
+        <div class="tab flag gb active published">
+            <span>EN</span>
+            <div class="button enabled">
+                <span>Save</span>
+            </div>
+        </div>
+        <div class="tab flag sv unpublished">
+            <span>SV</span>
+            <div class="button disabled">
+                <span>Save</span>
+            </div>
+        </div>
+        <div class="tab flag fi published">
+            <span>FI</span>
+            <div class="button enabled">
+                <span>Save</span>
+            </div>
+        </div>
     </div>
     <script></script>
 </language-toolbar>
