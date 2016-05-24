@@ -38,7 +38,6 @@ gulp.task('sass', function() {
       }))
       .pipe(rename('editor.min.css'))
       .pipe(gulp.dest('build/'))
-      .pipe(gulp.dest('dist/frontend'));
 });
 
 gulp.task('icons', function() {
@@ -113,7 +112,7 @@ gulp.task("babel-all", function() {
 });
 
 gulp.task('dist', function(callback) {
-   runSequence('build-universal', 'babel-all', 'frontend-libs', 'dist-backend', 'dist-frontend', 'icons', 'sass', callback)
+   runSequence('build-universal', 'babel-all', 'frontend-libs', 'dist-backend', 'icons', 'sass', 'dist-frontend', 'dist-css', callback)
 });
 
 gulp.task('dist-backend', function() {
@@ -124,6 +123,10 @@ gulp.task('dist-backend', function() {
 gulp.task('dist-frontend', function() {
    return gulp.src(["build/lib.js", "build/universal.js"])
       .pipe(concat('editor.js'))
+      .pipe(gulp.dest("./dist/frontend/"))
+});
+gulp.task('dist-css', function() {
+   return gulp.src(["build/editor.min.css"])
       .pipe(gulp.dest("./dist/frontend/"))
 });
 
