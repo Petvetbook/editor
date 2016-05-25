@@ -103,7 +103,7 @@ class SaneEditor {
       var toolbar = this.fileToolbar;
       if (!toolbar) {
          this.fileToolbar = $("<div class='sane-file-toolbar-wrapper'></div>");
-         this.fileToolbar.appendTo(this.contentAreaWrapper);
+         this.fileToolbar.appendTo(this.formattingWrapper);
          toolbar = this.fileToolbar;
       }
       var tag = riot.mount(toolbar[0], riotTag, props || {});

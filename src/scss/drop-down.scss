@@ -49,8 +49,13 @@
       color: $dkgrey;
       border-bottom: 1px solid $grey;
     }
-    .item:hover {
-      background-color: lighten($grey, 12%);
+    .item {
+      &:hover {
+        background-color: lighten($grey, 12%);
+      }
+      &.selected {
+        font-weight: bold;
+      }
     }
     .header,
     .item {
