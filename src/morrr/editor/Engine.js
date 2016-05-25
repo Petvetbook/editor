@@ -50,7 +50,7 @@ class SaneEditor {
       });
       this.hideEditor();
       this.toggleFullScreenMode();
-      this.toggleTranslateMode();
+      // this.toggleTranslateMode();
    }
 
    mountToolbar(riotTag, props) {
@@ -355,7 +355,14 @@ class SaneEditor {
             });
          }
       });
-      var fScreen = $('<div class="button maximize"><span>Toggle fullscreen</span></div>');
+
+      var refText = $('<div class="button reference"><span>Reference text</span></div>');
+      refText.appendTo($(self.toolbar));
+      refText.click(function() {
+         self.toggleTranslateMode();
+      });
+
+      var fScreen = $('<div class="button maximize"><span>Fullscreen</span></div>');
       fScreen.appendTo($(self.toolbar));
       fScreen.click(function() {
          self.toggleFullScreenMode();
