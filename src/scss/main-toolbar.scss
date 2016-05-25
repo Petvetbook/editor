@@ -5,45 +5,18 @@
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
+  flex: 0 1 $max-width;
   font-size: 14px;
   line-height: 30px;
-  .currently,
-  .username {
+  background-color: white;
+  .currently {
     margin-right: 10px;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: $dkgrey;
   }
-  .nav {
-    flex: 0 1 $max-width;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    .currently {
-      flex: 0 0 auto;
-    }
-    .dropdown {
-      flex: 1 0 auto;
-    }
-  }
-  .user-toolbar,
-  user-toolbar {
-    flex: 0 0 120px;
-    height: 30px;
-  }
-  .user-toolbar,
-  user-toolbar {
-    text-align: right;
-    .button {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      margin: 0;
-      vertical-align: top;
-      span {
-        display: none;
-      }
-    }
+  .dropdown {
+    flex: 1 0 auto;
   }
 }

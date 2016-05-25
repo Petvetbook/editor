@@ -38,6 +38,11 @@
   }
 }
 .sane-editor-toolbar-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
   flex: 0 0 30px;
   background-color: white;
   background-repeat: no-repeat;

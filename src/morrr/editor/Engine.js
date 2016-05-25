@@ -66,6 +66,18 @@ class SaneEditor {
       return this.tags.mainToolbar;
    }
 
+   mountUserToolbar(riotTag, props) {
+      var toolbar = this.userToolbar;
+      if (!toolbar) {
+         this.userToolbar = $("<div class='sane-user-toolbar-wrapper'></div>");
+         this.userToolbar.appendTo(this.toolbarWrapper);
+         toolbar = this.userToolbar;
+      }
+      var tag = riot.mount(toolbar[0], riotTag, props || {});
+      this.tags.userToolbar = tag ? tag[0] : undefined;
+      return this.tags.userToolbar;
+   }
+
    mountFileToolbar(riotTag, props) {
       var toolbar = this.fileToolbar;
       if (!toolbar) {
