@@ -391,17 +391,17 @@ class SaneEditor {
          }
       });
 
-      var refText = $('<div class="button reference"><span>Reference text</span></div>');
-      refText.appendTo($(self.toolbar));
-      refText.click(function() {
-         self.toggleTranslateMode();
-      });
+      // var refText = $('<div class="button reference"><span>Reference text</span></div>');
+      // refText.appendTo($(self.toolbar));
+      // refText.click(function() {
+      //    self.toggleTranslateMode();
+      // });
 
-      var fScreen = $('<div class="button maximize"><span>Fullscreen</span></div>');
-      fScreen.appendTo($(self.toolbar));
-      fScreen.click(function() {
-         self.toggleFullScreenMode();
-      });
+      // var fScreen = $('<div class="button maximize"><span>Fullscreen</span></div>');
+      // fScreen.appendTo($(self.toolbar));
+      // fScreen.click(function() {
+      //    self.toggleFullScreenMode();
+      // });
 
       // this.bindFullScreenButtons();
    }

@@ -1,5 +1,8 @@
 <file-toolbar>
     <div class="sane-file-toolbar">
+        <div class="button reference">
+            <span>Reference text</span>
+        </div>
         <div class="button metadata">
             <span>Edit metadata</span>
         </div>

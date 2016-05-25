@@ -1,6 +1,6 @@
 (function(___scope___) { "use strict"; var $isBackend = ___scope___.isNode; var realm  = ___scope___.realm;
 
-riot.tag2('file-toolbar', '<div class="sane-file-toolbar"><div class="button metadata"><span>Edit metadata</span></div><div class="button translate"><span>Translate</span></div><div class="button publish"><span>Publish</span></div><div class="button save"><span>Save</span></div></div>', '', '', function(opts) {
+riot.tag2('file-toolbar', '<div class="sane-file-toolbar"><div class="button reference"><span>Reference text</span></div><div class="button metadata"><span>Edit metadata</span></div><div class="button translate"><span>Translate</span></div><div class="button publish"><span>Publish</span></div><div class="button save"><span>Save</span></div></div>', '', '', function(opts) {
 });
 
 riot.tag2('language-toolbar', '<div class="sane-language-toolbar"><div class="tab active published"><span>English</span></div><div class="tab modified"><span>Swedish</span></div><div class="tab published"><span>Finnish</span></div></div>', '', '', function(opts) {
