@@ -27,17 +27,10 @@
       flex: 1 0 auto;
     }
   }
-  .logo,
   .user-toolbar,
   user-toolbar {
     flex: 0 0 120px;
     height: 30px;
-  }
-  .logo {
-    background-repeat: no-repeat;
-    background-size: auto 75%;
-    background-position: 50% 50%;
-    background-image: inline('morrr-logo.svg');
   }
   .user-toolbar,
   user-toolbar {

@@ -1,5 +1,4 @@
 <menu-toolbar>
-    <div class="logo"></div>
     <div class="nav">
         <span class="currently">Editing</span>
         <div class="dropdown {active : isShown}">

@@ -40,6 +40,10 @@
 .sane-editor-toolbar-wrapper {
   flex: 0 0 30px;
   background-color: white;
+  background-repeat: no-repeat;
+  background-size: auto 75%;
+  background-position: 10px 50%;
+  background-image: inline('morrr-logo.svg');
   box-shadow: 0 0 0 1px $grey;
   z-index: 50;
 }
