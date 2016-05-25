@@ -38,7 +38,7 @@ const BBCodeEngine = {
 
       _.each(codes, function(item) {
          var handler, html
-         if ((handler = $BBCodeHandlers[item.name])) {
+         if ((handler = BBCodeHandlers[item.name])) {
             if (_.isFunction(handler.toProduction)) {
 
                html = handler.toProduction(item, opts);

@@ -518,20 +518,22 @@
                 } else {
                     $('body').css('overflow', 'hidden');
                     $(this.element).addClass("full-screen-mode");
-                    // if (self._onFullScreenLeftMenu) {
-                    //    var element = $("<div class='left-menu' style='color:white'></div>");
-                    //    $(this.element).find(".sane-editor-content-wrapper").append(element);
-                    //    self._onFullScreenLeftMenu(element);
-                    // }
+                }
+            }
+            resetTranslationMode() {
+                if ($(this.element).hasClass("translate-mode")) {
+                    $(this.element).removeClass("translate-mode");
                 }
             }
             toggleTranslateMode() {
                 var self = this;
                 if ($(this.element).hasClass("translate-mode")) {
                     $(this.element).removeClass("translate-mode");
+                    return false;
                 } else {
                     $('body').css('overflow', 'hidden');
                     $(this.element).addClass("translate-mode");
+                    return true;
                 }
             }
             fixCloningFeature() {
@@ -1479,7 +1481,7 @@
                 var binders = {};
                 _.each(codes, function(item) {
                     var handler, html
-                    if ((handler = $BBCodeHandlers[item.name])) {
+                    if ((handler = BBCodeHandlers[item.name])) {
                         if (_.isFunction(handler.toProduction)) {
                             html = handler.toProduction(item, opts);
                         } else {

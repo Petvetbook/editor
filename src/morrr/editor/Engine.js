@@ -546,26 +546,28 @@ class SaneEditor {
       var self = this;
       if ($(this.element).hasClass("full-screen-mode")) {
          $(this.element).removeClass("full-screen-mode");
+
       } else {
          $('body').css('overflow', 'hidden');
          $(this.element).addClass("full-screen-mode");
 
-         // if (self._onFullScreenLeftMenu) {
-         //    var element = $("<div class='left-menu' style='color:white'></div>");
-         //    $(this.element).find(".sane-editor-content-wrapper").append(element);
-
-         //    self._onFullScreenLeftMenu(element);
-         // }
       }
    }
 
+   resetTranslationMode() {
+      if ($(this.element).hasClass("translate-mode")) {
+         $(this.element).removeClass("translate-mode");
+      }
+   }
    toggleTranslateMode() {
       var self = this;
       if ($(this.element).hasClass("translate-mode")) {
          $(this.element).removeClass("translate-mode");
+         return false;
       } else {
          $('body').css('overflow', 'hidden');
          $(this.element).addClass("translate-mode");
+         return true;
       }
    }
 
