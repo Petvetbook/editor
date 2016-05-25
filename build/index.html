@@ -19,9 +19,7 @@
       <link rel="stylesheet" type="text/css" href="editor.min.css">
    </head>
    <body>
-      <div id="editor">
-
-      </div>
+      <div id="editor"></div>
 
       <textarea name="name" id="debug" style="width:600px; height:200px; border:1px solid #ececec"></textarea>
       <input type="button" id="apply" value="APPLY"  />
@@ -58,7 +56,7 @@
 
             // creating toolbar
 
-            editor.mountToolbar('menu-toolbar',{ hello : 'world'});
+            editor.mountToolbar('menu-toolbar');
             editor.mountLanguageToolbar('language-toolbar');
             editor.mountFileToolbar('file-toolbar');
 
