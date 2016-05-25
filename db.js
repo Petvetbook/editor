@@ -10,7 +10,7 @@ if (process.env.MONGO_PORT_27017_TCP_ADDR) {
       MONGO_DB_NAME
 }
 // Resolving connection
-realm.service("$db", function() {
+realm.service("$realmMongoConnection", function() {
 
    return new Promise(function(resolve, reject) {
       if (Connection) {

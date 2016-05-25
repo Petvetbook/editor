@@ -1,6 +1,6 @@
 "use realm backend";
 
-import Model from wires.mongo;
+import Model from realm.mongo;
 
 const UserImages = Model.extend({
    collection: "user_images",

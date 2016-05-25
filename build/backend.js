@@ -55,7 +55,7 @@ $_exports = Upload;
 route("/api/editor/upload")(Upload,undefined);
 return $_exports;
 });
-realm.module("morrr.editor.models.Image",["wires.mongo.Model"],function(Model){ var $_exports;
+realm.module("morrr.editor.models.Image",["realm.mongo.Model"],function(Model){ var $_exports;
 
 
 const UserImages = Model.extend({
