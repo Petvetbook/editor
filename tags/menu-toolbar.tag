@@ -27,14 +27,10 @@
             </div>
         </div>
     </div>
-    <div class="user-nav">
-        <span class="username">Lynda</span>
-        <div class="button logout">
-            <span>Logout</span>
-        </div>
-    </div>
+    <user-toolbar></user-toolbar>
     <script>
-        riot.mount('ui-paginator');
+        riot.mount('user-toolbar');
+        riot.mount('paginator');
         this.show = function () {
             this.isShown = this.isShown
                 ? false
