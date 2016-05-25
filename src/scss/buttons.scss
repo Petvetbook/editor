@@ -99,6 +99,15 @@
   &.approve {
     background-image: inline('approve.svg');
   }
+  &.metadata {
+    background-image: inline('metadata.svg');
+  }
+  &.translate {
+    background-image: inline('translate.svg');
+  }
+  &.publish {
+    background-image: inline('publish.svg');
+  }
   &.save {
     background-image: inline('save.svg');
   }

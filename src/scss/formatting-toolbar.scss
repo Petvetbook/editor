@@ -3,10 +3,11 @@
   width: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: space-between;
   z-index: 50;
 }
-.sane-formatting-toolbar {
+.sane-formatting-toolbar,
+.sane-file-toolbar {
   position: relative;
   display: block;
   margin: 0 auto;
