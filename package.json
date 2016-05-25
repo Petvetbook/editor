@@ -1,6 +1,6 @@
 {
   "name": "morrr-editor",
-  "version": "1.0.83",
+  "version": "1.0.84",
   "description": "Morrr editor",
   "main": "index.js",
   "scripts": {
@@ -46,7 +46,7 @@
     "image-server-client": "^1.0.4",
     "lodash": "^4.12.0",
     "promise": "^7.1.1",
-    "realm-js": "^1.1.79",
+    "realm-js": "^1.1.80",
     "realm-router": "^1.1.21"
   }
 }

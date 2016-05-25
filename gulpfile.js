@@ -10,6 +10,7 @@ var runSequence = require('run-sequence');
 var uglify = require('gulp-uglify');
 var addsrc = require('gulp-add-src');
 var prettify = require('gulp-jsbeautifier');
+var bump = require('gulp-bump');
 var insert = require('gulp-insert');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
@@ -19,6 +20,27 @@ var sketch = require('gulp-sketch');
 
 var spawn = require('child_process').spawn;
 var node;
+
+// Publish sc
+gulp.task('increment-version', function() {
+   gulp.src('./package.json')
+      .pipe(bump())
+      .pipe(gulp.dest('./'));
+});
+gulp.task('push', function(done) {
+   var publish = spawn('npm', ['publish'], {
+      stdio: 'inherit'
+   })
+   publish.on('close', function(code) {
+      if (code === 8) {
+         gulp.log('Error detected, waiting for changes...');
+      }
+      done()
+   });
+});
+gulp.task("publish", ['dist', 'increment-version'], function(done) {
+   runSequence('push')
+});
 
 gulp.task('sass', function() {
    return sass('src/scss/styles.scss', {
