@@ -4,18 +4,53 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  width: $max-width;
+  justify-content: space-between;
   font-size: 14px;
   line-height: 30px;
-  .currently {
-    flex: 0 0 auto;
+  .currently,
+  .username {
     margin-right: 10px;
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: $dkgrey;
   }
-  .dropdown {
-    flex: 1 0 auto;
+  .nav {
+    flex: 0 1 $max-width;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    .currently {
+      flex: 0 0 auto;
+    }
+    .dropdown {
+      flex: 1 0 auto;
+    }
+  }
+  .logo,
+  .user-toolbar,
+  user-toolbar {
+    flex: 0 0 120px;
+    height: 30px;
+  }
+  .logo {
+    background-repeat: no-repeat;
+    background-size: auto 75%;
+    background-position: 50% 50%;
+    background-image: inline('morrr-logo.svg');
+  }
+  .user-toolbar,
+  user-toolbar {
+    text-align: right;
+    .button {
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      margin: 0;
+      vertical-align: top;
+      span {
+        display: none;
+      }
+    }
   }
 }

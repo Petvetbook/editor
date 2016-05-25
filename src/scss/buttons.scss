@@ -99,6 +99,9 @@
   &.approve {
     background-image: inline('approve.svg');
   }
+  &.reference {
+    background-image: inline('text.svg');
+  }
   &.metadata {
     background-image: inline('metadata.svg');
   }
@@ -120,5 +123,8 @@
   }
   &.exit {
     background-image: inline('contract.svg');
+  }
+  &.logout {
+    background-image: inline('logout.svg');
   }
 }

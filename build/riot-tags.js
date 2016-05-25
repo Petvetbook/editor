@@ -1,13 +1,14 @@
 (function(___scope___) { "use strict"; var $isBackend = ___scope___.isNode; var realm  = ___scope___.realm;
 
-riot.tag2('file-toolbar', '<div class="sane-file-toolbar"><div class="button metadata"><span>Edit metadata</span></div><div class="button translate"><span>Translate</span></div><div class="button publish"><span>Publish</span></div><div class="button save"><span>Save</span></div></div>', '', '', function(opts) {
+riot.tag2('file-toolbar', '<div class="sane-file-toolbar"><div class="button reference"><span>Reference text</span></div><div class="button metadata"><span>Edit metadata</span></div><div class="button translate"><span>Translate</span></div><div class="button publish"><span>Publish</span></div><div class="button save"><span>Save</span></div></div>', '', '', function(opts) {
 });
 
 riot.tag2('language-toolbar', '<div class="sane-language-toolbar"><div class="tab active published"><span>English</span></div><div class="tab modified"><span>Swedish</span></div><div class="tab published"><span>Finnish</span></div></div>', '', '', function(opts) {
 });
 
-riot.tag2('menu-toolbar', '<span class="currently">Editing</span><div class="dropdown {active : isShown}"><span class="dropdown-current" onclick="{show}">Item Title</span><div class="dropdown-list-wrapper {active : isShown}"><div class="dropdown-list"><div class="header"><span class="item-name">Title</span><span class="assigned-to">Assigned to</span><span class="edited">Edited</span><span class="status">Status</span></div><div class="item "><span class="item-name">How is urinary incontinence treated in dogs?</span><span class="assigned-to">Lynda</span><span class="edited">22.02.2016</span><span class="status"><span class="published">EN</span><span class="published">SV</span><span class="">FI</span></span></div></div><paginator></paginator></div></div>', '', '', function(opts) {
-        riot.mount('ui-paginator');
+riot.tag2('menu-toolbar', '<div class="logo"></div><div class="nav"><span class="currently">Editing</span><div class="dropdown {active : isShown}"><span class="dropdown-current" onclick="{show}">Item Title</span><div class="dropdown-list-wrapper {active : isShown}"><div class="dropdown-list"><div class="header"><span class="item-name">Title</span><span class="assigned-to">Assigned to</span><span class="edited">Edited</span><span class="status">Status</span></div><div class="item "><span class="item-name">How is urinary incontinence treated in dogs?</span><span class="assigned-to">Lynda</span><span class="edited">22.02.2016</span><span class="status"><span class="published">EN</span><span class="published">SV</span><span class="">FI</span></span></div></div><paginator></paginator></div></div></div><user-toolbar></user-toolbar>', '', '', function(opts) {
+        riot.mount('user-toolbar');
+        riot.mount('paginator');
         this.show = function () {
             this.isShown = this.isShown
                 ? false
@@ -29,6 +30,9 @@ riot.tag2('paginator', '<div class="paginator"><a class="item" show="{data.dista
                 this.data = opts.data;
             needUpdate = true;
         })
+});
+
+riot.tag2('user-toolbar', '<div class="user-toolbar"><span class="username">Lynda</span><div class="button logout"><span>Logout</span></div></div>', '', '', function(opts) {
 });
 
 

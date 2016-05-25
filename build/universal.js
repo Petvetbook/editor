@@ -55,19 +55,20 @@ class SaneEditor {
       this.modalWrapper = $('<div class="sane-editor-modal-wrapper"></div>');
       this.modalWrapper.appendTo(this.element);
       this.contentAreaWrapper = $('<div class="sane-editor-content-area-wrapper"></div>');
-      this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
-      this.leftMenu = $('<div class="sane-editor-left-menu"></div>');
+      this.editableWrapper = $('<div class="sane-editor-editable-wrapper"></div>');
+      this.translateWrapper = $('<div class="sane-editor-translate-pane-wrapper"></div>');
+      this.contentPane = $('<div class="sane-editor-translate-content"></div>');
 
-      this.element.append(this.leftMenu)
-      this.element.append(this.contentPane);
-      this.formattingWrapper.appendTo(this.contentAreaWrapper);
-      this.contentWrapper.appendTo(this.contentAreaWrapper);
-      this.contentAreaWrapper.appendTo(this.element);
-      this.content = $('<div class="sane-editor-content" contenteditable="true"></div>'); //.appendTo(this.toolbar);
+      this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
+      this.content = $('<div class="sane-editor-content" contenteditable="true"></div>');
+
       this.content.appendTo(this.contentWrapper);
-      this.contentPane = $('<div class="sane-editor-content-pane"></div>');
-      this.contentPane.hide();
-      this.contentPane.appendTo(this.contentWrapper)
+      this.contentWrapper.appendTo(this.editableWrapper);
+      this.contentPane.appendTo(this.translateWrapper);
+      this.formattingWrapper.appendTo(this.contentAreaWrapper);
+      this.editableWrapper.appendTo(this.contentAreaWrapper);
+      this.translateWrapper.appendTo(this.contentAreaWrapper);
+      this.contentAreaWrapper.appendTo(this.element);
 
       target.replaceWith(this.element);
 
@@ -84,6 +85,7 @@ class SaneEditor {
       });
       this.hideEditor();
       this.toggleFullScreenMode();
+      // this.toggleTranslateMode();
    }
 
    mountToolbar(riotTag, props) {
@@ -115,7 +117,7 @@ class SaneEditor {
       var toolbar = this.langToolbar;
       if (!toolbar) {
          this.langToolbar = $("<div class='sane-language-toolbar-wrapper'></div>");
-         this.langToolbar.prependTo(this.contentAreaWrapper);
+         this.langToolbar.prependTo(this.editableWrapper);
          toolbar = this.langToolbar;
       }
       var tag = riot.mount(toolbar[0], riotTag, props || {});
@@ -133,20 +135,6 @@ class SaneEditor {
             }
          });
       }, 1);
-   }
-
-   openContentPane() {
-      var self = this;
-      this.content.fadeOut(function() {
-         self.contentPane.fadeIn();
-      });
-   }
-
-   closeContentPane() {
-      var self = this;
-      this.contentPane.fadeOut(function() {
-         self.content.fadeIn();
-      });
    }
 
    onActivity(cb) {
@@ -402,11 +390,19 @@ class SaneEditor {
             });
          }
       });
-      var fScreen = $('<div class="button maximize"><span>Toggle fullscreen</span></div>');
-      fScreen.appendTo($(self.toolbar));
-      fScreen.click(function() {
-         self.toggleFullScreenMode();
-      });
+
+      // var refText = $('<div class="button reference"><span>Reference text</span></div>');
+      // refText.appendTo($(self.toolbar));
+      // refText.click(function() {
+      //    self.toggleTranslateMode();
+      // });
+
+      // var fScreen = $('<div class="button maximize"><span>Fullscreen</span></div>');
+      // fScreen.appendTo($(self.toolbar));
+      // fScreen.click(function() {
+      //    self.toggleFullScreenMode();
+      // });
+
       // this.bindFullScreenButtons();
    }
 
@@ -585,25 +581,26 @@ class SaneEditor {
       var self = this;
       if ($(this.element).hasClass("full-screen-mode")) {
          $(this.element).removeClass("full-screen-mode");
-         $('body').css('overflow', 'auto');
-         $(this.element).find('.left-menu').remove();
-         // this.floatingSave.hide();
-         // this.floatingPreview.hide();
-         // this.exitFullScreenModeButton.hide();
       } else {
          $('body').css('overflow', 'hidden');
          $(this.element).addClass("full-screen-mode");
 
-         if (self._onFullScreenLeftMenu) {
-            var element = $("<div class='left-menu' style='color:white'></div>");
-            $(this.element).find(".sane-editor-content-wrapper").append(element);
+         // if (self._onFullScreenLeftMenu) {
+         //    var element = $("<div class='left-menu' style='color:white'></div>");
+         //    $(this.element).find(".sane-editor-content-wrapper").append(element);
 
-            self._onFullScreenLeftMenu(element);
-         }
+         //    self._onFullScreenLeftMenu(element);
+         // }
+      }
+   }
 
-         // this.floatingSave.show();
-         // this.floatingPreview.show();
-         // this.exitFullScreenModeButton.show();
+   toggleTranslateMode() {
+      var self = this;
+      if ($(this.element).hasClass("translate-mode")) {
+         $(this.element).removeClass("translate-mode");
+      } else {
+         $('body').css('overflow', 'hidden');
+         $(this.element).addClass("translate-mode");
       }
    }
 
