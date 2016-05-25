@@ -1,4 +1,4 @@
 var realm = require('realm-js');
 var fs = require('fs');
 
-require(__dirname + "/dist/backend/backend.js")
+require(__dirname + "/dist/backend/editor.js")

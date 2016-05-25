@@ -121,7 +121,7 @@ gulp.task("build-universal", function() {
 
 gulp.task('dist', function(callback) {
    runSequence('build-universal', 'frontend-libs', 'dist-backend', 'icons', 'sass',
-      'dist-frontend',
+      'dist-frontend', 'concat-libs',
       'uglify-frontend',
       'dist-css', callback)
 });
@@ -149,6 +149,11 @@ gulp.task('dist-frontend', function() {
          presets: ["es2016"]
       }))
       .pipe(gulp.dest("./build"))
+      .pipe(gulp.dest("./dist/frontend/"))
+});
+gulp.task('concat-libs', function() {
+   return gulp.src(["build/lib.js", "dist/frontend/editor.js"])
+      .pipe(concat('editor.js'))
       .pipe(gulp.dest("./dist/frontend/"))
 });
 gulp.task('uglify-frontend', function() {

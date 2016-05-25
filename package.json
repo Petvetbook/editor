@@ -1,6 +1,6 @@
 {
   "name": "morrr-editor",
-  "version": "1.0.84",
+  "version": "1.0.87",
   "description": "Morrr editor",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/Petvetbook/editor",
   "devDependencies": {
-    "babel-preset-es2016": "^6.0.11",
     "express": "^4.13.4",
     "gulp": "^3.9.1",
     "gulp-add-src": "^0.2.0",
