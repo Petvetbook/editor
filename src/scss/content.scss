@@ -14,7 +14,7 @@
 //   outline: 0!important;
 // }
 .sane-editor-editable-wrapper,
-.sane-editor-translate-pane-wrapper {
+.sane-editor-translate-wrapper {
   flex: 0 1 $max-width;
   position: relative;
   min-height: 300px;
@@ -29,7 +29,7 @@
   // flex-direction: column;
   // flex-wrap: nowrap;
 }
-.sane-editor:not(.translate-mode) .sane-editor-translate-pane-wrapper {
+.sane-editor:not(.translate-mode) .sane-editor-translate-wrapper {
   visibility: hidden;
   position: absolute;
   top: 0;
@@ -40,7 +40,7 @@
 }
 
 .sane-editor-content-wrapper,
-.sane-editor-translate-content {
+.sane-editor-translate-content-wrapper {
   position: absolute;
   top: 50px;
   right: 0;
