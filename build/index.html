@@ -8,6 +8,7 @@
       <title>Test</title>
          <script type="text/javascript" src="/dependencies.js"></script>
       <script type="text/javascript" src="/riot-tags.js"></script>
+      <script type="text/javascript" src="/riot-morrr-tags.js"></script>
 
       <script type="text/javascript" src="/universal.js"></script>
 
@@ -51,6 +52,8 @@
 
 
             // creating toolbar
+            var notifications = editor.enableNotifications();
+            editor.notification("notice", "Hello", "Some nice text here, HUH?");
 
             editor.mountToolbar('menu-toolbar');
             editor.mountLanguageToolbar('language-toolbar');

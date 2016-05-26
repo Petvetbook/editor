@@ -3020,3 +3020,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 })(function (self) {
    var isNode = typeof exports !== 'undefined';return { isNode: isNode, realm: isNode ? require('realm-js') : window.realm };
 }());
+(function (___scope___) {
+   "use strict";
+   var $isBackend = ___scope___.isNode;var realm = ___scope___.realm;
+
+   riot.tag2('notifications', '<h2>This is notification</h2>', '', '', function (opts) {});
+})(function (self) {
+   var isNode = typeof exports !== 'undefined';return { isNode: isNode, realm: isNode ? require('realm-js') : window.realm };
+}());

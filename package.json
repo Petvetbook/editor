@@ -1,6 +1,6 @@
 {
   "name": "morrr-editor",
-  "version": "1.0.98",
+  "version": "1.0.99",
   "description": "Morrr editor",
   "main": "index.js",
   "scripts": {
