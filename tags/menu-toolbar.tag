@@ -2,7 +2,9 @@
     <span class="currently">Editing</span>
     <div class="dropdown {active : isShown}">
         <span class="dropdown-current" onclick={show}>
-            <span class="index">1 / 758</span>Item Title</span>
+            <span class="index">1 / 758</span>
+            <span class="item-name">Title</span>
+        </span>
         <div class="dropdown-list-wrapper {active : isShown}">
             <div class="dropdown-list">
                 <div class="header">
