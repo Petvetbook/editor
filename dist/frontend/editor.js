@@ -1275,13 +1275,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          }, {
             key: "hideEditor",
             value: function hideEditor() {
-               $(this.content).hide();
+               $(this.editableWrapper).hide();
                $(this.formattingWrapper).hide();
             }
          }, {
             key: "showEditor",
             value: function showEditor() {
-               $(this.content).show();
+               $(this.editableWrapper).show();
                $(this.formattingWrapper).show();
             }
          }, {

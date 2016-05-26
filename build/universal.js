@@ -189,11 +189,11 @@ class SaneEditor {
    }
 
    hideEditor() {
-      $(this.content).hide();
+      $(this.editableWrapper).hide();
       $(this.formattingWrapper).hide();
    }
    showEditor() {
-      $(this.content).show();
+      $(this.editableWrapper).show();
       $(this.formattingWrapper).show();
    }
 
