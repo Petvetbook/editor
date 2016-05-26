@@ -59,12 +59,15 @@
             editor.notification("error", "Some nice text here, HUH?");
 
             editor.mountToolbar('menu-toolbar');
-            editor.mountLanguageToolbar('language-toolbar');
+            var languageToolbar = editor.mountLanguageToolbar('language-toolbar');
             editor.mountFileToolbar('file-toolbar');
             editor.mountUserToolbar('user-toolbar');
 
             editor.showEditor();
 
+            languageToolbar.on('translate-toggle',function(){
+              editor.toggleTranslateMode();
+            })
 
             // editor.onFullScreenLeftMenu(function(element){
             //
