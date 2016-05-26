@@ -123,9 +123,9 @@ class SaneEditor {
       return this.tags.notifications;
    }
 
-   notification(type,opts) {
+   notification(type, opts) {
       if (this.tags.notifications) {
-         this.tags.notifications.trigger(type,opts);
+         this.tags.notifications.trigger(type, opts);
       }
    }
 
@@ -637,6 +637,7 @@ class SaneEditor {
    fixCloningFeature() {
       var updateTimeout;
       var self = this;
+      var tabPressed = false;
       $(this.content).bind("keydown", function(e) {
          self.triggerActivity();
          tabPressed = false;

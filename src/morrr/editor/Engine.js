@@ -602,6 +602,7 @@ class SaneEditor {
    fixCloningFeature() {
       var updateTimeout;
       var self = this;
+      var tabPressed = false;
       $(this.content).bind("keydown", function(e) {
          self.triggerActivity();
          tabPressed = false;
