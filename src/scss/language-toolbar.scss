@@ -38,11 +38,11 @@
     }
     &:before {
       content: '•';
-      font-size: 26px;
+      font-size: 48px;
       line-height: 30px;
       vertical-align: middle;
       margin-right: 5px;
-      color: $dkgrey;
+      color: rgba(0,0,0,0.2);
     }
     &.published:before {
       color: green;
