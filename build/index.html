@@ -53,10 +53,12 @@
 
             // creating toolbar
             var notifications = editor.enableNotifications();
+
             editor.notification("default", "Some nice text here, HUH?");
             editor.notification("notice", "Some nice text here, HUH?");
             editor.notification("warning", "Some nice text here, HUH?");
             editor.notification("error", "Some nice text here, HUH?");
+
 
             editor.mountToolbar('menu-toolbar');
             var languageToolbar = editor.mountLanguageToolbar('language-toolbar');
