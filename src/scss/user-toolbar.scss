@@ -1,0 +1,27 @@
+.sane-user-toolbar-wrapper {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 30px;
+}
+.sane-user-toolbar {
+  text-align: right;
+  background-color: white;
+  .username {
+    margin-right: 10px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: $dkgrey;
+  }
+  .button {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    vertical-align: middle;
+    span {
+      display: none;
+    }
+  }
+}
