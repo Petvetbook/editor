@@ -50,13 +50,15 @@
                 this.modalWrapper.appendTo(this.element);
                 this.contentAreaWrapper = $('<div class="sane-editor-content-area-wrapper"></div>');
                 this.editableWrapper = $('<div class="sane-editor-editable-wrapper"></div>');
-                this.translateWrapper = $('<div class="sane-editor-translate-pane-wrapper"></div>');
+                this.translateWrapper = $('<div class="sane-editor-translate-wrapper"></div>');
+                this.translateContentWrapper = $('<div class="sane-editor-translate-content-wrapper"></div>');
                 this.contentPane = $('<div class="sane-editor-translate-content"></div>');
                 this.contentWrapper = $('<div class="sane-editor-content-wrapper"></div>');
                 this.content = $('<div class="sane-editor-content" contenteditable="true"></div>');
                 this.content.appendTo(this.contentWrapper);
                 this.contentWrapper.appendTo(this.editableWrapper);
-                this.contentPane.appendTo(this.translateWrapper);
+                this.contentPane.appendTo(this.translateContentWrapper);
+                this.translateContentWrapper.appendTo(this.translateWrapper);
                 this.formattingWrapper.appendTo(this.contentAreaWrapper);
                 this.editableWrapper.appendTo(this.contentAreaWrapper);
                 this.translateWrapper.appendTo(this.contentAreaWrapper);
@@ -98,6 +100,18 @@
                 var tag = riot.mount(toolbar[0], riotTag, props || {});
                 this.tags.userToolbar = tag ? tag[0] : undefined;
                 return this.tags.userToolbar;
+            }
+            enableNotifications() {
+                var div = $("<div></div>");
+                div.appendTo($("body"));
+                var tag = riot.mount(div[0], "notifications");
+                this.tags.notifications = tag ? tag[0] : undefined;
+                return this.tags.notifications;
+            }
+            notification(type, opts) {
+                if (this.tags.notifications) {
+                    this.tags.notifications.trigger(type, opts);
+                }
             }
             mountFileToolbar(riotTag, props) {
                 var toolbar = this.fileToolbar;
@@ -550,6 +564,7 @@
             fixCloningFeature() {
                 var updateTimeout;
                 var self = this;
+                var tabPressed = false;
                 $(this.content).bind("keydown", function(e) {
                     self.triggerActivity();
                     tabPressed = false;
