@@ -1,6 +1,6 @@
 {
   "name": "morrr-editor",
-  "version": "1.0.96",
+  "version": "1.0.98",
   "description": "Morrr editor",
   "main": "index.js",
   "scripts": {
@@ -36,6 +36,7 @@
     "gulp-sketch": "^1.0.3",
     "gulp-uglify": "^1.5.3",
     "mongodb": "2.0.55",
+    "riot": "^2.4.1",
     "run-sequence": "^1.1.5",
     "should": "^8.3.1",
     "sketchtool": "^1.4.0"

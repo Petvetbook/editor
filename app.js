@@ -4,8 +4,6 @@ var realm = require("realm-js");
 var router = require('realm-router');
 var wiresMongo = require('realm-mongo');
 
-app.use('/realm.js', realm.serve.express());
-
 require('./dist/backend/editor.js');
 require("./db.js")
 

@@ -83,8 +83,21 @@ gulp.task('server', function() {
    });
 });
 
+gulp.task('dev-frontend-libs', function() {
+   gulp.src([
+         "build/bower_components/jquery/dist/jquery.min.js",
+         "build/bower_components/lodash/dist/lodash.min.js",
+         "node_modules/riot/riot.min.js",
+         "node_modules/realm-js/build/realm.min.js",
+         "node_modules/realm-router/dist/frontend/realm.router.min.js",
+         "src/frontend-libs/**/*.js"
+      ])
+      .pipe(concat('dependencies.js'))
+      .pipe(gulp.dest("./build/"))
+});
+
 gulp.task('start', function() {
-   runSequence('build-riot', 'build-universal', 'frontend-libs', 'sass', function() {
+   runSequence('build-riot', 'build-universal', 'dev-frontend-libs', 'sass', function() {
       runSequence('server')
       gulp.watch(['tags/**/*.tag'], function() {
          runSequence('build-riot')
@@ -93,8 +106,7 @@ gulp.task('start', function() {
          runSequence('sass')
       });
       gulp.watch(['src/morrr/**/*.js'], function() {
-         runSequence('build-universal')
-
+         runSequence('build-universal');
       });
    });
 });
@@ -128,8 +140,8 @@ gulp.task('dist', function(callback) {
 
 gulp.task("frontend-libs", function() {
    return gulp.src("src/frontend-libs/**/*.js")
-      .pipe(concat('lib.js'))
-      .pipe(gulp.dest("./build/"))
+      .pipe(concat('libs.js'))
+      .pipe(gulp.dest("./dist/frontend/"))
 });;
 
 gulp.task('dist-backend', function() {
@@ -152,7 +164,7 @@ gulp.task('dist-frontend', function() {
       .pipe(gulp.dest("./dist/frontend/"))
 });
 gulp.task('concat-libs', function() {
-   return gulp.src(["build/lib.js", "dist/frontend/editor.js"])
+   return gulp.src(["dist/frontend/libs.js", "dist/frontend/editor.js"])
       .pipe(concat('editor.js'))
       .pipe(gulp.dest("./dist/frontend/"))
 });
