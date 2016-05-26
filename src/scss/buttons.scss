@@ -48,8 +48,8 @@
     }
   }
   &.labelled {
-    background-position: 10px 50%;
-    padding-left: 30px;
+    background-position: 100% 50%;
+    padding-right: 30px;
     span {
       visibility: visible;
       opacity: 1;
@@ -110,7 +110,10 @@
     background-image: inline('approve.svg');
   }
   &.translate-mode {
-    padding-left: 55px;
+    padding-right: 45px;
+    background-image: inline('text2.svg');
+  }
+  &.edit-mode {
     background-image: inline('text.svg');
   }
   &.metadata {

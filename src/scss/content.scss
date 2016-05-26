@@ -18,6 +18,10 @@
   flex: 0 1 $max-width;
   position: relative;
   min-height: 300px;
+  display: block;
+  visibility: visible;
+  transform: translateX(0);
+  opacity: 1;
   margin: 0 30px 0 0;
   transition: all 0.2s ease-out;
 
@@ -27,9 +31,11 @@
   // flex-wrap: nowrap;
 }
 .sane-editor:not(.translate-mode) .sane-editor-translate-pane-wrapper {
+  display: none;
   visibility: hidden;
+  transform: translateX(100px);
+  opacity: 0;
   margin: 0;
-  flex: 0 0 0;
 }
 
 .sane-editor-content-wrapper,
@@ -72,7 +78,7 @@
   margin: 0 auto;
   padding: 20px;
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.4em;
   font-variant-ligatures: common-ligatures;
   max-width: $max-width;
