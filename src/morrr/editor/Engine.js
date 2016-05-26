@@ -17,6 +17,7 @@ class SaneEditor {
       this.toolbarWrapper.appendTo(this.element);
       this.toolbar = $('<div class="sane-formatting-toolbar"></div>');
       this.toolbar.appendTo(this.formattingWrapper);
+      this.spinner = $('<div class="spinner"></div>')
       this.modalWrapper = $('<div class="sane-editor-modal-wrapper"></div>');
       this.modalWrapper.appendTo(this.element);
       this.contentAreaWrapper = $('<div class="sane-editor-content-area-wrapper"></div>');
@@ -36,6 +37,7 @@ class SaneEditor {
       this.editableWrapper.appendTo(this.contentAreaWrapper);
       this.translateWrapper.appendTo(this.contentAreaWrapper);
       this.contentAreaWrapper.appendTo(this.element);
+      this.spinner.appendTo(this.element);
 
       target.replaceWith(this.element);
 

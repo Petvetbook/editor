@@ -39,6 +39,28 @@
       background-image: inline('contract.svg');
     }
   }
+
+  @keyframes spinnerAnimation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(-360deg);
+    }
+  }
+  .spinner {
+    position: fixed;
+    display: block;
+    top: 50px;
+    left: 20px;
+    padding: 30px;
+    border-radius: 30px;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-color: white;
+    background-image: inline('spinner.svg');
+    animation: spinnerAnimation 2s infinite ease-in-out;
+  }
 }
 .sane-editor-toolbar-wrapper {
   position: relative;
