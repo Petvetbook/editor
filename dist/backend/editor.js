@@ -99,6 +99,18 @@
                 this.tags.userToolbar = tag ? tag[0] : undefined;
                 return this.tags.userToolbar;
             }
+            enableNotifications() {
+                var div = $("<div></div>");
+                div.appendTo($("body"));
+                var tag = riot.mount(div[0], "notifications");
+                this.tags.notifications = tag ? tag[0] : undefined;
+                return this.tags.notifications;
+            }
+            notification(type, title, message) {
+                if (this.tags.notifications) {
+                    this.tags.notifications.trigger(type, title, message);
+                }
+            }
             mountFileToolbar(riotTag, props) {
                 var toolbar = this.fileToolbar;
                 if (!toolbar) {
