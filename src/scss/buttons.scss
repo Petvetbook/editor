@@ -3,6 +3,7 @@
   position: relative;
   border: 0;
   line-height: 30px;
+  height: 30px;
   margin: 1px;
   background-repeat: no-repeat;
   background-size: auto 75%;
@@ -13,6 +14,7 @@
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    color: $dkgrey;
     white-space: nowrap;
   }
 
@@ -43,6 +45,14 @@
     }
     &.exit {
       bottom: 0;
+    }
+  }
+  &.labelled {
+    background-position: 10px 50%;
+    padding-left: 30px;
+    span {
+      visibility: visible;
+      opacity: 1;
     }
   }
 
@@ -99,7 +109,8 @@
   &.approve {
     background-image: inline('approve.svg');
   }
-  &.reference {
+  &.translate-mode {
+    padding-left: 55px;
     background-image: inline('text.svg');
   }
   &.metadata {

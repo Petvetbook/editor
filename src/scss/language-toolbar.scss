@@ -12,16 +12,16 @@
 }
 .sane-language-toolbar {
   position: relative;
-  display: block;
   flex: 0 1 100%;
-  margin: 0 auto;
-  text-align: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   .tab {
     cursor: pointer;
-    display: inline-block;
+    flex: 0 0 auto;
     width: auto;
     height: 30px;
-    margin: 0 0 0 10px;
+    margin: 0 10px 0 0;
     padding: 0 10px;
     border-radius: 3px 3px 0 0;
     color: $dkdkgrey;
@@ -31,7 +31,6 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-align: center;
-    vertical-align: middle;
     &.active,
     &:hover {
       background-color: white;
@@ -48,37 +47,43 @@
     &.published:before {
       color: green;
     }
-    &.modified:after {
-      content: ' - not saved';
-      font-size: 11px;
-      line-height: 30px;
-      color: red;
+    &.modified {
+      // &:after {
+      //   content: ' - not saved';
+      //   font-size: 11px;
+      //   line-height: 30px;
+      //   color: red;
+      // }
+      > .button {
+        display: inline-block;
+        margin: 0 0 0 5px;
+        padding: 0 5px;
+        line-height: 19px;
+        height: 19px;
+        background-image: none;
+        background-color: red;
+        border-radius: 3px;
+        &:hover {
+          background-color: black;
+        }
+        span {
+          color: white;
+        }
+      }
     }
-    span {
+    > span {
       white-space: nowrap;
       visibility: visible;
       opacity: 1;
       transition: 0.3s all ease-out;
     }
   }
-  .button {
-    border-radius: 0 3px 0 0;
-    background-color: $grey;
-    pointer-events: none;
-    &.enabled {
-      background-color: green;
+  .toolbar-status {
+    flex: 1 0 auto;
+    text-align: right;
+    .button {
       display: inline-block;
-      pointer-events: auto;
-      &:hover {
-        background-color: black;
-      }
-    }
-    span {
-      color: white;
-      padding: 0 10px;
-      visibility: visible;
-      opacity: 1;
-      transition: 0.3s all ease-out;
+      margin: 0;
     }
   }
 }

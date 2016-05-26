@@ -1,18 +1,15 @@
 <file-toolbar>
     <div class="sane-file-toolbar">
-        <div class="button reference">
-            <span>Reference text</span>
+        <div class="button labelled metadata">
+            <span>Metadata</span>
         </div>
-        <div class="button metadata">
-            <span>Edit metadata</span>
-        </div>
-        <div class="button translate">
+        <div class="button labelled translate">
             <span>Translate</span>
         </div>
-        <div class="button publish">
+        <div class="button labelled publish">
             <span>Publish</span>
         </div>
-        <div class="button save">
+        <div class="button labelled save">
             <span>Save</span>
         </div>
     </div>
