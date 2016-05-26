@@ -97,10 +97,14 @@ gulp.task('dev-frontend-libs', function() {
 });
 
 gulp.task('start', function() {
-   runSequence('build-riot', 'build-universal', 'dev-frontend-libs', 'sass', function() {
+   runSequence('build-riot', 'build-morrr-riot', 'build-universal', 'dev-frontend-libs', 'sass', function() {
       runSequence('server')
       gulp.watch(['tags/**/*.tag'], function() {
          runSequence('build-riot')
+      });
+
+      gulp.watch(['src/morrr/editor/tags/**/*.tag'], function() {
+         runSequence('build-morrr-riot')
       });
       gulp.watch(['src/scss/*.scss'], function() {
          runSequence('sass')
@@ -118,6 +122,20 @@ gulp.task("build-riot", function() {
       }))
       .pipe(realm.transpiler2.gulp(__dirname + "/tags/", "riot-tags.js", {
          preffix: "test.tags"
+      }))
+      .on('error', function(e) {
+         console.log(e.stack);
+         this.emit('end');
+      })
+      .pipe(gulp.dest('./build'));
+});
+gulp.task("build-morrr-riot", function() {
+   return gulp.src("src/morrr/editor/tags/**/*.tag")
+      .pipe(riot({
+         compact: true
+      }))
+      .pipe(realm.transpiler2.gulp(__dirname + "/src/morrr/editor/tags/", "riot-morrr-tags.js", {
+         preffix: "morrr.editor.tags"
       }))
       .on('error', function(e) {
          console.log(e.stack);
@@ -154,8 +172,8 @@ gulp.task('dist-backend', function() {
       }))
       .pipe(gulp.dest("./dist/backend/"))
 });
-gulp.task('dist-frontend', function() {
-   return gulp.src(["build/universal.js"])
+gulp.task('dist-frontend', ['build-morrr-riot'], function() {
+   return gulp.src(["build/universal.js", "build/riot-morrr-tags.js"])
       .pipe(concat('editor.js'))
       .pipe(babel({
          presets: ["es2016"]
