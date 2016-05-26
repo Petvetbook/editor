@@ -15,7 +15,7 @@
 
   * {
     box-sizing: border-box;
-    &:not([class*='sane-editor-content']) {
+    &:not([class*='content']) {
       user-select: none;
     }
   }
