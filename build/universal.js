@@ -159,8 +159,8 @@ class SaneEditor {
    mountTranslatePaneToolbar(riotTag, props) {
       var toolbar = this.translatePaneToolbar;
       if (!toolbar) {
-         this.translateToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
-         this.translateToolbar.prependTo(this.translateContentWrapper);
+         this.translatePaneToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
+         this.translatePaneToolbar.prependTo(this.translateContentWrapper);
          toolbar = this.translatePaneToolbar;
       }
       var tag = riot.mount(toolbar[0], riotTag, props || {});
