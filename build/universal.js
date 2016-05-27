@@ -68,7 +68,8 @@ class SaneEditor {
       this.contentWrapper.appendTo(this.editableWrapper);
       this.contentPane.appendTo(this.translateContentWrapper);
       this.translateContentWrapper.appendTo(this.translateWrapper);
-      this.formattingWrapper.appendTo(this.contentAreaWrapper);
+      // this.formattingWrapper.appendTo(this.contentAreaWrapper);
+      this.formattingWrapper.prependTo(this.contentWrapper);
       this.editableWrapper.appendTo(this.contentAreaWrapper);
       this.translateWrapper.appendTo(this.contentAreaWrapper);
       this.contentAreaWrapper.appendTo(this.element);

@@ -1,0 +1,52 @@
+.sane-formatting-toolbar-wrapper {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;;
+  z-index: 50;
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid $grey;
+  box-shadow: 0 0 5px rgba(black, 0.1);
+}
+.sane-formatting-toolbar {
+  position: relative;
+  flex: 1 0 auto;
+  height: 30px;
+  text-align: center;
+  .button {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    background-size: 70% auto;
+    background-position: 50% 50% !important;
+    &:hover,
+    &.active {
+      background-color: lighten($grey, 10%);
+      span {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+    span {
+      position: absolute;
+      left: 0;
+      bottom: -18px;
+      z-index: -1;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      padding: 0 5px;
+      font-size: 10px;
+      line-height: 16px;
+      background-color: lighten($grey, 10%);
+      color: $dkgrey;
+      border-radius: 0 0 3px 3px;
+      border: 1px solid $grey;
+      border-width: 0 1px 1px 1px;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.3s all ease-out;
+    }
+  }
+}

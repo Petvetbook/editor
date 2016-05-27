@@ -1,5 +1,9 @@
 <menu-toolbar>
-    <span class="currently">Editing</span>
+    <span class="prev-item">
+        <div class="button labelled prev">
+            <span>Previous</span>
+        </div>
+    </span>
     <div class="dropdown {active : isShown}">
         <span class="dropdown-current" onclick={show}>
             <span class="index">1 / 758</span>
@@ -27,6 +31,11 @@
             <paginator></paginator>
         </div>
     </div>
+    <span class="next-item">
+        <div class="button labelled next">
+            <span>Next</span>
+        </div>
+    </span>
     <script>
         riot.mount('paginator');
         this.show = function () {

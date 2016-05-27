@@ -16,7 +16,23 @@
     text-transform: uppercase;
     color: $dkgrey;
   }
+  .button {
+    margin: 0;
+    &:hover {
+      background-color: black;
+      background-color: lighten($grey, 12%);
+    }
+    &.prev {
+      border-left: 1px solid $grey;
+    }
+    &.next {
+      border-right: 1px solid $grey;
+    }
+  }
+  > * {
+    flex: 0 0 0;
+  }
   .dropdown {
-    flex: 1 0 auto;
+    flex: 1 0 0;
   }
 }

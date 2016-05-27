@@ -1,5 +1,4 @@
 .sane-file-toolbar-wrapper {
-  margin-top: 60px;
 }
 .sane-file-toolbar {
   // position: relative;
@@ -38,8 +37,14 @@
   //     color: white;
   //   }
   // }
-  .button:hover span {
-    background-color: black;
-    color: white;
+  .button {
+    display: inline-block;
+    margin: 0;
+    background-image: none !important;
+    padding: 0 10px !important;
+    border-left: 1px solid $grey;
+    &:hover {
+      background-color: lighten($grey, 12%);
+    }
   }
 }

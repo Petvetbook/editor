@@ -9,7 +9,6 @@
   background-size: auto 75%;
   background-position: 50% 50%;
   transition: 0.3s all ease-out;
-
   span {
     font-size: 11px;
     letter-spacing: 0.1em;
@@ -130,6 +129,23 @@
   }
   &.preview {
     background-image: inline('preview.svg');
+  }
+  &.down {
+    background-image: inline('down.svg');
+  }
+  &.up {
+    background-image: inline('up.svg');
+  }
+  &.left,
+  &.prev {
+    padding: 0 10px 0 25px;
+    background-position: 0 50%;
+    background-image: inline('left.svg');
+  }
+  &.right,
+  &.next {
+    padding: 0 25px 0 10px;
+    background-image: inline('right.svg');
   }
   &.return,
   &.exit {

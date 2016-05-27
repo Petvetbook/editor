@@ -5,11 +5,13 @@
   font-size: 13px;
   transition: 0.3s all ease-out;
   .dropdown-current {
+    cursor: pointer;
     position: relative;
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
     border: 0;
     box-shadow: none;
-    padding: 0 40px 0 0;
     outline: none !important;
     width: 100%;
     font-weight: bold;
@@ -22,17 +24,21 @@
     border-right: 1px solid $grey;
     z-index: 10;
     .index {
-      display: inline-block;
-      color: black;
+      flex: 0 0 auto;
+      // color: $dkgrey;
       background-color: lighten($grey, 12%);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: normal;
       letter-spacing: 0.1em;
       padding: 0 5px;
       vertical-align: top;
     }
     .item-name {
-      margin: 0 0 0 5px;
+      flex: 0 1 85%;
+      margin: 0 0 0 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
   .dropdown-arrow {

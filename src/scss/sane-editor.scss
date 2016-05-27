@@ -4,7 +4,7 @@
   margin: 0 0 20px 0;
   width: 100%;
   height: 60vh;
-  background-color: lighten($grey, 12%);
+  background-color: lighten($grey, 10%);
   border: 1px solid $grey;
   overflow: hidden;
 
@@ -15,8 +15,9 @@
 
   * {
     box-sizing: border-box;
-    &:not([class*='content']) {
-      user-select: none;
+    user-select: none;
+    &[class*='content'] * {
+      user-select: all;
     }
   }
 
@@ -51,6 +52,7 @@
   .spinner {
     position: fixed;
     display: block;
+    display: none;
     top: 50px;
     left: 20px;
     padding: 30px;

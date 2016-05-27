@@ -28,7 +28,7 @@
                folder: "editortest"
             }
          })
-         realm.require("morrr.editor.Engine", function(Editor){
+         realm.require(["morrr.editor.Engine", "morrr.editor.bbcode.BBCodeEngine"], function(Editor, BBCodeEngine){
             var editor = new Editor();
 
             var element = $("#editor");
@@ -54,10 +54,10 @@
             // creating toolbar
             var notifications = editor.enableNotifications();
 
-            editor.notification("default",  {message : "sdfsd", fixed : true});
-            editor.notification("notice", "Some nice text here, HUH?");
-            editor.notification("warning", "Some nice text here, HUH?");
-            editor.notification("error", "Some nice text here, HUH?");
+            // editor.notification("default",  {message : "sdfsd", fixed : false});
+            // editor.notification("notice", "Some nice text here, HUH?");
+            // editor.notification("warning", "Some nice text here, HUH?");
+            // editor.notification("error", "Some nice text here, HUH?");
 
 
             editor.mountToolbar('menu-toolbar');
@@ -68,7 +68,11 @@
             editor.showEditor();
 
             languageToolbar.on('translate-toggle',function(){
-              editor.toggleTranslateMode();
+              var mode = editor.toggleTranslateMode();
+              if ( mode){
+                var html = BBCodeEngine.toProduction(values.join('\n'));
+                editor.contentPane.html(html)
+              }
             })
 
             // editor.onFullScreenLeftMenu(function(element){
@@ -88,7 +92,7 @@
             });
 
             var some = "Normally, pain is a mechanism warning [b]the dog[/b] that part of their body is being damaged, so that they can avoid it. However, sometimes, pain messages may be sent by damaged nerves, even if there is no physical damage occurring. This is called neuropathic pain, or nerve pain.  The most common reason for it to occur is following injury (including surgery), where although the other tissues heal fully, the nerves may take much, much longer to “reset”. Following amputations in particular";
-            editor.setValue(some);
+            editor.setValue(values.join('\n'));
             $("#debug").val(editor.getValue());
          })
 

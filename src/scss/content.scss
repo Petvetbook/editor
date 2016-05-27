@@ -29,6 +29,9 @@
   // flex-direction: column;
   // flex-wrap: nowrap;
 }
+.sane-editor-editable-wrapper {
+  margin: 0 30px;
+}
 .sane-editor:not(.translate-mode) .sane-editor-translate-wrapper {
   visibility: hidden;
   position: absolute;
@@ -46,8 +49,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 0;
   background-color: white;
   box-shadow: 0 0 10px rgba(black, 0.1);
@@ -55,9 +57,10 @@
   .notification {
     position: fixed;
     opacity: 0;
-    right: 30vw;
-    left: 30vw;
+    right: 0;
+    left: 0;
     z-index: 70;
+    margin: 100px;
     padding: 10px;
     border-radius: 4px;
     background: rgba(0,0,0,0.7);
@@ -75,9 +78,16 @@
 }
 .sane-editor-content,
 .sane-editor-translate-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: block;
   margin: 0 auto;
-  padding: 20px;
+  padding: 50px 20px 20px 20px;
+  overflow-x: hidden;
+  overflow-y: auto;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 1.4em;
@@ -105,8 +115,8 @@
     .remove {
       cursor: pointer;
       position: absolute;
-      top: 5px;
-      right: 5px;
+      top: 0;
+      right: 0;
       display: block;
       width: 16px;
       height: 16px;
