@@ -25,7 +25,7 @@ riot.tag2('menu-toolbar', '<span class="prev-item"><div class="button labelled p
 riot.tag2('paginator', '<div class="paginator"><a class="item" page="1" style="display: none;">1</a><a class="item" style="display: none;">...</a><a class="item active" page="1"> 1 </a><a class="item " page="2"> 2 </a><a class="item " page="3"> 3 </a><a class="item " page="4"> 4 </a><a class="item " page="5"> 5 </a><a class="item " page="6"> 6 </a><a class="item " page="7"> 7 </a><a class="item " page="8"> 8 </a><a class="item " page="9"> 9 </a><a class="item " page="10"> 10 </a><a class="disabled item">...</a><a class="item" page="50"> 50 </a></div>', '', '', function(opts) {
 });
 
-riot.tag2('primary-navigation', '<div class="sane-primary-navigation"><a class="active">EN</a><a>SV</a><a>FI</a></div>', '', '', function(opts) {
+riot.tag2('primary-navigation', '<div class="sane-primary-navigation"><a class="active">Users</a><a>Articles</a><a>Whatevers</a></div>', '', '', function(opts) {
 });
 
 riot.tag2('translate-pane-toolbar', '<div class="sane-translate-pane-toolbar"><a class="item active">EN</a><a class="item">SV</a><a class="item">FI</a></div>', '', '', function(opts) {

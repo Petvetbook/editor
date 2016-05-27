@@ -11,7 +11,7 @@
 .sane-item-navigation {
   background: white;
   font-size: 13px;
-  padding: 10px;
+  padding: 0 10px;
   border-radius: 3px;
   .item:not(:last-child) {
     border-bottom: 1px solid $grey;
@@ -30,4 +30,14 @@
   .item-content:not(:empty) {
     padding: 10px 0;
   }
+}
+
+.sane-primary-navigation-wrapper {
+  position: fixed;
+  top: 30px;
+  left: 0;
+  bottom: 0;
+}
+.sane-primary-navigation {
+
 }
