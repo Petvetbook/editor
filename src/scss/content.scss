@@ -84,8 +84,8 @@
   bottom: 0;
   left: 0;
   display: block;
-  margin: 0 auto;
-  padding: 50px 20px 20px 20px;
+  margin: 30px auto 0 auto;
+  padding: 20px;
   overflow-x: hidden;
   overflow-y: auto;
   font-family: Helvetica, Arial, sans-serif;
@@ -98,6 +98,9 @@
   &:read-write:focus,
   * {
     outline: none;
+    &::selection {
+      background-color: lighten($blue, 40%);
+    }
   }
   > div {
     margin-bottom: 20px;

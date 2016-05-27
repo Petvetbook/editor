@@ -93,6 +93,20 @@ class SaneEditor {
       // this.toggleTranslateMode();
    }
 
+   enableNotifications() {
+     var div = $("<div></div>");
+     div.appendTo($("body"));
+     var tag = riot.mount(div[0], "notifications");
+     this.tags.notifications = tag ? tag[0] : undefined;
+     return this.tags.notifications;
+   }
+
+   notification(type, opts) {
+     if (this.tags.notifications) {
+       this.tags.notifications.trigger(type, opts);
+     }
+   }
+
    mountToolbar(riotTag, props) {
       var toolbar = this.menuToolbar;
       if (!toolbar) {
@@ -118,20 +132,6 @@ class SaneEditor {
       return this.tags.userToolbar;
    }
 
-   enableNotifications() {
-      var div = $("<div></div>");
-      div.appendTo($("body"));
-      var tag = riot.mount(div[0], "notifications");
-      this.tags.notifications = tag ? tag[0] : undefined;
-      return this.tags.notifications;
-   }
-
-   notification(type, opts) {
-      if (this.tags.notifications) {
-         this.tags.notifications.trigger(type, opts);
-      }
-   }
-
    mountFileToolbar(riotTag, props) {
       var toolbar = this.fileToolbar;
       if (!toolbar) {
@@ -154,6 +154,18 @@ class SaneEditor {
       var tag = riot.mount(toolbar[0], riotTag, props || {});
       this.tags.langToolbar = tag ? tag[0] : undefined;
       return this.tags.langToolbar;
+   }
+
+   mountTranslatePaneToolbar(riotTag, props) {
+     var toolbar = this.translateToolbar;
+     if (!toolbar) {
+        this.translateToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
+        this.translateToolbar.prependTo(this.translateContentWrapper);
+        toolbar = this.translateToolbar;
+     }
+     var tag = riot.mount(toolbar[0], riotTag, props || {});
+     this.tags.langToolbar = tag ? tag[0] : undefined;
+     return this.tags.langToolbar;
    }
 
    update(specific) {

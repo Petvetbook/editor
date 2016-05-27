@@ -1,4 +1,5 @@
-.sane-formatting-toolbar-wrapper {
+.sane-formatting-toolbar-wrapper,
+.sane-translate-pane-toolbar-wrapper {
   position: absolute;
   display: flex;
   flex-direction: row;
@@ -8,6 +9,26 @@
   background-color: white;
   border-bottom: 1px solid $grey;
   box-shadow: 0 0 5px rgba(black, 0.1);
+}
+.sane-translate-pane-toolbar {
+  height: 30px;
+  a {
+    cursor: pointer;
+    display: inline-block;
+    min-width: 30px;
+    font-size: 11px;
+    line-height: 30px;
+    text-align: center;
+    color: $dkgrey;
+    &:hover {
+      color: black;
+    }
+    &.active {
+      color: black;
+      font-weight: bold;
+      background-color: lighten($grey, 12%);
+    }
+  }
 }
 .sane-formatting-toolbar {
   position: relative;

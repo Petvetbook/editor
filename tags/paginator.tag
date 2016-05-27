@@ -37,8 +37,5 @@
             50
         </a>
     </div>
-    <script>
-        // var needUpdate = true; var parent = this.parent; this.change = function (event) {     needUpdate = false;     var page = $(event.target).attr("page") * 1;     $pushState.merge({page: page});     self.trigger("page", page) } this.on("update",
-        // function () {     if (needUpdate)         this.data = opts.data;     needUpdate = true; })
-    </script>
+    <script></script>
 </paginator>
