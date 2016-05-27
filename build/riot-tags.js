@@ -3,6 +3,9 @@
 riot.tag2('file-toolbar', '<div class="sane-file-toolbar"><div class="button labelled metadata"><span>Metadata</span></div><div class="button labelled translate"><span>Translate</span></div><div class="button labelled publish"><span>Publish</span></div><div class="button labelled save"><span>Save</span></div></div>', '', '', function(opts) {
 });
 
+riot.tag2('item-navigation', '<div class="sane-item-navigation"><a class="active">EN</a><a>SV</a><a>FI</a></div>', '', '', function(opts) {
+});
+
 riot.tag2('language-toolbar', '<div class="sane-language-toolbar"><div class="tab active published"><span>English</span></div><div class="tab modified"><span>Swedish</span></div><div class="tab published"><span>Finnish</span></div><div class="toolbar-status"><div class="button labelled translate-mode" onclick="{translate}"><span>Translate mode</span></div></div></div>', '', '', function(opts) {
         var self = this;
         this.translate = function () {
@@ -20,6 +23,9 @@ riot.tag2('menu-toolbar', '<span class="prev-item"><div class="button labelled p
 });
 
 riot.tag2('paginator', '<div class="paginator"><a class="item" page="1" style="display: none;">1</a><a class="item" style="display: none;">...</a><a class="item active" page="1"> 1 </a><a class="item " page="2"> 2 </a><a class="item " page="3"> 3 </a><a class="item " page="4"> 4 </a><a class="item " page="5"> 5 </a><a class="item " page="6"> 6 </a><a class="item " page="7"> 7 </a><a class="item " page="8"> 8 </a><a class="item " page="9"> 9 </a><a class="item " page="10"> 10 </a><a class="disabled item">...</a><a class="item" page="50"> 50 </a></div>', '', '', function(opts) {
+});
+
+riot.tag2('primary-navigation', '<div class="sane-primary-navigation"><a class="active">EN</a><a>SV</a><a>FI</a></div>', '', '', function(opts) {
 });
 
 riot.tag2('translate-pane-toolbar', '<div class="sane-translate-pane-toolbar"><a class="item active">EN</a><a class="item">SV</a><a class="item">FI</a></div>', '', '', function(opts) {
