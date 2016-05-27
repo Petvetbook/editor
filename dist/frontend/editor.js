@@ -1406,6 +1406,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                this.toolbarWrapper.appendTo(this.element);
                this.toolbar = $('<div class="sane-formatting-toolbar"></div>');
                this.toolbar.appendTo(this.formattingWrapper);
+               this.spinner = $('<div class="spinner"></div>');
                this.modalWrapper = $('<div class="sane-editor-modal-wrapper"></div>');
                this.modalWrapper.appendTo(this.element);
                this.contentAreaWrapper = $('<div class="sane-editor-content-area-wrapper"></div>');
@@ -1421,10 +1422,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                this.contentWrapper.appendTo(this.editableWrapper);
                this.contentPane.appendTo(this.translateContentWrapper);
                this.translateContentWrapper.appendTo(this.translateWrapper);
-               this.formattingWrapper.appendTo(this.contentAreaWrapper);
+               // this.formattingWrapper.appendTo(this.contentAreaWrapper);
+               this.formattingWrapper.prependTo(this.contentWrapper);
                this.editableWrapper.appendTo(this.contentAreaWrapper);
                this.translateWrapper.appendTo(this.contentAreaWrapper);
                this.contentAreaWrapper.appendTo(this.element);
+               this.spinner.appendTo(this.element);
 
                target.replaceWith(this.element);
 
@@ -1442,6 +1445,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                this.hideEditor();
                this.toggleFullScreenMode();
                // this.toggleTranslateMode();
+            }
+         }, {
+            key: "enableNotifications",
+            value: function enableNotifications() {
+               var div = $("<div></div>");
+               div.appendTo($("body"));
+               var tag = riot.mount(div[0], "notifications");
+               this.tags.notifications = tag ? tag[0] : undefined;
+               return this.tags.notifications;
+            }
+         }, {
+            key: "notification",
+            value: function notification(type, opts) {
+               if (this.tags.notifications) {
+                  this.tags.notifications.trigger(type, opts);
+               }
             }
          }, {
             key: "mountToolbar",
@@ -1471,22 +1490,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                return this.tags.userToolbar;
             }
          }, {
-            key: "enableNotifications",
-            value: function enableNotifications() {
-               var div = $("<div></div>");
-               div.appendTo($("body"));
-               var tag = riot.mount(div[0], "notifications");
-               this.tags.notifications = tag ? tag[0] : undefined;
-               return this.tags.notifications;
-            }
-         }, {
-            key: "notification",
-            value: function notification(type, opts) {
-               if (this.tags.notifications) {
-                  this.tags.notifications.trigger(type, opts);
-               }
-            }
-         }, {
             key: "mountFileToolbar",
             value: function mountFileToolbar(riotTag, props) {
                var toolbar = this.fileToolbar;
@@ -1507,6 +1510,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   this.langToolbar = $("<div class='sane-language-toolbar-wrapper'></div>");
                   this.langToolbar.prependTo(this.editableWrapper);
                   toolbar = this.langToolbar;
+               }
+               var tag = riot.mount(toolbar[0], riotTag, props || {});
+               this.tags.langToolbar = tag ? tag[0] : undefined;
+               return this.tags.langToolbar;
+            }
+         }, {
+            key: "mountTranslatePaneToolbar",
+            value: function mountTranslatePaneToolbar(riotTag, props) {
+               var toolbar = this.translateToolbar;
+               if (!toolbar) {
+                  this.translateToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
+                  this.translateToolbar.prependTo(this.translateContentWrapper);
+                  toolbar = this.translateToolbar;
                }
                var tag = riot.mount(toolbar[0], riotTag, props || {});
                this.tags.langToolbar = tag ? tag[0] : undefined;
