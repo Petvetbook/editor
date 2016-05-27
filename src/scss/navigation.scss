@@ -28,16 +28,44 @@
     }
   }
   .item-content:not(:empty) {
-    padding: 10px 0;
+    padding: 0 0 10px 0;
   }
 }
 
 .sane-primary-navigation-wrapper {
   position: fixed;
-  top: 30px;
+  top: 32px;
   left: 0;
   bottom: 0;
+  width: 140px;
+  border-left: 1px solid $grey;
+  &:hover .sane-primary-navigation {
+    transform: translateX(0);
+  }
 }
 .sane-primary-navigation {
-
+  height: 100%;
+  background: white;
+  font-size: 13px;
+  padding: 40px 10px;
+  box-shadow: 5px 0 10px rgba(black, 0.1);
+  z-index: 70;
+  transform: translateX(-140px);
+  transition: all 0.3s ease-out;
+  a {
+    cursor: pointer;
+    display: block;
+    font-size: 11px;
+    line-height: 30px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $dkgrey;
+    &:hover {
+      color: black;
+    }
+    &.active {
+      color: black;
+      font-weight: bold;
+    }
+  }
 }
