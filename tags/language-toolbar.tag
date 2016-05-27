@@ -5,9 +5,6 @@
         </div>
         <div class="tab modified">
             <span>Swedish</span>
-            <div class="button save">
-                <span>Save</span>
-            </div>
         </div>
         <div class="tab published">
             <span>Finnish</span>
