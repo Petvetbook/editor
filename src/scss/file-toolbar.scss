@@ -45,6 +45,16 @@
     border-left: 1px solid $grey;
     &:hover {
       background-color: lighten($grey, 12%);
+      background-color: black;
+      span { color: white; }
+    }
+    &.save:hover,
+    &.save.modified {
+      background-color: red;
+      span { color: white; }
+    }
+    &.publish:hover {
+      background-color: green;
     }
   }
 }
