@@ -139,15 +139,15 @@
                 return this.tags.langToolbar;
             }
             mountTranslatePaneToolbar(riotTag, props) {
-                var toolbar = this.translateToolbar;
+                var toolbar = this.translatePaneToolbar;
                 if (!toolbar) {
-                    this.translateToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
-                    this.translateToolbar.prependTo(this.translateContentWrapper);
-                    toolbar = this.translateToolbar;
+                    this.translatePaneToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
+                    this.translatePaneToolbar.prependTo(this.translateContentWrapper);
+                    toolbar = this.translatePaneToolbar;
                 }
                 var tag = riot.mount(toolbar[0], riotTag, props || {});
-                this.tags.langToolbar = tag ? tag[0] : undefined;
-                return this.tags.langToolbar;
+                this.tags.translatePaneToolbar = tag ? tag[0] : undefined;
+                return this.tags.translatePaneToolbar;
             }
             update(specific) {
                 var self = this;

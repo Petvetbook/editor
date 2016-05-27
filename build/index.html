@@ -63,9 +63,11 @@
             editor.mountToolbar('menu-toolbar');
             editor.mountFileToolbar('file-toolbar');
             editor.mountUserToolbar('user-toolbar');
-            editor.mountTranslatePaneToolbar('translate-pane-toolbar');
+
 
             editor.showEditor();
+
+            editor.mountTranslatePaneToolbar('translate-pane-toolbar');
 
             var languageToolbar = editor.mountLanguageToolbar('language-toolbar');
             languageToolbar.on('translate-toggle',function(){

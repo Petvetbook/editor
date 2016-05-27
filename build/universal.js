@@ -94,17 +94,17 @@ class SaneEditor {
    }
 
    enableNotifications() {
-     var div = $("<div></div>");
-     div.appendTo($("body"));
-     var tag = riot.mount(div[0], "notifications");
-     this.tags.notifications = tag ? tag[0] : undefined;
-     return this.tags.notifications;
+      var div = $("<div></div>");
+      div.appendTo($("body"));
+      var tag = riot.mount(div[0], "notifications");
+      this.tags.notifications = tag ? tag[0] : undefined;
+      return this.tags.notifications;
    }
 
    notification(type, opts) {
-     if (this.tags.notifications) {
-       this.tags.notifications.trigger(type, opts);
-     }
+      if (this.tags.notifications) {
+         this.tags.notifications.trigger(type, opts);
+      }
    }
 
    mountToolbar(riotTag, props) {
@@ -157,15 +157,15 @@ class SaneEditor {
    }
 
    mountTranslatePaneToolbar(riotTag, props) {
-     var toolbar = this.translateToolbar;
-     if (!toolbar) {
-        this.translateToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
-        this.translateToolbar.prependTo(this.translateContentWrapper);
-        toolbar = this.translateToolbar;
-     }
-     var tag = riot.mount(toolbar[0], riotTag, props || {});
-     this.tags.langToolbar = tag ? tag[0] : undefined;
-     return this.tags.langToolbar;
+      var toolbar = this.translatePaneToolbar;
+      if (!toolbar) {
+         this.translatePaneToolbar = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
+         this.translatePaneToolbar.prependTo(this.translateContentWrapper);
+         toolbar = this.translatePaneToolbar;
+      }
+      var tag = riot.mount(toolbar[0], riotTag, props || {});
+      this.tags.translatePaneToolbar = tag ? tag[0] : undefined;
+      return this.tags.translatePaneToolbar;
    }
 
    update(specific) {
