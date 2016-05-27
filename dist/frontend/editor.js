@@ -1463,6 +1463,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                }
             }
          }, {
+            key: "mountItemNav",
+            value: function mountItemNav(riotTag, props) {
+               var toolbar = this.itemNav;
+               if (!toolbar) {
+                  this.itemNav = $("<div class='sane-item-navigation-wrapper'></div>");
+                  this.itemNav.appendTo(this.contentAreaWrapper);
+                  toolbar = this.itemNav;
+               }
+
+               var tag = riot.mount(toolbar[0], riotTag, props || {});
+               this.tags.mainToolbar = tag ? tag[0] : undefined;
+               return this.tags.mainToolbar;
+            }
+         }, {
             key: "mountToolbar",
             value: function mountToolbar(riotTag, props) {
                var toolbar = this.menuToolbar;

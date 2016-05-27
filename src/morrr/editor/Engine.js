@@ -81,8 +81,8 @@ class SaneEditor {
       }
 
       var tag = riot.mount(toolbar[0], riotTag, props || {});
-      this.tags.mainToolbar = tag ? tag[0] : undefined;
-      return this.tags.mainToolbar;
+      this.tags.itemNav = tag ? tag[0] : undefined;
+      return this.tags.itemNav;
    }
 
    mountToolbar(riotTag, props) {
