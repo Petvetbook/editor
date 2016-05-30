@@ -33,7 +33,6 @@ class SaneEditor {
       this.contentWrapper.appendTo(this.editableWrapper);
       this.contentPane.appendTo(this.translateContentWrapper);
       this.translateContentWrapper.appendTo(this.translateWrapper);
-      // this.formattingWrapper.appendTo(this.contentAreaWrapper);
       this.formattingWrapper.prependTo(this.contentWrapper);
       this.editableWrapper.appendTo(this.contentAreaWrapper);
       this.translateWrapper.appendTo(this.contentAreaWrapper);
@@ -156,6 +155,18 @@ class SaneEditor {
       var tag = riot.mount(toolbar[0], riotTag, props || {});
       this.tags.translatePaneToolbar = tag ? tag[0] : undefined;
       return this.tags.translatePaneToolbar;
+   }
+
+   mountModal(riotTag, props) {
+      var modal = this.modal;
+      if (!modal) {
+         this.modal = $("<div class='sane-translate-pane-toolbar-wrapper'></div>");
+         this.modal.prependTo(this.modalWrapper);
+         modal = this.modal;
+      }
+      var tag = riot.mount(modal[0], riotTag, props || {});
+      this.tags.modal = tag ? tag[0] : undefined;
+      return this.tags.modal;
    }
 
    update(specific) {
@@ -451,9 +462,7 @@ class SaneEditor {
       }
 
       var html = ['<div class="' + cls + '" ' + serviceAttr + ' contenteditable="false">'];
-      html.push('<div class="user-controls">');
-      html.push('<i class="ui icon remove"></i>');
-      html.push('</div>');
+      html.push('<span class="remove"></span>');
       html.push('<div class="user-content">');
       html.push('</div>');
       html.push('</div>');
@@ -487,9 +496,7 @@ class SaneEditor {
       }
 
       var html = ['<div class="' + cls + '" ' + serviceAttr + ' contenteditable="false">'];
-      html.push('<div class="user-controls">');
-      html.push('<i class="ui icon remove"></i>');
-      html.push('</div>');
+      html.push('<span class="remove"></span>');
       html.push('<div class="user-content">');
       html.push('</div>');
       html.push('</div>');
