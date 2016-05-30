@@ -8,29 +8,6 @@
   flex: 0 0 0;
   overflow: hidden;
 }
-.sane-item-navigation {
-  background: white;
-  font-size: 13px;
-  padding: 0 10px;
-  border-radius: 3px;
-  .item:not(:last-child) {
-    border-bottom: 1px solid $grey;
-  }
-  .item-name {
-    cursor: pointer;
-    font-size: 11px;
-    line-height: 30px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: $dkgrey;
-    &:hover {
-      color: black;
-    }
-  }
-  .item-content:not(:empty) {
-    padding: 0 0 10px 0;
-  }
-}
 
 .sane-primary-navigation-wrapper {
   position: fixed;

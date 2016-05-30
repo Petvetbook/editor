@@ -3,7 +3,7 @@
 riot.tag2('file-toolbar', '<div class="sane-file-toolbar"><div class="button labelled metadata"><span>Metadata</span></div><div class="button labelled translate"><span>Translate</span></div><div class="button labelled publish"><span>Publish</span></div><div class="button labelled save"><span>Save</span></div></div>', '', '', function(opts) {
 });
 
-riot.tag2('item-navigation', '<div class="sane-item-navigation"><div class="item"><a class="item-name active">Item 1</a><div class="item-content">Other things in this</div></div><div class="item"><a class="item-name">Item 2</a><div class="item-content"></div></div><div class="item"><a class="item-name">Item 3</a><div class="item-content"></div></div></div>', '', '', function(opts) {
+riot.tag2('item-navigation', '<div class="sane-item-navigation"><div class="item"><a class="item-name active">Classifications</a><div class="item-content"><div class="wrapper symptoms"><label>symptoms</label><span>mastitis, milk</span></div><div class="wrapper definition"><label>definition</label><span>mastitis, milk, infection</span></div><div class="wrapper condition"><label>condition</label><span>mastitis</span></div><div class="button-wrapper"><div class="button"><span>Classify</span></div><div class="button"><span>Edit</span></div></div></div></div></div>', '', '', function(opts) {
 });
 
 riot.tag2('language-toolbar', '<div class="sane-language-toolbar"><div class="tab active published"><span>English</span></div><div class="tab modified"><span>Swedish</span></div><div class="tab published"><span>Finnish</span></div><div class="toolbar-status"><div class="button labelled translate-mode" onclick="{translate}"><span>Translate mode</span></div></div></div>', '', '', function(opts) {

@@ -158,3 +158,20 @@
     background-image: inline('logout.svg');
   }
 }
+.sane-editor .button-wrapper {
+  display: flex;
+  border: 1px solid $grey;
+  .button {
+    display: flex;
+    flex: 1 0 auto;
+    justify-content: center;
+    margin: 0;
+    &:not(:last-child) {
+      border-right: 1px solid $grey;
+    }
+    &:hover {
+      background-color: black;
+      color: white;
+    }
+  }
+}
