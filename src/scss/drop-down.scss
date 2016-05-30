@@ -62,21 +62,14 @@
     }
   }
   .dropdown-list {
+    line-height: 1.5em;
     .header {
       font-size: 11px;
+      line-height: 30px;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: $dkgrey;
       border-bottom: 1px solid $grey;
-    }
-    .item {
-      cursor: pointer;
-      &:hover {
-        background-color: lighten($grey, 12%);
-      }
-      &.selected {
-        font-weight: bold;
-      }
     }
     .header,
     .item {
@@ -85,6 +78,16 @@
       flex-wrap: nowrap;
       justify-content: space-between;
       padding: 0 10px;
+    }
+    .item {
+      cursor: pointer;
+      padding: 5px 10px;
+      &:hover {
+        background-color: lighten($grey, 12%);
+      }
+      &.selected {
+        font-weight: bold;
+      }
     }
     .item-name {
       flex: 0 0 50%;
@@ -105,7 +108,7 @@
         &:before {
           content: '•';
           font-size: 26px;
-          line-height: 30px;
+          line-height: inherit;
           vertical-align: middle;
           margin-right: 3px;
           color: orange;
