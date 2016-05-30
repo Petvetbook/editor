@@ -5,6 +5,7 @@
   line-height: 30px;
   height: 30px;
   margin: 1px;
+  color: $dkgrey;
   background-repeat: no-repeat;
   background-size: auto 75%;
   background-position: 50% 50%;
@@ -13,7 +14,7 @@
     font-size: 11px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: $dkgrey;
+    color: inherit;
     white-space: nowrap;
   }
 
