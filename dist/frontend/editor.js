@@ -1473,8 +1473,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                }
 
                var tag = riot.mount(toolbar[0], riotTag, props || {});
-               this.tags.mainToolbar = tag ? tag[0] : undefined;
-               return this.tags.mainToolbar;
+               this.tags.itemNav = tag ? tag[0] : undefined;
+               return this.tags.itemNav;
+            }
+         }, {
+            key: "mountPrimaryNav",
+            value: function mountPrimaryNav(riotTag, props) {
+               var toolbar = this.primaryNav;
+               if (!toolbar) {
+                  this.primaryNav = $("<div class='sane-primary-navigation-wrapper'></div>");
+                  this.primaryNav.appendTo(this.element);
+                  toolbar = this.primaryNav;
+               }
+
+               var tag = riot.mount(toolbar[0], riotTag, props || {});
+               this.tags.itemNav = tag ? tag[0] : undefined;
+               return this.tags.itemNav;
             }
          }, {
             key: "mountToolbar",
