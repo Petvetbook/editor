@@ -1,3 +1,3 @@
-<modal class="modal">
+<modal class="modal-content">
     <script></script>
 </modal>
