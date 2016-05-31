@@ -43,10 +43,16 @@
       font-size: 16px;
       letter-spacing: 0.02em;
     }
-    &.meta { border-color: $leaf; }
     &.symptoms { border-color: $sky; }
     &.definition { border-color: $sun; }
+    &.meta {
+      border-color: $leaf;
+      .tags li {
+        background-color: lighten($leaf, 20%);
+      }
+    }
     .tags {
+      cursor: pointer;
       margin: 0;
       padding: 0;
       list-style: none;
@@ -68,6 +74,10 @@
       height: 24px;
       margin: 0;
       vertical-align: bottom;
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
     }
     input {
       outline: none !important;

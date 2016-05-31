@@ -11,6 +11,10 @@
         </span>
         <div class="dropdown-list-wrapper {active : isShown}">
             <div class="dropdown-list">
+                <div class="search-bar">
+                    <input type="search" name="item-search" placeholder="Search" value="">
+                    <div class="button search"></div>
+                </div>
                 <div class="header">
                     <span class="item-name">Title</span>
                     <span class="assigned-to">Assigned to</span>
@@ -19,7 +23,11 @@
                 </div>
                 <div class="item ">
                     <span class="item-name">How is urinary incontinence treated in dogs?</span>
-                    <span class="assigned-to">Lynda</span>
+                    <span class="assigned-to">
+                        <div class="button">
+                            <span>Demo</span>
+                        </div>
+                    </span>
                     <span class="edited">22.02.2016</span>
                     <span class="status">
                         <span class="published">EN</span>
