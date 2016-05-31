@@ -28,7 +28,7 @@
         <div class="item">
             <a class="item-name active">Metadata</a>
             <div class="item-content">
-                <div class="wrapper">
+                <div class="wrapper meta">
                     <label>meta</label>
                     <ul class="tags">
                         <li>paraneoplastic diseases<span class="remove button"></span>
