@@ -84,6 +84,7 @@
         padding: 0 8px;
         margin: 0 8px 8px 0;
         border-radius: 3px;
+        transition: all 0.3s ease-out;
         .button {
           margin-right: -8px;
         }
@@ -122,6 +123,9 @@
       }
       .dropdown-list {
         padding: 5px !important;
+        &.tags span:hover {
+          background-color: darken($grey, 5%);
+        }
       }
     }
   }
