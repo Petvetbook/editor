@@ -15,6 +15,7 @@ var insert = require('gulp-insert');
 var sass = require('gulp-ruby-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var base64 = require('gulp-base64-inline');
+var base64files = require('gulp-base64');
 var cssmin = require('gulp-cssmin');
 var sketch = require('gulp-sketch');
 
@@ -55,6 +56,9 @@ gulp.task('sass', function() {
          }
       }))
       .pipe(base64('svg'))
+      .pipe(base64files({
+        extensions: ['woff2','woff']
+      }))
       .pipe(cssmin({
          sourceMap: true
       }))

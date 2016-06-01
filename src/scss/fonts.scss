@@ -1,0 +1,31 @@
+@font-face {
+    font-family: 'Work Sans';
+    src: url($fontpath + 'worksans-thin-webfont.woff2') format('woff2'), url($fontpath + 'worksans-thin-webfont.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Work Sans';
+    src: url($fontpath + 'worksans-light-webfont.woff2') format('woff2'), url($fontpath + 'worksans-light-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Work Sans';
+    src: url($fontpath + 'worksans-regular-webfont.woff2') format('woff2'), url($fontpath + 'worksans-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Work Sans';
+    src: url($fontpath + 'worksans-bold-webfont.woff2') format('woff2'), url($fontpath + 'worksans-bold-webfont.woff') format('woff');
+    font-weight: bold;
+    font-style: 700;
+    font-style: normal;
+}
+
+.sane-editor,
+.sane-editor [class$='content'] {
+  font-family: 'Work Sans', Helvetica, Arial, sans-serif;
+}
