@@ -3,6 +3,9 @@
   font-size: 13px;
   padding: 0 10px;
   border-radius: 3px;
+  margin-bottom: 30px;
+  overflow-x: hidden;
+  overflow-y: auto;
   .item:not(:last-child) {
     border-bottom: 1px solid $grey;
   }
@@ -39,16 +42,33 @@
       margin: 0 0 5px 0;
     }
     span {
-      margin: 0 0 10px 0;
       font-size: 16px;
       letter-spacing: 0.02em;
     }
-    &.symptoms { border-color: $sky; }
-    &.definition { border-color: $sun; }
     &.meta {
+      border-color: $sky;
+      .tags li {
+        background-color: lighten($sky, 15%);
+      }
+    }
+    &.treatment {
       border-color: $leaf;
       .tags li {
         background-color: lighten($leaf, 20%);
+      }
+    }
+    &.infection,
+    &.symptoms {
+      border-color: $pink;
+      .tags li {
+        background-color: lighten($pink, 15%);
+      }
+    }
+    &.condition,
+    &.definition {
+      border-color: $sun;
+      .tags li {
+        background-color: lighten($sun, 25%);
       }
     }
     .tags {
@@ -56,14 +76,17 @@
       margin: 0;
       padding: 0;
       list-style: none;
-      li {
+      > * {
         display: inline-block;
         font-size: 14px;
         line-height: 24px;
         background-color: lighten($grey, 5%);
-        padding: 0 0 0 8px;
+        padding: 0 8px;
         margin: 0 8px 8px 0;
         border-radius: 3px;
+        .button {
+          margin-right: -8px;
+        }
       }
     }
     .add,
@@ -83,12 +106,23 @@
     input {
       outline: none !important;
       font-size: 14px;
-      line-height: 20px;
-      padding: 0 24px 0 2px;
+      line-height: 30px;
+      padding: 0 24px 0 5px;
       margin: 0 -24px 0 0;
       width: 100%;
-      border-color: $grey;
-      border-width: 0 0 1px 0;
+      border: 1px solid $grey;
+    }
+    .dropdown {
+      input + .button {
+        line-height: 30px;
+        height: 30px;
+      }
+      .dropdown-current {
+        border: 0;
+      }
+      .dropdown-list {
+        padding: 5px !important;
+      }
     }
   }
 }
