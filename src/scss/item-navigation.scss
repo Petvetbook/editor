@@ -121,8 +121,13 @@
       .dropdown-current {
         border: 0;
       }
+      .dropdown-list-wrapper.active .dropdown-list {
+        padding: 5px;
+      }
       .dropdown-list {
-        padding: 5px !important;
+        &:empty {
+          display: none;
+        }
         &.tags span:hover {
           background-color: darken($grey, 5%);
         }

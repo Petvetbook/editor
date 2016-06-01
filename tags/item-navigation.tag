@@ -41,6 +41,15 @@
                         <li>weight loss<span class="remove button"></span>
                         </li>
                     </ul>
+                    <div class="dropdown active">
+                        <span class="dropdown-current" onclick={show}>
+                            <input type="text" name="name" placeholder="Add a tag" value="">
+                            <span class="add button"></span>
+                        </span>
+                        <div class="dropdown-list-wrapper active">
+                            <div class="dropdown-list tags"></div>
+                        </div>
+                    </div>
                 </div>
                 <div class="wrapper meta">
                     <label>meta</label>
